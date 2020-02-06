@@ -2,26 +2,75 @@
 @()
 @import views.html.main
 @main("Home Page", webJarsUtil) {
-  <table class="container table table-bordered table-hover mt-5 text-center table-striped">
-    <thead>
-      <tr class="bg-success">
-        <th>ID</th>
-        <th>Ta'siri natijasida ishlovchi xodimlari dastlabki tarzda va vaqti bilan tibbiy ko'rikdan o'tkazilishi shart bo'lgan xavfli va zararli moddalar nomi.</th>
-        <th>Tibbiy ko'rikdan o'tish muddati.</th>
-        <th>Tibbiy ko'rikni o'tkazuvchi vrach-mutaxassislar.</th>
-        <th>Laborator va funksional tekshirishlar.</th>
-        <th>Ishga qo'yish uchun qarshilik ko'rsatuvchi umumiy tibbiy moneliklarga qo'shimcha tibbiy moneliklar.</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="container">
+        <div class="col-md-12 mt-5">
+            <button type="button" class="mt-2 btn btn-primary" data-toggle="modal" data-target="#registration">
+                Registration
+            </button>
+        </div>
+    </div>
+    <div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="registrationTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form id="" class="" action="@controllers.routes.RegistrationController" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Registration</h5>
+                        <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body m-4">
+                        <div class="form-group">
+                            <label for="zmnomi" >Zararli moddalar nomi: </label>
+                            <input class="form-control" type="text" id="zmnomi" name="zmnomi" data-bind="">
+                        </div>
+                        <div class="form-group">
+                            <label for="muddat" >Tibbiy ko'rikdan o'tish muddati: </label>
+                            <input class="form-control" type="text" id="muddat" name="zmnomi" data-bind="">
+                        </div>
+                        <div class="form-group">
+                            <label for="mutaxassis" >Tibbiy ko'rikni o'tkazuvchi vrach-mutaxassislar: </label>
+                            <input class="form-control" type="text" id="mutaxassis" name="mutaxassis" data-bind="">
+                        </div>
+                        <div class="form-group">
+                            <label for="lftek" >Laborator va funksional tekshirishlar: </label>
+                            <input class="form-control" type="text" id="lftek" name="lftek" data-bind="">
+                        </div>
+                        <div class="form-group">
+                            <label for="qmonelik" >Qo'shimcha tibbiy moneliklar: </label>
+                            <input class="form-control" type="text" id="qmonelik" name="qmonelik" data-bind="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" data-bind="" class="btn btn-success ">
+                            Add Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table class="container table table-bordered table-hover mt-5 text-center table-striped">
+            <thead>
+                <tr class="bg-success">
+                    <th>ID</th>
+                    <th>Ta'siri natijasida ishlovchi xodimlari dastlabki tarzda va vaqti bilan tibbiy ko'rikdan o'tkazilishi shart bo'lgan xavfli va zararli moddalar nomi.</th>
+                    <th>Tibbiy ko'rikdan o'tish muddati.</th>
+                    <th>Tibbiy ko'rikni o'tkazuvchi vrach-mutaxassislar.</th>
+                    <th>Laborator va funksional tekshirishlar.</th>
+                    <th>Ishga qo'yish uchun qarshilik ko'rsatuvchi umumiy tibbiy moneliklarga qo'shimcha tibbiy moneliklar.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 }
