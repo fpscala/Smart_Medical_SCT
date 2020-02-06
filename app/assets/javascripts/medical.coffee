@@ -8,7 +8,11 @@ $ ->
     get: '/get'
 
   vm = ko.mapping.fromJS
-    name: ''
+    zmnomi: ''
+    muddat: ''
+    mutaxassis: ''
+    lftek: ''
+    qmonelik: ''
     getList: []
 
   handleError = (error) ->
@@ -19,12 +23,28 @@ $ ->
 
   vm.onSubmit = ->
     toastr.clear()
-    if (!vm.name())
-      toastr.error("Please enter a name")
+    if (!vm.zmnomi())
+      toastr.error("Zaharli moddalar nomini kiriting!")
+      return no
+    if (!vm.muddat())
+      toastr.error("Muddatni kiriting!")
+      return no
+    if (!vm.mutaxassis())
+      toastr.error("Mutaxassisni kiriting!")
+      return no
+    if (!vm.lftek())
+      toastr.error("Funksianal tekshiruvlari kiriting!")
+      return no
+    if (!vm.qmonelik())
+      toastr.error("Qo`shimcha tibbiy moneliklarni kiriting!")
       return no
     else
       data =
-        name: vm.name()
+        zmnomi: vm.zmnomi()
+        muddat: vm.muddat()
+        mutaxassis: vm.mutaxassis()
+        lftek: vm.lftek()
+        qmonelik: vm.qmonelik()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -35,8 +55,6 @@ $ ->
       .done (response) ->
         toastr.success(response)
 
-
-
   vm.getAllNames = ->
     $.ajax
       url: apiUrl.get
@@ -46,8 +64,5 @@ $ ->
       console.log('1: ', vm.getList().length)
       vm.getList(response)
       console.log('2: ', vm.getList().length)
-
-
-
 
   ko.applyBindings {vm}
