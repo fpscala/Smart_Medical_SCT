@@ -16,6 +16,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        implicit val webJarsUtil: WebJarsUtil,
                                        @Named("registration-manager") val registrationManager: ActorRef,
                                        indexTemplate: index,
+                                       registrationTemplate: registration
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -24,6 +25,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def index = Action {
     Ok(indexTemplate())
+  }
+  def registration = Action {
+    Ok(registrationTemplate())
   }
 
 }
