@@ -8,7 +8,7 @@ $ ->
     getRegistration: '/get'
 
   vm = ko.mapping.fromJS
-    moddanomi: ''
+    shaxslar: ''
     muddat: ''
     mutaxassis: ''
     tekshirishlar: ''
@@ -24,7 +24,7 @@ $ ->
 
   vm.onSubmit = ->
     toastr.clear()
-    if (!vm.moddanomi())
+    if (!vm.shaxslar())
       toastr.error("Zaharli moddalar nomini kiriting!")
       return no
     if (!vm.muddat())
@@ -41,7 +41,7 @@ $ ->
       return no
     else
       data =
-        moddanomi: vm.moddanomi()
+        shaxslar: vm.shaxslar()
         muddat: vm.muddat()
         mutaxassis: vm.mutaxassis()
         tekshirishlar: vm.tekshirishlar()
