@@ -1,0 +1,65 @@
+
+@()
+<hr>
+
+<div class="row">
+    <div class="col-md-6 container">
+        <div class="modal-body m-4">
+            <div class="form-group">
+                <label for="firstName" >First Name: </label>
+                <input class="form-control" type="text" id="firstName" name="firstName" data-bind="value: vm.firstName">
+            </div>
+            <div class="form-group">
+                <label for="middleName" >Middle Name: </label>
+                <input class="form-control" type="text" id="middleName" name="middleName" data-bind="value: vm.middleName">
+            </div>
+            <div class="form-group">
+                <label for="lastName" >Last Name: </label>
+                <input class="form-control" type="text" id="lastName" name="lastName" data-bind="value: vm.lastName">
+            </div>
+            <div class="form-group">
+                <label for="passport_sn" >Passport Sn: </label>
+                <input class="form-control" type="text" id="passport_sn" name="passport_sn" data-bind="value: vm.passport_sn">
+            </div>
+            <div class="form-group">
+                <label for="gender" >Gender: </label>
+                <input class="form-control" type="text" id="gender" name="gender" data-bind="value: vm.gender">
+            </div>
+            <div class="form-group">
+                <label for="birthday" >Birthday: </label>
+                <input class="form-control" type="text" id="birthday" name="birthday" data-bind="value: vm.birthday">
+            </div>
+            <div class="form-group">
+                <label for="address" >Address: </label>
+                <input class="form-control" type="text" id="address" name="address" data-bind="value: vm.address">
+            </div>
+            <div class="form-group">
+                <label for="phone" >Phone: </label>
+                <input class="form-control" type="text" id="phone" name="phone" data-bind="value: vm.phone">
+            </div>
+            <div class="form-group">
+                <label for="cardNumber" >Card Number: </label>
+                <input class="form-control" type="text" id="cardNumber" name="cardNumber" data-bind="value: vm.cardNumber">
+            </div>
+            <div class="form-group">
+                <label for="profession" >Profession: </label>
+                <input class="form-control" type="text" id="profession" name="profession" data-bind="value: vm.profession">
+            </div>
+            <div class="form-group">
+                <label for="lastCheckup" >Last Checkup: </label>
+                <input class="form-control" type="text" id="lastCheckup" name="lastCheckup" data-bind="value: vm.lastCheckup">
+            </div>
+            <div class="form-group">
+                <label for="photo" >Photo: </label>
+                <input class="form-control" type="text" id="photo" name="photo" data-bind="value: vm.photo">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" data-bind="click: vm.onSubmit" class="btn btn-success ">
+                Add Registration</button>
+        </div>
+
+    </div>
+
+</div>
