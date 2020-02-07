@@ -2,6 +2,7 @@ package controllers
 
 import akka.actor.ActorRef
 import akka.util.Timeout
+import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
