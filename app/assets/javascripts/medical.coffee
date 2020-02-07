@@ -5,15 +5,16 @@ $ ->
 
   apiUrl =
     send: '/create'
-    get: '/get'
+    getRegistration: '/get'
 
   vm = ko.mapping.fromJS
-    zmnomi: ''
+    moddanomi: ''
     muddat: ''
     mutaxassis: ''
-    lftek: ''
-    qmonelik: ''
-    getList: []
+    tekshirishlar: ''
+    monelik: ''
+    id: 0
+    getRegistrationList: []
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -23,7 +24,7 @@ $ ->
 
   vm.onSubmit = ->
     toastr.clear()
-    if (!vm.zmnomi())
+    if (!vm.moddanomi())
       toastr.error("Zaharli moddalar nomini kiriting!")
       return no
     if (!vm.muddat())
@@ -32,19 +33,19 @@ $ ->
     if (!vm.mutaxassis())
       toastr.error("Mutaxassisni kiriting!")
       return no
-    if (!vm.lftek())
+    if (!vm.tekshirishlar())
       toastr.error("Funksianal tekshiruvlari kiriting!")
       return no
-    if (!vm.qmonelik())
+    if (!vm.monelik())
       toastr.error("Qo`shimcha tibbiy moneliklarni kiriting!")
       return no
     else
       data =
-        zmnomi: vm.zmnomi()
+        moddanomi: vm.moddanomi()
         muddat: vm.muddat()
         mutaxassis: vm.mutaxassis()
-        lftek: vm.lftek()
-        qmonelik: vm.qmonelik()
+        tekshirishlar: vm.tekshirishlar()
+        monelik: vm.monelik()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -55,14 +56,14 @@ $ ->
       .done (response) ->
         toastr.success(response)
 
-  vm.getAllNames = ->
+  getRegistration = ->
     $.ajax
-      url: apiUrl.get
+      url: apiUrl.getRegistration
       type: 'GET'
     .fail handleError
     .done (response) ->
-      console.log('1: ', vm.getList().length)
-      vm.getList(response)
-      console.log('2: ', vm.getList().length)
+      vm.getRegistrationList(response)
+
+  getRegistration()
 
   ko.applyBindings {vm}

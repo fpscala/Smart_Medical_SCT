@@ -2,6 +2,7 @@
 @()
 @import views.html.main
 @main("Home Page", webJarsUtil) {
+    <script src="@routes.Assets.versioned("javascripts/medical.js")" type="text/javascript"></script>
     <div class="container">
         <div class="col-md-12 mt-5">
             <button type="button" class="mt-2 btn btn-primary" data-toggle="modal" data-target="#registration">
@@ -12,36 +13,36 @@
     <div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="registrationTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form id="" class="" action="@controllers.routes.RegistrationController" method="post">
+                <form action="@controllers.routes.RegistrationController" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Registration</h5>
                         <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body m-4">
                         <div class="form-group">
-                            <label for="zmnomi" >Zararli moddalar nomi: </label>
-                            <input class="form-control" type="text" id="zmnomi" name="zmnomi" data-bind="">
+                            <label for="modddanomi" >Zararli moddalar nomi: </label>
+                            <input class="form-control" type="text" id="modddanomi" name="moddanomi" data-bind="value: vm.moddanomi">
                         </div>
                         <div class="form-group">
                             <label for="muddat" >Tibbiy ko'rikdan o'tish muddati: </label>
-                            <input class="form-control" type="text" id="muddat" name="muddat" data-bind="">
+                            <input class="form-control" type="text" id="muddat" name="muddat" data-bind="value: vm.muddat">
                         </div>
                         <div class="form-group">
                             <label for="mutaxassis" >Tibbiy ko'rikni o'tkazuvchi vrach-mutaxassislar: </label>
-                            <input class="form-control" type="text" id="mutaxassis" name="mutaxassis" data-bind="">
+                            <input class="form-control" type="text" id="mutaxassis" name="mutaxassis" data-bind="value: vm.mutaxassis">
                         </div>
                         <div class="form-group">
-                            <label for="lftek" >Laborator va funksional tekshirishlar: </label>
-                            <input class="form-control" type="text" id="lftek" name="lftek" data-bind="">
+                            <label for="tekshirishlar" >Laborator va funksional tekshirishlar: </label>
+                            <input class="form-control" type="text" id="tekshirishlar" name="tekshirishlar" data-bind="value: vm.tekshirishlar">
                         </div>
                         <div class="form-group">
-                            <label for="qmonelik" >Qo'shimcha tibbiy moneliklar: </label>
-                            <input class="form-control" type="text" id="qmonelik" name="qmonelik" data-bind="">
+                            <label for="monelik" >Qo'shimcha tibbiy moneliklar: </label>
+                            <input class="form-control" type="text" id="monelik" name="monelik" data-bind="value: vm.monelik">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" data-bind="" class="btn btn-success ">
+                        <button type="submit" data-bind="click: vm.onSubmit" class="btn btn-success ">
                             Add Registration</button>
                     </div>
                 </form>
@@ -61,14 +62,14 @@
                     <th>Ishga qo'yish uchun qarshilik ko'rsatuvchi umumiy tibbiy moneliklarga qo'shimcha tibbiy moneliklar.</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-bind="foreach: vm.getRegistration" >
                 <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td data-bind="text: $data.id"></td>
+                    <td data-bind="text: $data.moddanomi"></td>
+                    <td data-bind="text: $data.muddat"></td>
+                    <td data-bind="text: $data.mutaxassis"></td>
+                    <td data-bind="text: $data.tekshirishlar"></td>
+                    <td data-bind="text: $data.monelik"></td>
                 </tr>
             </tbody>
         </table>
