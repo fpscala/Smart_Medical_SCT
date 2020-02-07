@@ -25,7 +25,7 @@ $ ->
   vm.onSubmit = ->
     toastr.clear()
     if (!vm.shaxslar())
-      toastr.error("Zaharli moddalar nomini kiriting!")
+      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
       return no
     if (!vm.muddat())
       toastr.error("Muddatni kiriting!")
@@ -55,6 +55,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        getRegistration()
 
   getRegistration = ->
     $.ajax
