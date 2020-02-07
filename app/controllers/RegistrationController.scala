@@ -7,6 +7,7 @@ import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.mvc._
 import views.html._
+import views.html.patient._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
