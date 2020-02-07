@@ -1,9 +1,9 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @()
-@import views.html.main
+  @import views.html.main
 @main("Registration Page", webJarsUtil) {
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
-      <div class="row">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
+  <div class="row">
       <!--     SIDE AREA -->
     <div class="sideArea col-md-2">
       <div class="avatar">
@@ -20,20 +20,28 @@
         <!-- BEGIN NAV -->
       <nav class="navTop row">
         <div class="col-md-12">
-        <div class="menuIcon float-left"><span class="fa fa-bars"></span></div>
-        <div class="account float-right">
-          <div class="name has-submenu">John Doe<span class="fa fa-angle-down"></span></div>
-          <ul class="accountLinks submenu">
-            <li><a href="">View website</a></li>
-            <li><a href="">Log out<span class="fa fa-sign-out fr"></span></a></li>
-          </ul>
-        </div>
+          <div class="menuIcon float-left"><span class="fa fa-bars"></span></div>
+          <div class="account float-right">
+            <div class="name has-submenu">John Doe<span class="fa fa-angle-down"></span></div>
+            <ul class="accountLinks submenu">
+              <li><a href="">View website</a></li>
+              <li><a href="">Log out<span class="fa fa-sign-out fr"></span></a></li>
+            </ul>
+          </div>
         </div>
       </nav>
         <!-- END NAV -->
         <!-- CONTAINER  -->
       <div class="mainContent">
-
+        <div class="row">
+          <div class="col-md-2">
+            <div class="bg-white image-box"></div>
+            <div class="bg-white left-box mt-4"></div>
+          </div>
+          <div class="col-md-10">
+            <div class="bg-white form-box"> </div>
+          </div>
+        </div>
       </div>
         <!-- END CONTAINER  -->
 
