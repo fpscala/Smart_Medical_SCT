@@ -1,3 +1,60 @@
 # --- !Ups
+CREATE TABLE "Checkup_type"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "checkup_type" VARCHAR NOT NULL
+);
+
+CREATE TABLE "Work_type"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "work_type" VARCHAR NOT NULL
+);
+
+CREATE TABLE "Doctor_type"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "doctor_type" VARCHAR NOT NULL
+);
+
+CREATE TABLE "Lab_type"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "lab_type" VARCHAR NOT NULL
+);
+
+CREATE TABLE "Organization"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "organization_name" VARCHAR NOT NULL
+);
+
+CREATE TABLE "Checkup_period"(
+    "id"  SERIAL  NOT NULL PRIMARY KEY,
+    "number_per_year"  INT NOT NULL,
+    "doctor_type_id" JSONB,
+    "lab_type_id"  JSONB,
+    "work_type_id" 	INT CONSTRAINT "work_type" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE "Patient"(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "first_name" VARCHAR NOT NULL,
+    "middle_name" VARCHAR NOT NULL,
+	"last_name" VARCHAR NOT NULL,
+    "passport_sn" VARCHAR NOT NULL,
+    "gender" Int NOT NULL,
+    "birthday" DATE NOT NULL,
+    "address" VARCHAR NOT NULL,
+	"phone_number" VARCHAR NULL,
+	"card_number" VARCHAR NOT NULL,
+	"profession" VARCHAR NULL,
+    "work_type_id" INT CONSTRAINT "work_type_for_patient" REFERENCES  "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "last_checkup" TIMESTAMP NULL,
+    "photo" VARCHAR NULL,
+	"organization_id" INT CONSTRAINT "organization_for_patient" REFERENCES  "Organization" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 # --- !Downs
+DROP TABLE "Checkup_type";
+DROP TABLE "Work_type";
+DROP TABLE "Doctor_type";
+DROP TABLE "Lab_type";
+DROP TABLE "Organization";
+DROP TABLE "Checkup_period";
+DROP TABLE "Patient";
