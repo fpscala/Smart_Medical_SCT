@@ -52,8 +52,8 @@ $ ->
         data: JSON.stringify(data)
         dataType: 'json'
         contentType: 'application/json'
-        .fail handleError
-        .done (response) ->
+      .fail handleError
+      .done (response) ->
         toastr.success(response)
         getRegistration()
 
@@ -61,8 +61,8 @@ $ ->
     $.ajax
       url: apiUrl.getRegistration
       type: 'GET'
-      .fail handleError
-      .done (response) ->
+    .fail handleError
+    .done (response) ->
       vm.getRegistrationList(response)
 
   getRegistration()

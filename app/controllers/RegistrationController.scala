@@ -25,6 +25,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        registrationPatient: registration_patient,
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
+                                       checkopTemplate: checkupPeriod
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -33,6 +34,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def index = Action {
     Ok(indexTemplate())
+  }
+
+  def checkupPeriod = Action {
+    Ok(checkopTemplate())
   }
 
   def patient = Action {

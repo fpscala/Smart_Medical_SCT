@@ -7,9 +7,9 @@ GET     /getOrganization            @controllers.RegistrationController.getOrgan
 DELETE  /deleteOrganization         @controllers.RegistrationController.deleteOrganization
 GET     /patient                    @controllers.RegistrationController.patient
 POST    /updateOrganization         @controllers.RegistrationController.updateOrganization
-GET     /doctorType                 @controllers.RegistrationController.doctorType
-GET     /addDoctorType              @controllers.RegistrationController.addDoctorType
-GET     /editDoctorType             @controllers.RegistrationController.editDoctorType
+#GET     /doctorType                 @controllers.RegistrationController.doctorType
+#GET     /addDoctorType              @controllers.RegistrationController.addDoctorType
+#GET     /editDoctorType             @controllers.RegistrationController.editDoctorType
 GET     /laboratory                 @controllers.RegistrationController.laboratory
 POST    /addLaboratory              @controllers.RegistrationController.addLaboratory
 
