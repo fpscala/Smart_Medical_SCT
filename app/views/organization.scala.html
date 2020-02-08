@@ -1,0 +1,60 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()
+@import views.html.main
+@main("Home Page", webJarsUtil) {
+
+<div class="row">
+    <div class="col-md-5 container">
+        <div>
+
+            <label >Organization Name</label>
+            <input id="organizationName" data-bind="value: vm.organizationName" class="form-control">
+            <br>
+            <button class="btn btn-info" id="onSub" data-bind="click: vm.onSubmit" >Submit</button>
+            <button data-bind="click: vm.getOrganization"  class="btn btn-info">Get-All</button>
+
+        </div>
+        <br>
+        <div>
+
+            <labael>Id</labael>
+            <input class="form-control" type="text" id="id" data-bind="value: vm.id">
+            <br>
+            <button data-bind="click: vm.deleteOrganization" class="btn btn-info">Delete-Organization</button>
+
+        </div>
+        <br>
+        <div>
+
+            <input class="form-control" type="text" id="idForUpdate" data-bind="value: vm.id" >
+            <br>
+            <input class="form-control" type="text" id="organizationForUpdate" data-bind="value: vm.organizationName" placeholder="Organization">
+            <br>
+            <button data-bind="click: vm.updateOrganization" class="btn btn-info">Update</button>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="col-md-6">
+        <div class="container">
+            <table class="table table-bordered table-info table-hover"  data-bind="visible: vm.getList().length > 0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Organization Name</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: vm.getList">
+                    <tr>
+                        <td data-bind="text: $data.id"></td>
+                        <td data-bind="text: $data.organizationName"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+}
