@@ -19,6 +19,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        @Named("registration-manager") val registrationManager: ActorRef,
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
+                                       registrationLaboratory: registration_laboratory,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -32,5 +33,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def patient = Action {
     Ok(registrationPatient())
   }
-
+  def laboratory = Action {
+    Ok(registrationLaboratory())
+  }
 }
