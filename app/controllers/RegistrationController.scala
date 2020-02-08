@@ -9,7 +9,7 @@ import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
-import protocols.RegistrationProtocol.{AddOrganization, DeleteOrganization, GetOrganizationList, Organization, UpdateOrganization}
+import protocols.RegistrationProtocol.{AddOrganization, DeleteOrganization, GetOrganizationList, Organization, UpdateOrganization, Laboratory}
 import views.html._
 import views.html.patient._
 
@@ -24,6 +24,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
                                        registrationOrganization: organization,
+                                       registrationLaboratory: registration_laboratory,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -39,6 +40,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   def organization = Action {
     Ok(registrationOrganization())
+  }
+  def laboratory = Action {
+    Ok(registrationLaboratory())
   }
 
 
