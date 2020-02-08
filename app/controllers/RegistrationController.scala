@@ -12,7 +12,7 @@ import play.api.mvc._
 import protocols.RegistrationProtocol.{AddOrganization, DeleteOrganization, GetOrganizationList, Organization, UpdateOrganization, Laboratory}
 import views.html._
 import views.html.patient._
-
+import views.html.settings._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
 
@@ -24,6 +24,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
                                        registrationOrganization: organization,
+                                       doctorTypeTemplate: doctor_type,
+                                       addDoctorTypeTemplate: add_doctor_type,
+                                       editDoctorTypeTemplate: edit_doctor_type,
                                        registrationLaboratory: registration_laboratory,
                                       )
                                       (implicit val ec: ExecutionContext)
@@ -43,6 +46,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   def laboratory = Action {
     Ok(registrationLaboratory())
+  }
+
+  def doctorType = Action {
+    Ok(doctorTypeTemplate())
+  }
+
+  def addDoctorType = Action {
+    Ok(addDoctorTypeTemplate())
+  }
+
+  def editDoctorType = Action {
+    Ok(editDoctorTypeTemplate())
   }
 
 
