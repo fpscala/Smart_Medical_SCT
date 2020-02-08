@@ -1,0 +1,18 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()
+  @import views.html.main
+@main("Registration Page", webJarsUtil) {
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center mt-5">
+        <form action="">
+            <div class="form-group row">
+                <label for="laboratoryName" class="col-md-2"><strong>Laboratory Name</strong></label>
+                <input id="laboratoryName" type="text" class="form-control col-md-10" data-bind="value: vm.laboratoryName">
+            </div>
+            <button class="btn btn-info" data-bind="click: vm.onSubmit" >Add LabType</button>
+        </form>
+      </div>
+    </div>
+  </div>
+}

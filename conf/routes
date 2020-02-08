@@ -7,6 +7,7 @@ DELETE  /deleteOrganization         @controllers.RegistrationController.deleteOr
 GET     /patient                    @controllers.RegistrationController.patient
 POST    /updateOrganization         @controllers.RegistrationController.updateOrganization
 GET     /laboratory                 @controllers.RegistrationController.laboratory
+POST    /addLaboratory              @controllers.RegistrationController.addLaboratory
 
 GET     /assets/*file               @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                    webjars.Routes

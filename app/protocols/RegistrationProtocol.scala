@@ -18,6 +18,8 @@ object RegistrationProtocol {
 
   case class AddOrganization(data: Organization)
 
+  case class AddLaboratory(data: Laboratory)
+
   case class Patient(id: Option[Int] = None,
                           firsName: String,
                           middleName: String,
