@@ -2,152 +2,81 @@
 @()
 @import views.html.main
 @main("Home Page", webJarsUtil) {
-<div class="container">
-    <div class="row">
-        <div class="offset-3 col-md-9 mt-5  ">
-                <!-- Button trigger modal addcheckupPeriod-->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcheckupPeriod">
-                        Add New checkupPeriod
-            </button>
-                <!-- Button trigger modal updatecheckupPeriod-->
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updatecheckupPeriod">
-                        Update checkupPeriod
-            </button>
-                <!-- Button trigger modal delete checkupPeriod-->
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletecheckupPeriod">
-                        Delete checkupPeriod
-            </button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-5  ">
+                    <!-- Button trigger modal addcheckupPeriod-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcheckupPeriod">
+                    Add New checkupPeriod
+                </button>
+            </div>
+            <div class=" col-md-12 mt-3 text-center">
+                <table class="table table-bordered table-hover mt-5" data-bind=" length > 0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Number per year</th>
+                            <th>Doctor type</th>
+                            <th>Lab type</th>
+                            <th>Work type </th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr>
+                            <td data-bind="text: $data.id"></td>
+                            <td data-bind="text: $data."></td>
+                            <td data-bind="text: $data."></td>
+                            <td data-bind="text: $data."></td>
+                            <td data-bind="text: $data."></td>
+                            <td>
+                                <a class="addDirection mr-3" title="Add" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                                <a class="mr-3 editDirection" title="Edit" data-toggle="tooltip" ><i class="fas fa-pen-alt"></i></a>
+                                <a class="deleteDirection" title="Delete" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="offset-2 col-md-8 mt-5 text-center">
-            <table class="table table-bordered table-hover mt-5" data-bind=" vm.getList().length > 0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Number per year</th>
-                        <th>Doctor type</th>
-                        <th>Lab type</th>
-                        <th>Work type </th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: ">
-                    <tr>
-                        <td data-bind="text: $data.id"></td>
-                        <td data-bind="text: $data."></td>
-                        <td data-bind="text: $data."></td>
-                        <td data-bind="text: $data."></td>
-                        <td data-bind="text: $data."></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-    <!-- Modal Add checkupPeriod -->
-<div class="modal fade" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add checkupPeriod</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" class="m-4">
-                    <div class="form-group">
-                        <label for="name" >Name: </label>
-                        <input class="form-control" type="text" id="name" data-bind="value: vm.name">
-                    </div>
-                    <div class="form-group">
-                        <label for="tel" >Tel: </label>
-                        <input class="form-control" type="text" id="tel" data-bind="value: vm.tel">
-                    </div>
-                    <div class="form-group">
-                        <label for="age" >Age: </label>
-                        <input class="form-control" type="text" id="age" data-bind="value: vm.age">
-                    </div>
-                    <div class="form-group">
-                        <label for="age" >Address: </label>
-                        <input class="form-control" type="text" id="address" data-bind="value: vm.address">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button data-bind="click: vm.onSubmit" class="btn btn-success ">
-                            Add checkupPeriod</button>
-            </div>
-        </div>
-    </div>
-</div>
-    <!-- Modal Update checkupPeriod -->
-<div class="modal fade" id="updatecheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="updatecheckupPeriodTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updatecheckupPeriodLongTitle">Update checkupPeriod</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" class="m-4">
-                    <div class="form-group ">
-                        <label for="idForUpdate" >ID: </label>
-                        <input class="form-control " type="text" id="idForUpdate" data-bind="value: vm.id">
-                    </div>
-                    <div class="form-group ">
-                        <label for="nameForUpdate" >Name: </label>
-                        <input class="form-control " type="text" id="nameForUpdate" data-bind="value: vm.name">
-                    </div>
-                    <div class="form-group ">
-                        <label for="telForUpdate" >Tel: </label>
-                        <input class="form-control " type="text" id="telForUpdate" data-bind="value: vm.tel">
-                    </div>
-                    <div class="form-group">
-                        <label for="ageForUpdate" >Age: </label>
-                        <input class="form-control" type="text" id="ageForUpdate" data-bind="value: vm.age">
-                    </div>
-                    <div class="form-group">
-                        <label for="addressForUpdate" >Address: </label>
-                        <input class="form-control" type="text" id="addressForUpdate" data-bind="value: vm.address">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button data-bind="click: vm.update" class=" btn btn-success">Update checkupPeriod</button>
+        <!-- Modal Add checkupPeriod -->
+    <div class="modal fade" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add checkupPeriod</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="m-4">
+                        <div class="form-group">
+                            <label for="name" >Name: </label>
+                            <input class="form-control" type="text" id="name" data-bind="value: vm.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="tel" >Tel: </label>
+                            <input class="form-control" type="text" id="tel" data-bind="value: vm.tel">
+                        </div>
+                        <div class="form-group">
+                            <label for="age" >Age: </label>
+                            <input class="form-control" type="text" id="age" data-bind="value: vm.age">
+                        </div>
+                        <div class="form-group">
+                            <label for="age" >Address: </label>
+                            <input class="form-control" type="text" id="address" data-bind="value: vm.address">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button data-bind="click: vm.onSubmit" class="btn btn-success ">
+                        Add checkupPeriod</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <!-- Modal Delete checkupPeriod -->
-<div class="modal fade" id="deletecheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="deletecheckupPeriodTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deletecheckupPeriodLongTitle">Add checkupPeriod</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" class="m-4">
-                    <div class="form-group row">
-                        <label for="id" class="">ID: </label>
-                        <input class="form-control " type="text" id="id" data-bind="value: vm.id">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
-                <button data-bind="click: vm.delete "  class="btn btn-success">
-                            Delete checkupPeriod</button>
-            </div>
-        </div>
-    </div>
-</div>
 }
