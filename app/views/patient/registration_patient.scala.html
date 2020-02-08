@@ -2,6 +2,7 @@
 @()
   @import views.html.main
 @main("Registration Page", webJarsUtil) {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
   <div class="content">
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
@@ -10,7 +11,7 @@
     </div>
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
-        <form>
+        <form class="toggle">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -26,59 +27,63 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Last Name</label>
+                <label>Last Name <span class="text-danger">*</span></label>
                 <input class="form-control" type="text">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Passport SN <span class="text-danger">*</span></label>
-                <input class="form-control" type="email">
+                <label>Passport SN </label>
+                <input class="form-control" type="text">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Gander</label>
-                <input class="form-control" type="password">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>Date of Birth</label>
+                <label>Date of Birth <span class="text-danger">*</span></label>
                 <div class="cal-icon">
-                  <input type="date" class="form-control datetimepicker">
+                  <input type="date" class="form-control">
                 </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Phone Number</label>
-                <input class="form-control" type="password">
-              </div>
-            </div>
-
-            <div class="col-sm-6">
-              <div class="form-group gender-select">
-                <label class="gen-label">Gender:</label>
-                <div class="form-check-inline">
-                  <label class="form-check-label">
-                    <input type="radio" name="gender" class="form-check-input">Male
-                  </label>
-                </div>
-                <div class="form-check-inline">
-                  <label class="form-check-label">
-                    <input type="radio" name="gender" class="form-check-input">Female
-                  </label>
-                </div>
+                <label>Phone Number </label>
+                <input class="form-control" type="text">
               </div>
             </div>
             <div class="col-sm-12">
               <div class="form-group">
-                <label>Address</label>
+                <label>Address <span class="text-danger">*</span></label>
                 <input type="text" class="form-control ">
               </div>
             </div>
-            <div class="col-sm-8 offset-sm-2 text-center">
+            <div class="col-sm-4 text-center">
+              <div class="form-group gender-select">
+                <label class="display-block">Gender:</label>
+                <div class="form-check-inline form-check ">
+                  <input type="radio" name="gender" class="form-check-input">
+                  <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check-inline form-check ">
+                  <input type="radio" name="gender" class="form-check-input">
+                  <label class="form-check-label">Female</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 text-center">
+              <div class="form-group">
+                <label class="display-block">Checkup type</label>
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="radio1" name="radios" value="all">
+                  <label for="radio1" class="form-check-input">Checkup for Job</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="radio2" name="radios" value="false">
+                  <label class="form-check-label" for="radio2">Medical Form</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 text-center">
               <div class="form-group">
                 <label class="display-block">Is this a sick organization worker?</label>
                 <div class="form-check form-check-inline">
@@ -97,6 +102,24 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
+                <label>Organization</label>
+                <select class="form-control" tabindex="-1" aria-hidden="true">
+                  <option>InfromAlgo</option>
+                  <option>TATU</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Work Type</label>
+                <select class="form-control" tabindex="-1" aria-hidden="true">
+                  <option>First</option>
+                  <option>Second</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
                 <label>Card Number </label>
                 <input class="form-control" type="text">
               </div>
@@ -107,13 +130,7 @@
                 <input class="form-control" type="text">
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>Work type </label>
-                <input class="form-control" type="text">
-              </div>
-            </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 offset-sm-3">
               <div class="form-group">
                 <label>Avatar</label>
                 <div class="profile-upload">
