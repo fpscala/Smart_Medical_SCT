@@ -8,7 +8,15 @@ object RegistrationProtocol {
 
   case object GetRegistrationList
 
+  case object GetOrganizationList
+
+  case class DeleteOrganization(id: Int)
+
+  case class UpdateOrganization(update: Organization)
+
   case class AddRegistration(data: Patient)
+
+  case class AddOrganization(data: Organization)
 
   case class Patient(id: Option[Int] = None,
                           firsName: String,

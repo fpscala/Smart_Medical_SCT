@@ -1,7 +1,11 @@
 
 GET     /                           @controllers.RegistrationController.index
+GET     /organization               @controllers.RegistrationController.organization
+POST    /addOrganization            @controllers.RegistrationController.addOrganization
+GET     /getOrganization            @controllers.RegistrationController.getOrganizationName
+DELETE  /deleteOrganization         @controllers.RegistrationController.deleteOrganization
 GET     /patient                    @controllers.RegistrationController.patient
-GET     /laboratory                 @controllers.RegistrationController.laboratory
+POST    /updateOrganization         @controllers.RegistrationController.updateOrganization
 
 GET     /assets/*file               @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                    webjars.Routes

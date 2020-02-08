@@ -4,16 +4,16 @@ import akka.actor.Actor
 import akka.pattern.pipe
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
+import dao.OrganizationDao
 import javax.inject.Inject
-import play.api.{Configuration, Environment}
+import play.api.Environment
 import protocols.RegistrationProtocol._
-import akka.actor.{Actor, ActorLogging}
 
-import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
+import scala.concurrent.{ExecutionContext, Future}
 
 class RegistrationManager @Inject()(val environment: Environment,
-                                    val configuration: Configuration,
+                                    val organizationDao: OrganizationDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -21,6 +21,18 @@ class RegistrationManager @Inject()(val environment: Environment,
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
   def receive = {
+    case AddOrganization(data) =>
+    addOrganization(data).pipeTo(sender())
+
+  case UpdateOrganization(data) =>
+    updateOrganization(data).pipeTo(sender())
+
+  case DeleteOrganization(id) =>
+    deleteOrganization(id).pipeTo(sender())
+
+  case GetOrganizationList =>
+    getOrganizationList.pipeTo(sender())
+
 //    case AddRegistration(data) =>
 //      addRegistration(data).pipeTo(sender())
 //
@@ -37,5 +49,20 @@ class RegistrationManager @Inject()(val environment: Environment,
 //  private def getRegistrationList = {
 //
 //  }
+private def addOrganization(data: Organization): Future[Int] = {
+  organizationDao.addOrganization(data)
+}
+
+  private def getOrganizationList: Future[Seq[Organization]] = {
+    organizationDao.getOrganization
+  }
+
+  private def deleteOrganization(id: Int): Future[Int] = {
+    organizationDao.deleteOrganization(id)
+  }
+
+  private def updateOrganization(data: Organization): Future[Int] = {
+    organizationDao.updateOrganization(data)
+  }
 
 }
