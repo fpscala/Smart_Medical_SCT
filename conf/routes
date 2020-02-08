@@ -1,11 +1,15 @@
 
 GET     /                           @controllers.RegistrationController.index
 GET     /organization               @controllers.RegistrationController.organization
+GET     /checkupPeriod              @controllers.RegistrationController.checkupPeriod
 POST    /addOrganization            @controllers.RegistrationController.addOrganization
 GET     /getOrganization            @controllers.RegistrationController.getOrganizationName
 DELETE  /deleteOrganization         @controllers.RegistrationController.deleteOrganization
 GET     /patient                    @controllers.RegistrationController.patient
 POST    /updateOrganization         @controllers.RegistrationController.updateOrganization
+GET     /doctorType                 @controllers.RegistrationController.doctorType
+GET     /addDoctorType              @controllers.RegistrationController.addDoctorType
+GET     /editDoctorType             @controllers.RegistrationController.editDoctorType
 GET     /laboratory                 @controllers.RegistrationController.laboratory
 POST    /addLaboratory              @controllers.RegistrationController.addLaboratory
 

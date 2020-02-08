@@ -24,7 +24,7 @@ object RegistrationProtocol {
                           firsName: String,
                           middleName: String,
                           lastName: String,
-                          passport_sn: String,
+                          passport_sn: Option[String],
                           gender: String,
                           birthday: String,
                           address: String,

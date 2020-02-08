@@ -1,0 +1,59 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()
+  @import views.html.main
+@main("Doctor type", webJarsUtil) {
+  <div class="content">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4 class="page-title">Doctor type</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
+        <a href="@controllers.routes.RegistrationController.addDoctorType()" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Add Roles</a>
+        <div class="roles-menu">
+          <ul>
+            <li class="active">
+              <a href="javascript:void(0);">Administrator</a>
+              <span class="role-action">
+                <a href="@controllers.routes.RegistrationController.editDoctorType()">
+                  <span class="action-circle large">
+                    <i class="material-icons">edit</i>
+                  </span>
+                </a>
+                <a href="#" data-toggle="modal" data-target="#delete_doctor_type">
+                  <span class="action-circle large delete-btn">
+                    <i class="material-icons">delete</i>
+                  </span>
+                </a>
+              </span>
+            </li>
+            <li><a href="#">Doctor</a></li>
+            <li><a href="#">Nurse</a></li>
+            <li><a href="#">Laboratorist</a></li>
+            <li><a href="#">Pharmacist</a></li>
+            <li><a href="#">Accountant</a></li>
+            <li><a href="#">Receptionist</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
+@*        Qo'shimcha kontent*@
+      </div>
+    </div>
+  </div>
+
+  <div id="delete_doctor_type" class="modal fade delete-modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
+          <h3>Are you sure want to delete this Role?</h3>
+          <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
