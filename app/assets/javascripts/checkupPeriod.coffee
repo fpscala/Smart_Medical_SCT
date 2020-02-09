@@ -64,7 +64,39 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.getRegistrationList(response)
-
   getRegistration()
+
+  $(document).on 'click', '.addDirection', ->
+    empty = false
+    input = $(this).parents('tr').find('input[type="text"]')
+    input.each ->
+      if !$(this).val()
+        $(this).addClass 'error'
+        empty = true
+      else
+        $(this).removeClass 'error'
+    $(this).parents('tr').find('.error').first().focus()
+    if !empty
+      input.each ->
+        $(this).parent('td').html $(this).val()
+      $(this).parents('tr').find('.addDirection, .editDirection').toggle()
+
+  $(document).on 'click', '.addDirection', ->
+    row = $(this).closest('tr').children('td')
+    data =
+      id: row[0].innerText
+      name: row[1].innerText
+    console.log(data)
+    $.ajax
+      url: apiUrl.updateDirection
+      type: 'POST'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      toastr.success(response)
+
+
 
   ko.applyBindings {vm}
