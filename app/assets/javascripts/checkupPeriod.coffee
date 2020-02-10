@@ -4,15 +4,15 @@ $ ->
   Glob = window.Glob || {}
 
   apiUrl =
-    send: '/create'
+    send: '/addCheckupPeriod'
     getCheckupPeriod: '/get'
     updateCheckupPeriod: '/update/checkupPeriod'
 
   vm = ko.mapping.fromJS
-    numberPerYear: ''
-    doctorType: ''
-    labType: ''
-    workType: ''
+    numberPerYear: 0
+    doctorType: []
+    labType: []
+    workType: 0
     id: 0
     getCheckupPeriodList: []
 
