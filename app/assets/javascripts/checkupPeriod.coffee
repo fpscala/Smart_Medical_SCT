@@ -5,16 +5,16 @@ $ ->
 
   apiUrl =
     send: '/create'
-    getRegistration: '/get'
+    getCheckupPeriod: '/get'
+    updateCheckupPeriod: '/update/checkupPeriod'
 
   vm = ko.mapping.fromJS
-    shaxslar: ''
-    muddat: ''
-    mutaxassis: ''
-    tekshirishlar: ''
-    monelik: ''
+    numberPerYear: ''
+    doctorType: ''
+    labType: ''
+    workType: ''
     id: 0
-    getRegistrationList: []
+    getCheckupPeriodList: []
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -24,28 +24,24 @@ $ ->
 
   vm.onSubmit = ->
     toastr.clear()
-    if (!vm.shaxslar())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+    if (!vm.numberPerYear())
+      toastr.error("please enter the number per year!")
       return no
-    if (!vm.muddat())
-      toastr.error("Muddatni kiriting!")
+    if (!vm.doctorType())
+      toastr.error("please enter the doctor type!")
       return no
-    if (!vm.mutaxassis())
-      toastr.error("Mutaxassisni kiriting!")
+    if (!vm.labType())
+      toastr.error("please enter the laboratory type!")
       return no
-    if (!vm.tekshirishlar())
-      toastr.error("Funksianal tekshiruvlari kiriting!")
-      return no
-    if (!vm.monelik())
-      toastr.error("Qo`shimcha tibbiy moneliklarni kiriting!")
+    if (!vm.workType())
+      toastr.error("please enter the work type!")
       return no
     else
       data =
-        shaxslar: vm.shaxslar()
-        muddat: vm.muddat()
-        mutaxassis: vm.mutaxassis()
-        tekshirishlar: vm.tekshirishlar()
-        monelik: vm.monelik()
+        numberPerYear: vm.numberPerYear()
+        doctorType: vm.doctorType()
+        labType: vm.labType()
+        workType: vm.workType()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -55,18 +51,18 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        getRegistration()
+        getCheckupPeriod()
 
-  getRegistration = ->
+  getCheckupPeriod = ->
     $.ajax
-      url: apiUrl.getRegistration
+      url: apiUrl.getCheckupPeriod
       type: 'GET'
     .fail handleError
     .done (response) ->
-      vm.getRegistrationList(response)
-  getRegistration()
+      vm.getCheckupPeriodList(response)
+  getCheckupPeriod()
 
-  $(document).on 'click', '.addDirection', ->
+  $(document).on 'click', '.addCheckupPeriod', ->
     empty = false
     input = $(this).parents('tr').find('input[type="text"]')
     input.each ->
@@ -79,16 +75,16 @@ $ ->
     if !empty
       input.each ->
         $(this).parent('td').html $(this).val()
-      $(this).parents('tr').find('.addDirection, .editDirection').toggle()
+      $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
 
-  $(document).on 'click', '.addDirection', ->
+  $(document).on 'click', '.addCheckupPeriod', ->
     row = $(this).closest('tr').children('td')
     data =
       id: row[0].innerText
       name: row[1].innerText
     console.log(data)
     $.ajax
-      url: apiUrl.updateDirection
+      url: apiUrl.updateCheckupPeriod
       type: 'POST'
       data: JSON.stringify(data)
       dataType: 'json'
