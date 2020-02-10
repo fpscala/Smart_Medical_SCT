@@ -104,6 +104,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val numberPerYear = (request.body \ "numberPerYear").as[Int]
+    val doctorTypeId = (request.body \ "doctorTypeId").as[JsValue]
+    val labTypeId = (request.body \ "labTypeId").as[JsValue]
+    val workTypeId = (request.body \ "workTypeId").as[Int]
+    logger.warn(s"controllerga keldi")
+    (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, doctorTypeId, labTypeId, workTypeId ))).mapTo[Int].map { id =>
+      Ok(Json.toJson(id))
+    }
+  }
+
+
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     val firstName = body("firstName").head
