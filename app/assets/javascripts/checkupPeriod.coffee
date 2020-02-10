@@ -22,7 +22,7 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-  vm.onSubmit = ->
+  vm.addCheckupPeriod = ->
     toastr.clear()
     if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
@@ -77,11 +77,27 @@ $ ->
         $(this).parent('td').html $(this).val()
       $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
 
+  $(document).on 'click', '.editCheckupPeriod', ->
+    row = $(this).closest('tr').children('td')
+    numberPerYear = row[1].innerText
+    doctorType = row[2].innerText
+    labType = row[3].innerText
+    workType = row[4].innerText
+    row[1].innerHTML = '<input type="text" class="form-control" value="' + numberPerYear + '">'
+    row[2].innerHTML = '<input type="text" class="form-control" value="' + doctorType + '">'
+    row[3].innerHTML = '<input type="text" class="form-control" value="' + labType + '">'
+    row[4].innerHTML = '<input type="text" class="form-control" value="' + workType + '">'
+    $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
+
+
   $(document).on 'click', '.addCheckupPeriod', ->
     row = $(this).closest('tr').children('td')
     data =
       id: row[0].innerText
-      name: row[1].innerText
+      numberPerYear: row[1].innerText
+      doctorType: row[2].innerText
+      labType: row[3].innerText
+      workType: row[4].innerText
     console.log(data)
     $.ajax
       url: apiUrl.updateCheckupPeriod

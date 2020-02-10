@@ -2,6 +2,7 @@
 @()
 @import views.html.main
 @main("Home Page", webJarsUtil) {
+    <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
     <div class="container">
         <div class="row">
             <div class="col-md-12 mt-5  ">
@@ -11,7 +12,7 @@
                 </button>
             </div>
             <div class=" col-md-12 mt-3 text-center">
-                <table class="table table-bordered table-hover mt-5" data-bind=" length > 0">
+                <table class="table table-bordered table-hover mt-5" >
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -22,17 +23,17 @@
                             <th>Operations</th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody data-bind="foreach: vm.getCheckupPeriodList">
                         <tr>
                             <td data-bind="text: $data.id"></td>
-                            <td data-bind="text: $data."></td>
-                            <td data-bind="text: $data."></td>
-                            <td data-bind="text: $data."></td>
-                            <td data-bind="text: $data."></td>
+                            <td data-bind="text: $data.numberPerYear"></td>
+                            <td data-bind="text: $data.doctorType"></td>
+                            <td data-bind="text: $data.labType"></td>
+                            <td data-bind="text: $data.workType"></td>
                             <td>
-                                <a class="addDirection mr-3" title="Add" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
-                                <a class="mr-3 editDirection" title="Edit" data-toggle="tooltip" ><i class="fas fa-pen-alt"></i></a>
-                                <a class="deleteDirection" title="Delete" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
+                                <a class="addCheckupPeriod mr-3" title="Add" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                                <a class="mr-3 editCheckupPeriod" title="Edit" data-toggle="tooltip" ><i class="fas fa-pen-alt"></i></a>
+                                <a class="deleteCheckupPeriod" title="Delete" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -52,28 +53,28 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" class="m-4">
+                    <form action="" class="m-4" method="post">
                         <div class="form-group">
-                            <label for="name" >Name: </label>
-                            <input class="form-control" type="text" id="name" data-bind="value: vm.name">
+                            <label for="numberPerYear" >Number per year: </label>
+                            <input class="form-control" type="text" id="numberPerYear" data-bind="value: vm.numberPerYear">
                         </div>
                         <div class="form-group">
-                            <label for="tel" >Tel: </label>
-                            <input class="form-control" type="text" id="tel" data-bind="value: vm.tel">
+                            <label for="doctorType" >Doctor type: </label>
+                            <input class="form-control" type="text" id="doctorType" data-bind="value: vm.doctorType">
                         </div>
                         <div class="form-group">
-                            <label for="age" >Age: </label>
-                            <input class="form-control" type="text" id="age" data-bind="value: vm.age">
+                            <label for="labType" >Laboratory type: </label>
+                            <input class="form-control" type="text" id="labType" data-bind="value: vm.labType">
                         </div>
                         <div class="form-group">
-                            <label for="age" >Address: </label>
-                            <input class="form-control" type="text" id="address" data-bind="value: vm.address">
+                            <label for="workType" >Work type: </label>
+                            <input class="form-control" type="text" id="workType" data-bind="value: vm.workType">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button data-bind="click: vm.onSubmit" class="btn btn-success ">
+                    <button type="submit" data-bind="click: vm.addCheckPeriod" class="btn btn-success ">
                         Add checkupPeriod</button>
                 </div>
             </div>
