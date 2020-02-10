@@ -9,9 +9,10 @@ import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
-import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteOrganization, GetOrganizationList, Laboratory, Organization, UpdateOrganization}
+import protocols.RegistrationProtocol._
 import views.html._
 import views.html.patient._
+import views.html.settings._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt

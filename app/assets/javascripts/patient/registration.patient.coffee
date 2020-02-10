@@ -15,6 +15,7 @@ $ ->
     birthday: ''
     address: ''
     phone: ''
+    isWorker: ''
     cardNumber: ''
     profession: ''
     workTypeId: 0
@@ -30,21 +31,41 @@ $ ->
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
+  vm.patient.isWorker.subscribe (boolean) ->
+    vm.patient.isWorker(boolean)
 
   vm.onSubmit = ->
     toastr.clear()
     if (!vm.patient.firsName())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else if (!vm.patient.middleName())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else if (!vm.patient.lastName())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else if (!vm.patient.birthday())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else if (!vm.patient.address())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else if (!vm.patient.gender())
       toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
+    else if (!vm.patient.organizationId() && vm.patient.isWorker() is 'yes')
+      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
+    else if (!vm.patient.cardNumber() && vm.patient.isWorker() is 'yes')
+      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
+    else if (!vm.patient.workTypeId() && vm.patient.isWorker() is 'yes')
+      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
+    else if (!vm.patient.profession() && vm.patient.isWorker() is 'yes')
+      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      return no
     else
       data = ko.mapping.toJS(vm.patient)
       $.post(apiUrl.send, JSON.stringify(data))
