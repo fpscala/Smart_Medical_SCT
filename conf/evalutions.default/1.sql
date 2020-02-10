@@ -37,7 +37,7 @@ CREATE TABLE "Patient"(
     "first_name" VARCHAR NOT NULL,
     "middle_name" VARCHAR NOT NULL,
 	"last_name" VARCHAR NOT NULL,
-    "passport_sn" VARCHAR NOT NULL,
+    "passport_sn" VARCHAR NULL,
     "gender" Int NOT NULL,
     "birthday" DATE NOT NULL,
     "address" VARCHAR NOT NULL,

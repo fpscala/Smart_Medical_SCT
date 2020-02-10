@@ -12,61 +12,68 @@
     </div>
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
-        <form class="toggle">
+        <form class="toggle" id="patient-form" action="@controllers.routes.RegistrationController.createPatient()"
+        enctype="multipart/form-data" method="post">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
                 <label>First Name: <span class="text-danger">*</span></label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" name="firstName" data-bind="value: vm.patient.firstName">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Middle Name: <span class="text-danger">*</span></label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" name="middleName" data-bind="value: vm.patient.middleName">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Last Name: <span class="text-danger">*</span></label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" name="lastName" data-bind="value: vm.patient.lastName">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Passport SN: </label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" name="passport_sn" data-bind="value: vm.patient.passport_sn">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Date of Birth: <span class="text-danger">*</span></label>
                 <div class="cal-icon">
-                  <input type="date" class="form-control">
+                  <input type="date" class="form-control" name="birthday" data-bind="value: vm.patient.birthday">
                 </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Phone Number: </label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
               </div>
             </div>
             <div class="col-sm-12">
               <div class="form-group">
                 <label>Address: <span class="text-danger">*</span></label>
-                <input type="text" class="form-control ">
+                <input type="text" class="form-control " name="address" data-bind="value: vm.patient.address">
+              </div>
+            </div>
+            <div class="col-sm-6 offset-sm-3">
+              <div class="form-group">
+                <label>Card Number: <span class="text-danger">*</span></label>
+                <input class="form-control" name="cardNumber" type="text" data-bind="value: vm.patient.cardNumber">
               </div>
             </div>
             <div class="col-sm-4 text-center">
               <div class="form-group">
                 <label class="display-block">Gender: <span class="text-danger">*</span></label>
                  <div class="form-check form-check-inline">
-                  <input type="radio" id="male" name="gender" class="form-check-input" value="male">
+                  <input type="radio" id="male" name="gender" class="form-check-input" value="male" data-bind="checked: vm.patient.gender">
                   <label class="form-check-label" for="male">Male</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" id="famale" class="form-check-input" value="famale">
+                  <input type="radio" name="gender" id="famale" class="form-check-input" value="famale"  data-bind="checked: vm.patient.gender">
                   <label class="form-check-label" for="famale">Famale</label>
                 </div>
               </div>
@@ -75,11 +82,11 @@
               <div class="form-group">
                 <label class="display-block">Checkup type: <span class="text-danger">*</span></label>
                 <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" id="radio1" name="radios" value="all">
+                  <input type="radio" class="form-check-input" id="radio1" name="checkupType" value="job" data-bind="checked: vm.patient.checkupType">
                   <label for="radio1" class="form-check-input">Checkup for Job</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="radio2" name="radios" value="false">
+                  <input class="form-check-input" type="radio" id="radio2" name="checkupType" value="medicalForm" data-bind="checked: vm.patient.checkupType">
                   <label class="form-check-label" for="radio2">Medical Form</label>
                 </div>
               </div>
@@ -104,31 +111,26 @@
             <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
               <div class="form-group">
                 <label>Organization: <span class="text-danger">*</span></label>
-                <select class="form-control" tabindex="-1" aria-hidden="true">
-                  <option>InfromAlgo</option>
-                  <option>TATU</option>
+                <select class="form-control" name="organizationId" tabindex="-1" data-bind="value: vm.patient.organizationId" aria-hidden="true">
+                  <option value="1">InfromAlgo</option>
+                  <option value="2">TATU</option>
                 </select>
               </div>
             </div>
             <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
               <div class="form-group">
                 <label>Work Type: <span class="text-danger">*</span></label>
-                <select class="form-control" tabindex="-1" aria-hidden="true">
-                  <option>First</option>
-                  <option>Second</option>
+                <select class="form-control" tabindex="-1" name="workerTypeId" data-bind="value: vm.patient.workTypeId" aria-hidden="true">
+                  <option value="1">First</option>
+                  <option value="2">Second</option>
                 </select>
               </div>
             </div>
-            <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
-              <div class="form-group">
-                <label>Card Number: <span class="text-danger">*</span></label>
-                <input class="form-control" type="text">
-              </div>
-            </div>
-            <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
+
+            <div class="col-sm-6 offset-sm-3" data-bind="visible: vm.patient.isWorker() == 'yes'">
               <div class="form-group">
                 <label>Profession: <span class="text-danger">*</span></label>
-                <input class="form-control" type="text">
+                <input class="form-control" name="profession" data-bind="value: vm.patient.profession" type="text">
               </div>
             </div>
             <div class="col-sm-6 offset-sm-3">
@@ -138,15 +140,16 @@
                   <div class="upload-img">
                     <img alt="" src="@routes.Assets.versioned("images/user.jpg")">
                   </div>
-                  <div class="upload-input">
-                    <input type="file" class="form-control">
-                  </div>
+                    <span class="btn btn-file btn-attach-image futura">
+                      <input type="file" name="attachedFile"/>
+                    </span>
+                    <span id="file-name" class="mt-3"></span>
                 </div>
               </div>
             </div>
           </div>
           <div class="m-t-20 text-center">
-            <button class="btn btn-primary submit-btn">Create Patient</button>
+            <button class="btn btn-primary submit-btn" type="submit" data-bind="click: vm.onSubmit, enable: vm.enableSubmitButton">Create Patient</button>
           </div>
         </form>
       </div>

@@ -7,13 +7,14 @@ $ ->
     send: '/send-patient'
 
   defaultPatientData =
-    firsName: ''
+    firstName: ''
     middleName: ''
     lastName: ''
     passport_sn: ''
     gender: ''
     birthday: ''
     address: ''
+    checkupType: ''
     phone: ''
     isWorker: ''
     cardNumber: ''
@@ -25,6 +26,8 @@ $ ->
 
   vm = ko.mapping.fromJS
     patient: defaultPatientData
+    enableSubmitButton: yes
+
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -34,43 +37,85 @@ $ ->
   vm.patient.isWorker.subscribe (boolean) ->
     vm.patient.isWorker(boolean)
 
+  $contentFile = $('input[name=attachedFile]')
+  $contentFile.change ->
+    filePath = $(this).val()
+    fileName = filePath.replace(/^.*[\\\/]/, '')
+
+    reAllowedTypes = /^.+((\.jpg)|(\.jpeg)|(\.png))$/i
+    if !reAllowedTypes.test(fileName)
+      alert('Only PNG or JPG files are allowed.')
+      return false
+
+    $('#file-name').html fileName
+    vm.enableSubmitButton yes
+
+  formData = null
+  $fileUploadForm = $('#patient-form')
+  $fileUploadForm.fileupload
+    dataType: 'text'
+    autoUpload: no
+    singleFileUploads: false
+    replaceFileInput: true
+    multipart: true
+    add: (e, data) ->
+      formData = data
+    fail: (e, data) ->
+      handleError(data.jqXHR)
+      vm.enableSubmitButton(yes)
+    done: (e, data) ->
+      result = data.result
+      if result is 'OK'
+        toastr.success('Form has been successfully submitted!')
+        ko.mapping.fromJS(defaultPatientData, {}, vm.patient)
+      else
+        vm.enableSubmitButton(yes)
+        toastr.error(result or 'Something went wrong! Please try again.')
+
+
   vm.onSubmit = ->
     toastr.clear()
-    if (!vm.patient.firsName())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+    if (!vm.patient.firstName())
+      toastr.error("Ko'rikdan o'tuvchi shaxs nomini kiriting!")
       return no
     else if (!vm.patient.middleName())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs sharfini kiriting!")
       return no
     else if (!vm.patient.lastName())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs familiyasini kiriting!")
       return no
     else if (!vm.patient.birthday())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs tug'ilgan sanasini tanlang!")
       return no
     else if (!vm.patient.address())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs mamzilini kiriting!")
+      return no
+    else if (!vm.patient.cardNumber())
+      toastr.error("Ko'rikdan o'tuvchi shaxs karta raqamini kiriting!")
       return no
     else if (!vm.patient.gender())
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs jinsini tanlang!")
+      return no
+    else if (!vm.patient.checkupType())
+      toastr.error("Ko'rik maqsadini tanlang!")
+      return no
+    else if (!vm.patient.isWorker())
+      toastr.error("Tashkilot ishchisimi yoki yo'q!")
       return no
     else if (!vm.patient.organizationId() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
-      return no
-    else if (!vm.patient.cardNumber() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs tashkilotini tanlang")
       return no
     else if (!vm.patient.workTypeId() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs ish turini tanlang!")
       return no
     else if (!vm.patient.profession() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko`rikdan o`tuvchi shaxslar nomini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs kasbini tanlang!")
       return no
+    if formData
+      vm.enableSubmitButton(no)
+      formData.submit()
     else
-      data = ko.mapping.toJS(vm.patient)
-      $.post(apiUrl.send, JSON.stringify(data))
-      .fail handleError
-      .done (response) ->
-        toastr.success(response)
+      $fileUploadForm.fileupload('send', {files: ''})
+      return no
 
   ko.applyBindings {vm}

@@ -1,5 +1,10 @@
 package controllers
 
+import java.net.URLDecoder
+import java.nio.file.{Files, Path}
+import java.text.SimpleDateFormat
+import java.util.Date
+
 import akka.pattern.ask
 import akka.actor.ActorRef
 import akka.util.Timeout
@@ -7,15 +12,17 @@ import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
-import play.api.libs.json.{JsValue, Json}
-import play.api.mvc._
+import play.api.libs.Files.TemporaryFile
+import play.api.libs.json.{JsValue, Json, __}
+import play.api.mvc.{Action, _}
 import protocols.RegistrationProtocol._
 import views.html._
 import views.html.patient._
 import views.html.settings._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.DurationInt
+import scala.util.Try
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -97,7 +104,55 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
+    val body = request.body.asFormUrlEncoded
+    val firstName = body("firstName").head
+    val middleName = body("middleName").head
+    val lastName = body("lastName").head
+    logger.warn(s"body: $body")
+    val passport_sn = body("passport_sn").headOption
+    val birthday = parseDate("birthday")
+    val phone = body("phone").headOption
+    val address = body("address").head
+    val gender = body("gender").head
+    logger.warn(s"birth: $birthday")
+    val checkupType = body("checkupType").head
+    val organizationId = body("organizationId").headOption match {
+      case Some(id) => Some(id.toInt)
+      case None => None
+    }
+    val workerTypeId = body("workerTypeId").headOption match {
+      case Some(id) => Some(id.toInt)
+      case None => None
+    }
+    logger.warn(s"birth: $birthday")
+    val cardNumber = body("cardNumber").head
+    val profession = body("profession").headOption
+    request.body.file("attachedFile").map { temp =>
+      val fileName = filenameGenerator()
+      val imgData = getBytesFromPath(temp.ref.path)
+      val result = (for {
+        _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
+      result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
+      } yield result)
+      result.map{ a =>
+        Ok("OK")
+      }
+    }.getOrElse(Future.successful(Ok("OK")))
+  }
+  }
 
+  private def filenameGenerator() = {
+    new Date().getTime.toString + ".png"
+  }
+
+  private def getBytesFromPath(filePath: Path): Array[Byte] = {
+    Files.readAllBytes(filePath)
+  }
+  def parseDate(dateStr: String) = {
+    val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption
+  }
 
 }
 

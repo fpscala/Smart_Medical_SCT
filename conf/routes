@@ -12,6 +12,7 @@ POST    /updateOrganization         @controllers.RegistrationController.updateOr
 #GET     /editDoctorType             @controllers.RegistrationController.editDoctorType
 GET     /laboratory                 @controllers.RegistrationController.laboratory
 POST    /addLaboratory              @controllers.RegistrationController.addLaboratory
+POST    /send-patient               @controllers.RegistrationController.createPatient
 
 GET     /assets/*file               @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                    webjars.Routes

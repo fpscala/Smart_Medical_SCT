@@ -1,12 +1,14 @@
 package actors
 
+import java.nio.file.{Files, Path, Paths}
+
 import akka.actor.Actor
 import akka.pattern.pipe
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import dao._
 import javax.inject.Inject
-import play.api.Environment
+import play.api.{Configuration, Environment}
 import protocols.RegistrationProtocol._
 
 import scala.concurrent.duration.DurationInt
@@ -14,10 +16,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class RegistrationManager @Inject()(val environment: Environment,
                                     val organizationDao: OrganizationDao,
+                                    val configuration: Configuration,
+                                    val patientDao: PatientDao
                                     //                                    val laboratoryDao: LaboratoryDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
+  val config: Configuration = configuration.get[Configuration]("server")
+  val imagesPath: String = config.get[String]("images-files")
+  val imagesDir: Path = Paths.get(imagesPath)
+
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
@@ -38,23 +46,27 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetOrganizationList =>
       getOrganizationList.pipeTo(sender())
 
-    //    case AddRegistration(data) =>
-    //      addRegistration(data).pipeTo(sender())
-    //
+    case CreatePatient(data) =>
+      createPatient(data).pipeTo(sender())
+
+    case AddImage(fileName, imgData) =>
+      addImage(fileName, imgData).pipeTo(sender())
+
     //    case GetRegistrationList =>
     //      getRegistrationList.pipeTo(sender())
     //
     case _ => logger.info(s"received unknown message")
   }
 
-  //
-  //  private def addRegistration(data: Registration) = {
-  //
-  //  }
-  //
-  //  private def getRegistrationList = {
-  //
-  //  }
+
+  def addImage(filename: String, imageData: Array[Byte]): Future[Unit] = {
+    Future {
+      Files.write(imagesDir.resolve(filename), imageData)
+    }
+  }
+  def createPatient(patientData: Patient) = {
+    patientDao.addPatient(patientData)
+  }
 
 //  private def addLaboratory(data: Laboratory): Future[Int] = {
 //    laboratoryDao.addLaboratory(data)

@@ -2,7 +2,7 @@ package protocols
 
 import java.util.Date
 
-import play.api.libs.json.{JsValue, Json, OFormat}
+import play.api.libs.json.{JsValue, Json, OFormat, Reads}
 
 object RegistrationProtocol {
 
@@ -14,7 +14,7 @@ object RegistrationProtocol {
 
   case class UpdateOrganization(update: Organization)
 
-  case class AddRegistration(data: Patient)
+  case class CreatePatient(data: Patient)
 
   case class AddOrganization(data: Organization)
 
@@ -26,17 +26,21 @@ object RegistrationProtocol {
                           lastName: String,
                           passport_sn: Option[String],
                           gender: String,
-                          birthday: String,
+                          birthday: Date,
                           address: String,
                           phone: Option[String],
                           cardNumber: String,
                           profession: Option[String],
                           workTypeId: Option[Int],
-                          lastCheckup: Option[Date],
+                          lastCheckup: Date,
                           photo: Option[String],
                           organizationId: Option[Int])
 
   implicit val registrationFormat: OFormat[Patient] = Json.format[Patient]
+
+  case class AddImage(originalFileName: String, content: Array[Byte])
+
+  implicit val ImageFormat: OFormat[AddImage] = Json.format[AddImage]
 
   case class Organization(id: Option[Int] = None,
                           organizationName: String)
