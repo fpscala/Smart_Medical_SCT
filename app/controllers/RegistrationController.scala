@@ -209,6 +209,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   }
 
+  def getPatientList: Action[AnyContent] = Action.async {
+    (registrationManager ? GetPatient).mapTo[Seq[Patient]].map { p =>
+      Ok(Json.toJson(p))
+    }
+  }
+
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }
@@ -219,7 +226,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def parseDate(dateStr: String) = {
     val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-    logger.warn(s"dateF: $dateStr")
     util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption
   }
 

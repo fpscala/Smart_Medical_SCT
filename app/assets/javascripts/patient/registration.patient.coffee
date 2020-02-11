@@ -3,6 +3,8 @@ $ ->
 
   Glob = window.Glob || {}
 
+  apiUrl =
+    get: '/get-patient'
 
   defaultPatientData =
     firstName: ''
@@ -25,6 +27,7 @@ $ ->
   vm = ko.mapping.fromJS
     patient: defaultPatientData
     enableSubmitButton: yes
+    patientList: []
 
 
   handleError = (error) ->
@@ -116,5 +119,20 @@ $ ->
     else
       $fileUploadForm.fileupload('send', {files: ''})
       return no
+
+  getPatient = ->
+    $.get(apiUrl.get)
+      .fail(handleError)
+      .done (response) ->
+        vm.patientList(response)
+  getPatient()
+
+  vm.convertIntToDate = (intDate)->
+    moment(+intDate).format('MMM DD, YYYY')
+
+  vm.convertStrToDate = (strDate) ->
+    if strDate
+      moment(+strDate).format('MMM DD, YYYY')
+
 
   ko.applyBindings {vm}

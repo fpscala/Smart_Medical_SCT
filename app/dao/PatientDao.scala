@@ -60,6 +60,7 @@ trait PatientDao {
 
   def addPatient(data: Patient): Future[Int]
 
+  def getPatientList: Future[Seq[Patient]]
 }
 
 @Singleton
@@ -74,13 +75,18 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
 
   import utils.PostgresDriver.api._
 
-  val PatientTable = TableQuery[PatientTable]
+  val patient = TableQuery[PatientTable]
 
   override def addPatient(data: Patient): Future[Int] = {
     db.run {
-      (PatientTable returning PatientTable.map(_.id)) += data
+      (patient returning patient.map(_.id)) += data
     }
   }
 
+  override def getPatientList: Future[Seq[Patient]] = {
+    db.run {
+      patient.result
+    }
+  }
 }
 

@@ -1,6 +1,7 @@
 package actors
 
 import java.nio.file.{Files, Path, Paths}
+
 import akka.actor.Actor
 import akka.pattern.pipe
 import akka.util.Timeout
@@ -31,8 +32,8 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   def receive = {
 
-//    case AddLaboratory(data) =>
-//      addLaboratory(data).pipeTo(sender())
+    //    case AddLaboratory(data) =>
+    //      addLaboratory(data).pipeTo(sender())
 
     case AddOrganization(data) =>
       addOrganization(data).pipeTo(sender())
@@ -58,6 +59,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetDoctorTypeList =>
       getDoctorTypeList.pipeTo(sender())
 
+    case GetPatient =>
+      getPatientList.pipeTo(sender())
+
     case CreatePatient(data) =>
       createPatient(data).pipeTo(sender())
 
@@ -76,13 +80,18 @@ class RegistrationManager @Inject()(val environment: Environment,
       Files.write(imagesDir.resolve(filename), imageData)
     }
   }
+
   def createPatient(patientData: Patient) = {
     patientDao.addPatient(patientData)
   }
 
-//  private def addLaboratory(data: Laboratory): Future[Int] = {
-//    laboratoryDao.addLaboratory(data)
-//  }
+  def getPatientList = {
+    patientDao.getPatientList
+  }
+
+  //  private def addLaboratory(data: Laboratory): Future[Int] = {
+  //    laboratoryDao.addLaboratory(data)
+  //  }
 
 
   private def addOrganization(data: Organization): Future[Int] = {

@@ -2,7 +2,7 @@ package protocols
 
 import java.util.Date
 
-import play.api.libs.json.{JsValue, Json, OFormat, Reads}
+import play.api.libs.json.{JsValue, Json, OFormat}
 
 object RegistrationProtocol {
 
@@ -24,6 +24,8 @@ object RegistrationProtocol {
 
   case object GetDoctorTypeList
 
+  case object GetPatient
+
   case class DeleteDoctorType(id: Int)
 
   case class UpdateDoctorType(update: DoctorType)
@@ -31,20 +33,20 @@ object RegistrationProtocol {
   case class AddDoctorType(data: DoctorType)
 
   case class Patient(id: Option[Int] = None,
-                          firsName: String,
-                          middleName: String,
-                          lastName: String,
-                          passport_sn: Option[String],
-                          gender: Int,
-                          birthday: Date,
-                          address: String,
-                          phone: Option[String],
-                          cardNumber: String,
-                          profession: Option[String],
-                          workTypeId: Option[Int],
-                          lastCheckup: Date,
-                          photo: Option[String] = None,
-                          organizationId: Option[Int])
+                     firstName: String,
+                     middleName: String,
+                     lastName: String,
+                     passport_sn: Option[String],
+                     gender: Int,
+                     birthday: Date,
+                     address: String,
+                     phone: Option[String],
+                     cardNumber: String,
+                     profession: Option[String],
+                     workTypeId: Option[Int],
+                     lastCheckup: Date,
+                     photo: Option[String] = None,
+                     organizationId: Option[Int])
 
   implicit val registrationFormat: OFormat[Patient] = Json.format[Patient]
 
@@ -78,11 +80,11 @@ object RegistrationProtocol {
   implicit val doctorTypeFormat: OFormat[DoctorType] = Json.format[DoctorType]
 
   case class CheckupPeriod(id: Option[Int] = None,
-                            numberPerYear: Int,
-                            doctorTypeId: JsValue,
-                            labTypeId: JsValue,
-                            workTypeId: Int
-                           )
+                           numberPerYear: Int,
+                           doctorTypeId: JsValue,
+                           labTypeId: JsValue,
+                           workTypeId: Int
+                          )
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]
 
