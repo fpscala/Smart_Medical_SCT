@@ -1,0 +1,298 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()
+@import views.html.main
+@main("Registration Page", webJarsUtil) {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
+    <script src="@routes.Assets.versioned("javascripts/patient/registration.patient.js")" type="text/javascript"></script>
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-4 col-3">
+                <h4 class="page-title">Patients</h4>
+            </div>
+            <div class="col-sm-8 col-9 text-right m-b-20">
+                <a href="@controllers.routes.RegistrationController.patient()" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i>
+                    Add Patient</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label>
+                                        Show
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        entries</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 124px;">
+                                                Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 28px;">
+                                                Age</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending" style="width: 289px;">
+                                                Address</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 74px;">
+                                                Phone</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending" style="width: 183px;">
+                                                Email</th>
+                                            <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 47px;">
+                                                Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Charles Ortega</td>
+                                            <td>32</td>
+                                            <td>3169 Birch Street, El Paso, TX, 79915</td>
+                                            <td>(380) 141 1885</td>
+                                            <td>charlesortega@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Denise Stevens</td>
+                                            <td>7</td>
+                                            <td>1603 Old York Rd, Abington, PA, 19001</td>
+                                            <td>(836) 257 1379</td>
+                                            <td>denisestevens@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Dennis Salazar</td>
+                                            <td>34</td>
+                                            <td>891 Juniper Drive, Saginaw, MI, 48603</td>
+                                            <td>(933) 137 6201</td>
+                                            <td>dennissalazar@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Jennifer Robinson</td>
+                                            <td>35</td>
+                                            <td>1545 Dorsey Ln NE, Leland, NC, 28451</td>
+                                            <td>(207) 808 8863</td>
+                                            <td>jenniferrobinson@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Joshua Guzman</td>
+                                            <td>34</td>
+                                            <td>4712 Spring Creek Dr, Bonita Springs, FL, 34134</td>
+                                            <td>(407) 554 4146</td>
+                                            <td>joshuaguzman@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Judy Clark</td>
+                                            <td>22</td>
+                                            <td>4093 Woodside Circle, Pensacola, FL, 32514</td>
+                                            <td>(359) 969 3594</td>
+                                            <td>judy.clark@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Julia Sims</td>
+                                            <td>27</td>
+                                            <td>517 Walker Dr, Houma, LA, 70364, United States</td>
+                                            <td>(680) 432 2662</td>
+                                            <td>juliasims@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Kyle Bowman</td>
+                                            <td>7</td>
+                                            <td>5060 Fairways Cir #APT 207, Vero Beach, FL, 32967</td>
+                                            <td>(981) 756 6128</td>
+                                            <td>kylebowman@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Linda Carpenter</td>
+                                            <td>24</td>
+                                            <td>2226 Victory Garden Ln, Tallahassee, FL, 32301</td>
+                                            <td>(218) 661 8316</td>
+                                            <td>lindacarpenter@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="sorting_1">
+                                                <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                                                Marie Howard</td>
+                                            <td>22</td>
+                                            <td>3501 New Haven Ave #152, Columbia, MO, 65201</td>
+                                            <td>(634) 09 3833</td>
+                                            <td>mariehoward@@example.com</td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                                                            Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                                                            Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row"><div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+                                Showing 1 to 10 of 14 entries
+                            </div>
+                        </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li class="paginate_button page-item active">
+                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
+                                                1
+                                            </a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+                                                2
+                                            </a>
+                                        </li>
+                                        <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

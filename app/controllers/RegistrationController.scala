@@ -31,6 +31,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        @Named("registration-manager") val organizationManager: ActorRef,
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
+                                       dashboard_patient: dashboard,
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
                                        checkupTemplate: checkupPeriod,
@@ -51,9 +52,15 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def patient = Action {
     Ok(registrationPatient())
   }
+
+  def patient_dashboard = Action {
+    Ok(dashboard_patient())
+  }
+
   def organization = Action {
     Ok(registrationOrganization())
   }
+
   def laboratory = Action {
     Ok(registrationLaboratory())
   }
@@ -61,7 +68,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val laboratoryName = (request.body \ "laboratoryName").as[String]
     logger.warn(s"controllerga keldi")
-    (registrationManager ? AddLaboratory(Laboratory(None, laboratoryName ))).mapTo[Int].map { id =>
+    (registrationManager ? AddLaboratory(Laboratory(None, laboratoryName))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
@@ -69,13 +76,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val organizationName = (request.body \ "organizationName").as[String]
     logger.warn(s"controllerga keldi")
-    (organizationManager ? AddOrganization(Organization(None, organizationName ))).mapTo[Int].map { id =>
+    (organizationManager ? AddOrganization(Organization(None, organizationName))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
 
   def getOrganizationName: Action[AnyContent] = Action.async {
-    (organizationManager ? GetOrganizationList).mapTo[Seq[Organization]].map{ organizationName =>
+    (organizationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizationName =>
       Ok(Json.toJson(organizationName))
     }
   }
@@ -91,6 +98,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       }
     }
   }
+
   def updateOrganization = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val organizationName = (request.body \ "organizationName").as[String]
@@ -110,7 +118,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val labTypeId = (request.body \ "labTypeId").as[JsValue]
     val workTypeId = (request.body \ "workTypeId").as[Int]
     logger.warn(s"controllerga keldi")
-    (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, doctorTypeId, labTypeId, workTypeId ))).mapTo[Int].map { id =>
+    (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, doctorTypeId, labTypeId, workTypeId))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
@@ -142,15 +150,15 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       val imgData = getBytesFromPath(temp.ref.path)
       val result = (for {
         _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
-      result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName,
-        passport_sn, gender, birthday.get, address, phone, cardNumber, profession,
-        workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
+        result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName,
+          passport_sn, gender, birthday.get, address, phone, cardNumber, profession,
+          workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
       } yield result)
-      result.map{ a =>
+      result.map { a =>
         Ok("OK")
       }
-    }.getOrElse{
-      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, organizationId = organizationId))).mapTo[Int].map{pr =>
+    }.getOrElse {
+      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, organizationId = organizationId))).mapTo[Int].map { pr =>
         Ok("OK")
       }
     }
@@ -164,6 +172,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   private def getBytesFromPath(filePath: Path): Array[Byte] = {
     Files.readAllBytes(filePath)
   }
+
   def parseDate(dateStr: String) = {
     val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
     logger.warn(s"dateF: $dateStr")

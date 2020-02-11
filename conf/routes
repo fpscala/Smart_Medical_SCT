@@ -1,19 +1,20 @@
 
-GET     /                           @controllers.RegistrationController.index
-GET     /organization               @controllers.RegistrationController.organization
-GET     /checkupPeriod              @controllers.RegistrationController.checkupPeriod
-POST    /addOrganization            @controllers.RegistrationController.addOrganization
-GET     /getOrganization            @controllers.RegistrationController.getOrganizationName
-DELETE  /deleteOrganization         @controllers.RegistrationController.deleteOrganization
-GET     /patient                    @controllers.RegistrationController.patient
-POST    /updateOrganization         @controllers.RegistrationController.updateOrganization
-GET     /addCheckUpPeriod           @controllers.RegistrationController.addCheckupPeriod
-#GET     /doctorType                 @controllers.RegistrationController.doctorType
-#GET     /addDoctorType              @controllers.RegistrationController.addDoctorType
-#GET     /editDoctorType             @controllers.RegistrationController.editDoctorType
-GET     /laboratory                 @controllers.RegistrationController.laboratory
-POST    /addLaboratory              @controllers.RegistrationController.addLaboratory
-POST    /send-patient               @controllers.RegistrationController.createPatient
+GET     /                                                       @controllers.RegistrationController.index
+GET     /organization                                           @controllers.RegistrationController.organization
+GET     /checkupPeriod                                          @controllers.RegistrationController.checkupPeriod
+POST    /addOrganization                                        @controllers.RegistrationController.addOrganization
+GET     /getOrganization                                        @controllers.RegistrationController.getOrganizationName
+DELETE  /deleteOrganization                                     @controllers.RegistrationController.deleteOrganization
+GET     /patient                                                @controllers.RegistrationController.patient
+GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
+POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
+GET     /addCheckUpPeriod                                       @controllers.RegistrationController.addCheckupPeriod
+#GET     /doctorType                                             @controllers.RegistrationController.doctorType
+#GET     /addDoctorType                                          @controllers.RegistrationController.addDoctorType
+#GET     /editDoctorType                                         @controllers.RegistrationController.editDoctorType
+GET     /laboratory                                             @controllers.RegistrationController.laboratory
+POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
+POST    /send-patient                                           @controllers.RegistrationController.createPatient
 
-GET     /assets/*file               @controllers.Assets.versioned(path="/public", file: Asset)
-->      /webjars                    webjars.Routes
+GET     /assets/*file                                           @controllers.Assets.versioned(path="/public", file: Asset)
+->      /webjars                                                webjars.Routes
