@@ -10,9 +10,9 @@ $ ->
 
   vm = ko.mapping.fromJS
     numberPerYear: 0
-    doctorType: []
-    labType: []
-    workType: 0
+    doctorTypeId: []
+    labTypeId: []
+    workTypeId: 0
     id: 0
     getCheckupPeriodList: []
 
@@ -27,21 +27,21 @@ $ ->
     if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    if (!vm.doctorType())
+    if (!vm.doctorTypeId())
       toastr.error("please enter the doctor type!")
       return no
-    if (!vm.labType())
+    if (!vm.labTypeId())
       toastr.error("please enter the laboratory type!")
       return no
-    if (!vm.workType())
+    if (!vm.workTypeId())
       toastr.error("please enter the work type!")
       return no
     else
       data =
         numberPerYear: vm.numberPerYear()
-        doctorType: vm.doctorType()
-        labType: vm.labType()
-        workType: vm.workType()
+        doctorTypeId: vm.doctorTypeId()
+        labTypeId: vm.labTypeId()
+        workTypeId: vm.workTypeId()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -80,13 +80,13 @@ $ ->
   $(document).on 'click', '.editCheckupPeriod', ->
     row = $(this).closest('tr').children('td')
     numberPerYear = row[1].innerText
-    doctorType = row[2].innerText
-    labType = row[3].innerText
-    workType = row[4].innerText
+    doctorTypeId = row[2].innerText
+    labTypeId = row[3].innerText
+    workTypeId = row[4].innerText
     row[1].innerHTML = '<input type="text" class="form-control" value="' + numberPerYear + '">'
-    row[2].innerHTML = '<input type="text" class="form-control" value="' + doctorType + '">'
-    row[3].innerHTML = '<input type="text" class="form-control" value="' + labType + '">'
-    row[4].innerHTML = '<input type="text" class="form-control" value="' + workType + '">'
+    row[2].innerHTML = '<input type="text" class="form-control" value="' + doctorTypeId + '">'
+    row[3].innerHTML = '<input type="text" class="form-control" value="' + labTypeId + '">'
+    row[4].innerHTML = '<input type="text" class="form-control" value="' + workTypeId + '">'
     $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
 
 
@@ -95,9 +95,9 @@ $ ->
     data =
       id: row[0].innerText
       numberPerYear: row[1].innerText
-      doctorType: row[2].innerText
-      labType: row[3].innerText
-      workType: row[4].innerText
+      doctorTypeId: row[2].innerText
+      labTypeId: row[3].innerText
+      workTypeId: row[4].innerText
     console.log(data)
     $.ajax
       url: apiUrl.updateCheckupPeriod

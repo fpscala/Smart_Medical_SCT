@@ -56,7 +56,7 @@
                         <form action="" class="m-4" method="post">
                             <div class="form-group">
                                 <label for="numberPerYear" >Number per year: </label>
-                                <input class="form-control" type="text" id="numberPerYear" data-bind="value: vm.numberPerYear">
+                                <input class="form-control" type="text" id="numberPerYear" data-bind="value: vm.numberPerYear" name="numberPerYear">
                             </div>
                             <div class="form-group one-line-dropdown">
                                 <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'nu',
@@ -64,13 +64,13 @@
                                 </select>
                             </div>
                             <div class="form-group one-line-dropdown">
-                                <select multiple name="roles" class="custom-select selectpicker form-control" data-bind="options: vm.roleList(), optionsText: 'name',
-                optionsValue: 'id', value: vm.user.selectedRoles, optionsCaption: 'Select Role' " data-show-subtext="true">
+                                <select multiple name="roles" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriod(), optionsText: 'name',
+                optionsValue: 'id', value: vm.labTypeId, optionsCaption: 'labTypeId' " data-show-subtext="true">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="workType" >Work type: </label>
-                                <input class="form-control" type="text" id="workType" data-bind="value: vm.workType">
+                                <label for="workTypeId" >Work type Id: </label>
+                                <input class="form-control" type="text" id="workTypeId" data-bind="value: vm.workTypeId" name="workTypeId">
                             </div>
                         </form>
                     </div>
