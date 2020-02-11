@@ -1,39 +1,69 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @()
-    @import views.html.main
-    @main("Home Page", webJarsUtil) {
-        <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
+@import views.html.main
+@main("Home Page", webJarsUtil) {
+    <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
+    <div class="content">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 mt-5  ">
-                        <!-- Button trigger modal addcheckupPeriod-->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcheckupPeriod">
-                        Add New checkupPeriod
-                    </button>
+                <div class="col-sm-4 col-3">
+                    <h4 class="page-title">Checkup Period</h4>
                 </div>
-                <div class=" col-md-12 mt-3 text-center">
-                    <table class="table table-bordered table-hover mt-5" >
+                <div class="col-sm-8 col-9 text-right m-b-20">
+                    <a href="#" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i>
+                        Add Checkup Period</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-border table-striped custom-table datatable mb-0">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Number per year</th>
-                                <th>Doctor type</th>
-                                <th>Lab type</th>
-                                <th>Work type </th>
-                                <th>Operations</th>
+                                <th>#</th>
+                                <th>Number Per Year</th>
+                                <th>Doctor Type Id</th>
+                                <th>Laboratory Type Id </th>
+                                <th>Work Type Id</th>
+                                <th class="text-right">Action</th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: vm.getCheckupPeriodList">
+                        <tbody>
                             <tr>
-                                <td data-bind="text: $data.id"></td>
-                                <td data-bind="text: $data.numberPerYear"></td>
-                                <td data-bind="text: $data.doctorType"></td>
-                                <td data-bind="text: $data.labType"></td>
-                                <td data-bind="text: $data.workType"></td>
-                                <td>
-                                    <a class="addCheckupPeriod mr-3" title="Add" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
-                                    <a class="mr-3 editCheckupPeriod" title="Edit" data-toggle="tooltip" ><i class="fas fa-pen-alt"></i></a>
-                                    <a class="deleteCheckupPeriod" title="Delete" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></a>
+                                <td>1</td>
+                                <td>23</td>
+                                <td>35</td>
+                                <td>34</td>
+                                <td>8</td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>32</td>
+                                <td>63</td>
+                                <td>55</td>
+                                <td>15</td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -41,45 +71,5 @@
                 </div>
             </div>
         </div>
-
-            <!-- Modal Add checkupPeriod -->
-        <div class="modal fade" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add checkupPeriod</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" class="m-4" method="post">
-                            <div class="form-group">
-                                <label for="numberPerYear" >Number per year: </label>
-                                <input class="form-control" type="text" id="numberPerYear" data-bind="value: vm.numberPerYear" name="numberPerYear">
-                            </div>
-                            <div class="form-group one-line-dropdown">
-                                <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'nu',
-                optionsValue: 'id', value: vm.doctorTypeId, optionsCaption: 'doctorTypeId' " data-show-subtext="true">
-                                </select>
-                            </div>
-                            <div class="form-group one-line-dropdown">
-                                <select multiple name="roles" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriod(), optionsText: 'name',
-                optionsValue: 'id', value: vm.labTypeId, optionsCaption: 'labTypeId' " data-show-subtext="true">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="workTypeId" >Work type Id: </label>
-                                <input class="form-control" type="text" id="workTypeId" data-bind="value: vm.workTypeId" name="workTypeId">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" data-bind="click: vm.addCheckPeriod" class="btn btn-success ">
-                            Add checkupPeriod</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    </div>
+}
