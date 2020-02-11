@@ -22,6 +22,14 @@ object RegistrationProtocol {
 
   case class AddCheckupPeriod(data: CheckupPeriod)
 
+  case object GetDoctorTypeList
+
+  case class DeleteDoctorType(id: Int)
+
+  case class UpdateDoctorType(update: DoctorType)
+
+  case class AddDoctorType(data: DoctorType)
+
   case class Patient(id: Option[Int] = None,
                           firsName: String,
                           middleName: String,

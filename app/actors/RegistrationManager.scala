@@ -1,7 +1,6 @@
 package actors
 
 import java.nio.file.{Files, Path, Paths}
-
 import akka.actor.Actor
 import akka.pattern.pipe
 import akka.util.Timeout
@@ -17,7 +16,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class RegistrationManager @Inject()(val environment: Environment,
                                     val organizationDao: OrganizationDao,
                                     val configuration: Configuration,
-                                    val patientDao: PatientDao
+                                    val patientDao: PatientDao,
+                                    val doctorTypeDao: DoctorTypeDao
                                     //                                    val laboratoryDao: LaboratoryDao
                                    )
                                    (implicit val ec: ExecutionContext)
@@ -45,6 +45,18 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case GetOrganizationList =>
       getOrganizationList.pipeTo(sender())
+
+    case AddDoctorType(data) =>
+      addDoctorType(data).pipeTo(sender())
+
+    case UpdateDoctorType(data) =>
+      updateDoctorType(data).pipeTo(sender())
+
+    case DeleteDoctorType(id) =>
+      deleteDoctorType(id).pipeTo(sender())
+
+    case GetDoctorTypeList =>
+      getDoctorTypeList.pipeTo(sender())
 
     case CreatePatient(data) =>
       createPatient(data).pipeTo(sender())
@@ -87,6 +99,22 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def updateOrganization(data: Organization): Future[Int] = {
     organizationDao.updateOrganization(data)
+  }
+
+  private def addDoctorType(data: DoctorType): Future[Int] = {
+    doctorTypeDao.addDoctorType(data)
+  }
+
+  private def getDoctorTypeList: Future[Seq[DoctorType]] = {
+    doctorTypeDao.getDoctorType
+  }
+
+  private def deleteDoctorType(id: Int): Future[Int] = {
+    doctorTypeDao.deleteDoctorType(id)
+  }
+
+  private def updateDoctorType(data: DoctorType): Future[Int] = {
+    doctorTypeDao.updateDoctorType(data)
   }
 
 }
