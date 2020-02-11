@@ -2,52 +2,136 @@
 @()
   @import views.html.main
 @main("Home Page", webJarsUtil) {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
   <script src="@routes.Assets.versioned("javascripts/organization.js")" type="text/javascript"></script>
-
+<div class="content">
   <div class="row">
-    <div class="col-md-5 container">
-      <div>
-        <label >Organization Name</label>
-        <input id="organizationName" data-bind="value: vm.organizationName" class="form-control">
-        <br>
-        <button class="btn btn-info" id="onSub" data-bind="click: vm.onSubmit" >Submit</button>
-        <button data-bind="click: vm.getOrganization" class="btn btn-info">Get-All</button>
-      </div>
-      <br>
-      <div>
-        <labael>Id</labael>
-        <input class="form-control" type="text" id="id" data-bind="value: vm.id">
-        <br>
-        <button data-bind="click: vm.deleteOrganization" class="btn btn-info">Delete-Organization</button>
-      </div>
-      <br>
-      <div>
-        <input class="form-control" type="text" id="idForUpdate" data-bind="value: vm.id" >
-        <br>
-        <input class="form-control" type="text" id="organizationForUpdate" data-bind="value: vm.organizationName" placeholder="Organization">
-        <br>
-        <button data-bind="click: vm.updateOrganization" class="btn btn-info">Update</button>
-      </div>
+    <div class="col-sm-4 col-3">
+      <h4 class="page-title">Organization</h4>
     </div>
-    <hr>
-    <div class="col-md-6">
-      <div class="container">
-        <table class="table table-bordered table-info table-hover" data-bind="visible: vm.getList().length > 0">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Organization Name</th>
-            </tr>
-          </thead>
-          <tbody data-bind="foreach: vm.getList">
-            <tr>
-              <td data-bind="text: $data.id"></td>
-              <td data-bind="text: $data.organizationName"></td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="col-sm-8 col-9 text-right m-b-20 ">
+      <a data-toggle="modal" data-target="#organization" style="color: white" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i>
+        Add Organization</a>
+    </div>
+  </div>
+  <div class="modal fade" id="organization" tabindex="-1" role="dialog" aria-labelledby="organizationTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form action="@controllers.routes.RegistrationController" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="organizationModalLongTitle">Registration</h5>
+            <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body m-4">
+            <div class="form-group">
+              <label for="organizationName" >Organization Name: </label>
+              <input class="form-control" type="text" id="organizationName" name="organizationName" data-bind="value: vm.organizationName">
+            </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" data-bind="click: vm.onSubmit" class="btn btn-success ">
+              Add Registration</button>
+          </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
+
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label>
+                  Show
+                  <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                <thead>
+                  <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 124px;">
+                      Id</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 28px;">
+                      Organization Name</th>
+                    <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 47px;">
+                      Action</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: vm.getList">
+                  <tr role="row" class="odd">
+                    <td data-bind="text: $data.id" class="sorting_1">
+                      <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt="">
+                      </td>
+                    <td data-bind="text: $data.organizationName" ></td>
+                    <td class="text-right">
+                      <div class="dropdown dropdown-action">
+                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="edit-patient.html"><i class="fa fa-pencil m-r-5"></i>
+                            Edit</a>
+                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i>
+                            Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row"><div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+              Showing 1 to 10 of 14 entries
+            </div>
+          </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+                      Previous
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item active">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
+                      1
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item ">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+                      2
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 }
