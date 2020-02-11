@@ -29,12 +29,15 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        implicit val webJarsUtil: WebJarsUtil,
                                        @Named("registration-manager") val registrationManager: ActorRef,
                                        @Named("registration-manager") val organizationManager: ActorRef,
+                                       @Named("registration-manager") val doctorTypeManager: ActorRef,
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
                                        dashboard_patient: dashboard,
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
                                        checkupTemplate: checkupPeriod,
+                                       doctorTypeTemplate: doctor_type,
+                                       addDoctorTypeTemplate: add_doctor_type,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -47,6 +50,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def checkupPeriod = Action {
     Ok(checkupTemplate())
+  }
+
+  def doctorType = Action {
+    Ok(doctorTypeTemplate())
   }
 
   def patient = Action {
@@ -107,6 +114,43 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
       }
       else {
+        Ok("Bunday raqamli foydalanuvchi topilmadi")
+      }
+    }
+  }
+
+  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
+    logger.warn(s"controllerga keldi")
+    (doctorTypeManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
+      Ok(Json.toJson(id))
+    }
+  }
+
+  def getDoctorTypeName: Action[AnyContent] = Action.async {
+    (doctorTypeManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
+      Ok(Json.toJson(doctorTypeName))
+    }
+  }
+
+  def deleteDoctorType = Action.async(parse.json) { implicit request =>
+    val id = (request.body \ "id").as[Int]
+    (doctorTypeManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
+      if (i != 0) {
+        Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
+      } else {
+        Ok("Bunday raqamli foydalanuvchi topilmadi")
+      }
+    }
+  }
+
+  def updateDoctorType = Action.async(parse.json) { implicit request =>
+    val id = (request.body \ "id").as[Int]
+    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
+    (doctorTypeManager ? UpdateDoctorType(DoctorType(Some(id), doctorTypeName))).mapTo[Int].map { i =>
+      if (i != 0) {
+        Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
+      } else {
         Ok("Bunday raqamli foydalanuvchi topilmadi")
       }
     }

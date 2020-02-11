@@ -2,6 +2,8 @@
 @()
   @import views.html.main
 @main("Doctor type", webJarsUtil) {
+  <script src="@routes.Assets.versioned("javascripts/doctorType.js")" type="text/javascript"></script>
+
   <div class="content">
     <div class="row">
       <div class="col-sm-8">
@@ -10,13 +12,13 @@
     </div>
     <div class="row">
       <div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
-@*        <a href="@controllers.routes.RegistrationController.addDoctorType()" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Add Roles</a>*@
+        <a href="@controllers.routes.RegistrationController.addDoctorType()" class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Add Roles</a>
         <div class="roles-menu">
           <ul>
             <li class="active">
               <a href="javascript:void(0);">Administrator</a>
               <span class="role-action">
-@*                <a href="@controllers.routes.RegistrationController.editDoctorType()">*@
+                <a href="@controllers.routes.RegistrationController.updateDoctorType()">
                   <span class="action-circle large">
                     <i class="material-icons">edit</i>
                   </span>
