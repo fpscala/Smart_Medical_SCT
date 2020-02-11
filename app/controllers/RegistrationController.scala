@@ -121,13 +121,11 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val firstName = body("firstName").head
     val middleName = body("middleName").head
     val lastName = body("lastName").head
-    logger.warn(s"body: $body")
     val passport_sn = body("passport_sn").headOption
-    val birthday = parseDate("birthday")
+    val birthday = parseDate(body("birthday").head)
     val phone = body("phone").headOption
     val address = body("address").head
-    val gender = body("gender").head
-    logger.warn(s"birth: $birthday")
+    val gender = body("gender").head.toInt
     val checkupType = body("checkupType").head
     val organizationId = body("organizationId").headOption match {
       case Some(id) => Some(id.toInt)
@@ -137,7 +135,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       case Some(id) => Some(id.toInt)
       case None => None
     }
-    logger.warn(s"birth: $birthday")
     val cardNumber = body("cardNumber").head
     val profession = body("profession").headOption
     request.body.file("attachedFile").map { temp =>
@@ -145,12 +142,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       val imgData = getBytesFromPath(temp.ref.path)
       val result = (for {
         _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
-      result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
+      result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName,
+        passport_sn, gender, birthday.get, address, phone, cardNumber, profession,
+        workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
       } yield result)
       result.map{ a =>
         Ok("OK")
       }
-    }.getOrElse(Future.successful(Ok("OK")))
+    }.getOrElse{
+      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, organizationId = organizationId))).mapTo[Int].map{pr =>
+        Ok("OK")
+      }
+    }
   }
   }
 
@@ -163,6 +166,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   def parseDate(dateStr: String) = {
     val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    logger.warn(s"dateF: $dateStr")
     util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption
   }
 

@@ -3,8 +3,6 @@ $ ->
 
   Glob = window.Glob || {}
 
-  apiUrl =
-    send: '/send-patient'
 
   defaultPatientData =
     firstName: ''
@@ -34,6 +32,7 @@ $ ->
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
+
   vm.patient.isWorker.subscribe (boolean) ->
     vm.patient.isWorker(boolean)
 

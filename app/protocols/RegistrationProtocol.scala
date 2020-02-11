@@ -27,7 +27,7 @@ object RegistrationProtocol {
                           middleName: String,
                           lastName: String,
                           passport_sn: Option[String],
-                          gender: String,
+                          gender: Int,
                           birthday: Date,
                           address: String,
                           phone: Option[String],
@@ -35,7 +35,7 @@ object RegistrationProtocol {
                           profession: Option[String],
                           workTypeId: Option[Int],
                           lastCheckup: Date,
-                          photo: Option[String],
+                          photo: Option[String] = None,
                           organizationId: Option[Int])
 
   implicit val registrationFormat: OFormat[Patient] = Json.format[Patient]

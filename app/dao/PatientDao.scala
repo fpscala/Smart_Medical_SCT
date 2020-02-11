@@ -30,7 +30,7 @@ trait PatientComponent {
 
     def passport_sn = column[Option[String]]("passport_sn")
 
-    def gender = column[String]("gender")
+    def gender = column[Int]("gender")
 
     def birthday = column[Date]("birthday")
 
@@ -77,7 +77,6 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   val PatientTable = TableQuery[PatientTable]
 
   override def addPatient(data: Patient): Future[Int] = {
-    logger.warn(s"dwa")
     db.run {
       (PatientTable returning PatientTable.map(_.id)) += data
     }
