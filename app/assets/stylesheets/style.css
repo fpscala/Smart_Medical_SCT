@@ -3901,14 +3901,6 @@ a.status-grey {
   border: 1px solid #b2b2b2;
 }
 
-.modal-backdrop {
-  background-color: #fff;
-}
-
-.modal-backdrop.show {
-  opacity: 0.9;
-}
-
 .invoices-view {
   width: 70%;
   float: right;
@@ -5181,10 +5173,6 @@ blockquote p {
 
   .mini-sidebar.expand-menu .menu-title {
     visibility: visible;
-  }
-
-  .modal-open .mini-sidebar .sidebar {
-    z-index: 1051;
   }
 
   .mini-sidebar .sidebar .sidebar-menu ul > li > a span {

@@ -61,6 +61,8 @@ trait PatientDao {
   def addPatient(data: Patient): Future[Int]
 
   def getPatientList: Future[Seq[Patient]]
+
+  def delete(id: Option[Int]): Future[Int]
 }
 
 @Singleton
@@ -86,6 +88,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def getPatientList: Future[Seq[Patient]] = {
     db.run {
       patient.result
+    }
+  }
+
+  override def delete(id: Option[Int]): Future[Int] = {
+    db.run {
+      patient.filter(_.id === id).delete
     }
   }
 }

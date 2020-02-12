@@ -32,6 +32,10 @@ object RegistrationProtocol {
 
   case class AddDoctorType(data: DoctorType)
 
+  case class DeletePatient(id: Option[Int])
+
+  implicit val deleteFormat: OFormat[DeletePatient] = Json.format[DeletePatient]
+
   case class Patient(id: Option[Int] = None,
                      firstName: String,
                      middleName: String,
