@@ -5,25 +5,23 @@ import java.nio.file.{Files, Path}
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import akka.pattern.ask
 import akka.actor.ActorRef
-import akka.util.Timeout
 import akka.pattern.ask
+import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.libs.Files.TemporaryFile
-import play.api.libs.json.{JsValue, Json, __}
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
 import protocols.RegistrationProtocol._
 import views.html._
+import views.html.checkupPeriod._
 import views.html.patient._
 import views.html.settings._
-import views.html.checkupPeriod._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
-import scala.util.Try
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -223,6 +221,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     (registrationManager ? GetPatient).mapTo[Seq[Patient]].map { p =>
       Ok(Json.toJson(p))
     }
+  }
+
+  def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[String].toInt
+    (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
+      if(bool == 1){
+        Ok(Json.toJson(s"$id reqamli bemor o'chirildi"))
+      } else {
+        Ok(Json.toJson(s"Bunday raqamli bemor mavjud emas!"))
+      }
+    }
+  }
   }
 
 

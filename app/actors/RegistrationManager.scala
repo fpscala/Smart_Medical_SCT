@@ -65,6 +65,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case CreatePatient(data) =>
       createPatient(data).pipeTo(sender())
 
+    case DeletePatient(id) =>
+      deletePatient(id).pipeTo(sender())
+
     case AddImage(fileName, imgData) =>
       addImage(fileName, imgData).pipeTo(sender())
 
@@ -83,6 +86,10 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   def createPatient(patientData: Patient) = {
     patientDao.addPatient(patientData)
+  }
+
+  def deletePatient(id: Option[Int]) = {
+    patientDao.delete(id)
   }
 
   def getPatientList = {

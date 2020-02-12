@@ -5,6 +5,7 @@ $ ->
 
   apiUrl =
     get: '/get-patient'
+    delete: '/delete-patient'
 
   defaultPatientData =
     firstName: ''
@@ -124,8 +125,26 @@ $ ->
     $.get(apiUrl.get)
       .fail(handleError)
       .done (response) ->
+        for res in response
+          res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
         vm.patientList(response)
   getPatient()
+
+  $(document).on 'click', '#delete_patient', ->
+    row = $(this).closest('tr').children('td')
+    data = id: row[0].innerText
+    $.ajax
+      url: apiUrl.delete
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      $('#dropdown').click()
+      getPatient()
+      toastr.success(response)
+    $(this).parents('tr').remove()
 
   vm.convertIntToDate = (intDate)->
     moment(+intDate).format('MMM DD, YYYY')
