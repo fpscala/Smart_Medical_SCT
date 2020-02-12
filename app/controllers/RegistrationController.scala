@@ -19,6 +19,7 @@ import protocols.RegistrationProtocol._
 import views.html._
 import views.html.patient._
 import views.html.settings._
+import views.html.checkupPeriod._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.DurationInt
@@ -35,9 +36,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        dashboard_patient: dashboard,
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
-                                       checkupTemplate: checkupPeriod,
                                        doctorTypeTemplate: doctor_type,
                                        addDoctorTypeTemplate: add_doctor_type,
+                                       checkupTemplate: checkupPeriod,
+                                       addCheckupPeriodTemplate: addCheckupPeriod,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -70,6 +72,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def laboratory = Action {
     Ok(registrationLaboratory())
+  }
+
+  def addCheckupPeriodPage = Action {
+    Ok(addCheckupPeriodTemplate())
   }
 
   def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request =>

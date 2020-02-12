@@ -16,6 +16,7 @@ GET     /laboratory                                             @controllers.Reg
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient
 GET     /get-patient                                            @controllers.RegistrationController.getPatientList
+GET     /addCheckupPeriodPage                                   @controllers.RegistrationController.addCheckupPeriodPage
 
 GET     /assets/*file                                           @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                                                webjars.Routes
