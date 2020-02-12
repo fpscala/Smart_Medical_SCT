@@ -5,9 +5,11 @@ import java.nio.file.{Files, Path}
 import java.text.SimpleDateFormat
 import java.util.Date
 
+import akka.pattern.ask
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.Timeout
+import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
@@ -25,6 +27,7 @@ import views.html.settings._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
+import scala.util.Try
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,

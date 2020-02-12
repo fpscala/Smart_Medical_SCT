@@ -23,7 +23,7 @@ $ ->
   vm.onSubmit = ->
     toastr.clear()
     if (!vm.organizationName())
-      toastr.error("Please enter a login")
+      toastr.error("Please enter a Organization Name")
       return no
     else
       data =
@@ -50,9 +50,11 @@ $ ->
 
   vm.getOrganization()
 
-  vm.deleteOrganization = ->
+
+  $(document).on 'click', '.deleteOrganization', ->
+    row = $(this).closest('tr').children('td')
     data =
-      id: parseInt(vm.id())
+      id: row[0].innerText
     $.ajax
       url: apiUrl.delete
       type: 'DELETE'
@@ -62,6 +64,7 @@ $ ->
     .fail handleError
     .done (response) ->
       toastr.success(response)
+    $(this).parents('tr').remove()
 
   vm.updateOrganization = ->
     data =
