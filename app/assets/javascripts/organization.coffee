@@ -11,8 +11,14 @@ $ ->
 
   vm = ko.mapping.fromJS
     organizationName: ''
+    user: defaultUserdata
     getList: []
+    roleList: []
     id: 0
+
+
+  defaultUserdata =
+    selectedRoles: []
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
