@@ -35,7 +35,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
                                        doctorTypeTemplate: doctor_type,
-                                       addDoctorTypeTemplate: add_doctor_type,
                                        checkupTemplate: checkupPeriod,
                                        addCheckupPeriodTemplate: addCheckupPeriod,
                                       )
@@ -54,10 +53,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def doctorType = Action {
     Ok(doctorTypeTemplate())
-  }
-
-  def createDoctorType = Action {
-    Ok(addDoctorTypeTemplate())
   }
 
   def patient = Action {
