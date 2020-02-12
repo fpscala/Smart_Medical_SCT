@@ -10,8 +10,6 @@ GET     /patient/dashboard                                      @controllers.Reg
 POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
 GET     /addCheckUpPeriod                                       @controllers.RegistrationController.addCheckupPeriod
 GET     /doctorType                                             @controllers.RegistrationController.doctorType
-POST    /addDoctorType                                          @controllers.RegistrationController.addDoctorType
-POST    /editDoctorType                                         @controllers.RegistrationController.updateDoctorType
 GET     /laboratory                                             @controllers.RegistrationController.laboratory
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient

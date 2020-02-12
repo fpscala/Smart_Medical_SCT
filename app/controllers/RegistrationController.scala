@@ -36,7 +36,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
                                        doctorTypeTemplate: doctor_type,
-                                       addDoctorTypeTemplate: add_doctor_type,
                                        checkupTemplate: checkupPeriod,
                                        addCheckupPeriodTemplate: addCheckupPeriod,
                                       )

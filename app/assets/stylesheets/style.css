@@ -435,6 +435,10 @@ table.table td h2 span {
   font-size: 0.875rem;
 }
 
+.btn-modal {
+  width: 120px;
+}
+
 /*-----------------
 	4. Bootstrap Classes
 -----------------------*/
