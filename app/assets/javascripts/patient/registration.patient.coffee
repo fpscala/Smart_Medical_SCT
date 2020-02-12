@@ -3,6 +3,9 @@ $ ->
 
   Glob = window.Glob || {}
 
+  apiUrl =
+    get: '/get-patient'
+    delete: '/delete-patient'
 
   defaultPatientData =
     firstName: ''
@@ -25,6 +28,7 @@ $ ->
   vm = ko.mapping.fromJS
     patient: defaultPatientData
     enableSubmitButton: yes
+    patientList: []
 
 
   handleError = (error) ->
@@ -116,5 +120,38 @@ $ ->
     else
       $fileUploadForm.fileupload('send', {files: ''})
       return no
+
+  getPatient = ->
+    $.get(apiUrl.get)
+      .fail(handleError)
+      .done (response) ->
+        for res in response
+          res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
+        vm.patientList(response)
+  getPatient()
+
+  $(document).on 'click', '#delete_patient', ->
+    row = $(this).closest('tr').children('td')
+    data = id: row[0].innerText
+    $.ajax
+      url: apiUrl.delete
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      $('#dropdown').click()
+      getPatient()
+      toastr.success(response)
+    $(this).parents('tr').remove()
+
+  vm.convertIntToDate = (intDate)->
+    moment(+intDate).format('MMM DD, YYYY')
+
+  vm.convertStrToDate = (strDate) ->
+    if strDate
+      moment(+strDate).format('MMM DD, YYYY')
+
 
   ko.applyBindings {vm}

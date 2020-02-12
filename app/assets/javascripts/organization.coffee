@@ -48,6 +48,8 @@ $ ->
       vm.getList(response)
       console.log('2: ', vm.getList().length)
 
+  vm.getOrganization()
+
   vm.deleteOrganization = ->
     data =
       id: parseInt(vm.id())

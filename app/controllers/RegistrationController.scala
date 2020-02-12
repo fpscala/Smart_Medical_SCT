@@ -5,27 +5,26 @@ import java.nio.file.{Files, Path}
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import akka.pattern.ask
 import akka.actor.ActorRef
-import akka.util.Timeout
 import akka.pattern.ask
+import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.libs.Files.TemporaryFile
-import play.api.libs.json.{JsValue, Json, __}
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
 import protocols.RegistrationProtocol._
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteLaboratory, DeleteOrganization, GetLaboratoryList, GetOrganizationList, Laboratory, Organization, UpdateLaboratory, UpdateOrganization}
 import views.html._
+import views.html.checkupPeriod._
 import views.html.patient._
 import views.html.settings._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
-import scala.util.Try
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -39,9 +38,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        dashboard_patient: dashboard,
                                        registrationOrganization: organization,
                                        registrationLaboratory: laboratory,
-                                       checkupTemplate: checkupPeriod,
                                        doctorTypeTemplate: doctor_type,
                                        addDoctorTypeTemplate: add_doctor_type,
+                                       checkupTemplate: checkupPeriod,
+                                       addCheckupPeriodTemplate: addCheckupPeriod,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -74,6 +74,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def laboratory = Action {
     Ok(registrationLaboratory())
+  }
+
+  def addCheckupPeriodPage = Action {
+    Ok(addCheckupPeriodTemplate())
   }
 
   def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request =>
@@ -243,6 +247,25 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   }
 
+  def getPatientList: Action[AnyContent] = Action.async {
+    (registrationManager ? GetPatient).mapTo[Seq[Patient]].map { p =>
+      Ok(Json.toJson(p))
+    }
+  }
+
+  def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[String].toInt
+    (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
+      if(bool == 1){
+        Ok(Json.toJson(s"$id reqamli bemor o'chirildi"))
+      } else {
+        Ok(Json.toJson(s"Bunday raqamli bemor mavjud emas!"))
+      }
+    }
+  }
+  }
+
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }
@@ -253,7 +276,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def parseDate(dateStr: String) = {
     val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-    logger.warn(s"dateF: $dateStr")
     util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption
   }
 
