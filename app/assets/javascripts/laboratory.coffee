@@ -22,10 +22,8 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-  console.log 'laboratoryName: ', vm.laboratoryName()
 
   vm.onSubmit = ->
-    console.log 'laboratoryName: ', vm.laboratoryName()
     toastr.clear()
     if (!vm.laboratoryName())
       toastr.error("Please enter a name")

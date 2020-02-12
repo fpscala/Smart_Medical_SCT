@@ -30,9 +30,6 @@ import scala.concurrent.duration.DurationInt
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
                                        implicit val webJarsUtil: WebJarsUtil,
                                        @Named("registration-manager") val registrationManager: ActorRef,
-                                       @Named("registration-manager") val organizationManager: ActorRef,
-                                       @Named("registration-manager") val doctorTypeManager: ActorRef,
-                                       @Named("registration-manager") val laboratoryManager: ActorRef,
                                        indexTemplate: index,
                                        registrationPatient: registration_patient,
                                        dashboard_patient: dashboard,
@@ -89,14 +86,14 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def getLaboratoryName: Action[AnyContent] = Action.async {
-    (laboratoryManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map{ laboratoryName =>
+    (registrationManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map{ laboratoryName =>
       Ok(Json.toJson(laboratoryName))
     }
   }
 
   def deleteLaboratory = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
-    (laboratoryManager ? DeleteLaboratory(id)).mapTo[Int].map { i =>
+    (registrationManager ? DeleteLaboratory(id)).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
       }
@@ -109,7 +106,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def updateLaboratory = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val laboratoryName = (request.body \ "laboratoryName").as[String]
-    (laboratoryManager ? UpdateLaboratory(Laboratory(Some(id), laboratoryName))).mapTo[Int].map { i =>
+    (registrationManager ? UpdateLaboratory(Laboratory(Some(id), laboratoryName))).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
       }
@@ -121,20 +118,20 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val organizationName = (request.body \ "organizationName").as[String]
     logger.warn(s"controllerga keldi")
-    (organizationManager ? AddOrganization(Organization(None, organizationName))).mapTo[Int].map { id =>
+    (registrationManager ? AddOrganization(Organization(None, organizationName))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
 
   def getOrganizationName: Action[AnyContent] = Action.async {
-    (organizationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizationName =>
+    (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizationName =>
       Ok(Json.toJson(organizationName))
     }
   }
 
   def deleteOrganization = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
-    (organizationManager ? DeleteOrganization(id)).mapTo[Int].map { i =>
+    (registrationManager ? DeleteOrganization(id)).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
       }
@@ -147,7 +144,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def updateOrganization = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val organizationName = (request.body \ "organizationName").as[String]
-    (organizationManager ? UpdateOrganization(Organization(Some(id), organizationName))).mapTo[Int].map { i =>
+    (registrationManager ? UpdateOrganization(Organization(Some(id), organizationName))).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
       }
@@ -160,20 +157,20 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val doctorTypeName = (request.body \ "doctorTypeName").as[String]
     logger.warn(s"controllerga keldi")
-    (doctorTypeManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
+    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
 
   def getDoctorTypeName: Action[AnyContent] = Action.async {
-    (doctorTypeManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
+    (registrationManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
       Ok(Json.toJson(doctorTypeName))
     }
   }
 
   def deleteDoctorType = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
-    (doctorTypeManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
+    (registrationManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
       } else {
@@ -185,7 +182,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def updateDoctorType = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val doctorTypeName = (request.body \ "doctorTypeName").as[String]
-    (doctorTypeManager ? UpdateDoctorType(DoctorType(Some(id), doctorTypeName))).mapTo[Int].map { i =>
+    (registrationManager ? UpdateDoctorType(DoctorType(Some(id), doctorTypeName))).mapTo[Int].map { i =>
       if (i != 0) {
         Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
       } else {

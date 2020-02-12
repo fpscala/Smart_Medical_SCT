@@ -15,12 +15,11 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 
 class RegistrationManager @Inject()(val environment: Environment,
-                                    val organizationDao: OrganizationDao,
-                                    val laboratoryDao: LaboratoryDao
                                     val configuration: Configuration,
+                                    val organizationDao: OrganizationDao,
+                                    val laboratoryDao: LaboratoryDao,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao
-                                    //                                    val laboratoryDao: LaboratoryDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -83,9 +82,6 @@ class RegistrationManager @Inject()(val environment: Environment,
     case AddImage(fileName, imgData) =>
       addImage(fileName, imgData).pipeTo(sender())
 
-    //    case GetRegistrationList =>
-    //      getRegistrationList.pipeTo(sender())
-    //
     case _ => logger.info(s"received unknown message")
   }
 
