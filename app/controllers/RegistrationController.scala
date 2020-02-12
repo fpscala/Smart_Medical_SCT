@@ -58,6 +58,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     Ok(doctorTypeTemplate())
   }
 
+  def createDoctorType = Action {
+    Ok(addDoctorTypeTemplate())
+  }
+
   def patient = Action {
     Ok(registrationPatient())
   }
