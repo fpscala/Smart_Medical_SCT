@@ -15,6 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class RegistrationManager @Inject()(val environment: Environment,
                                     val organizationDao: OrganizationDao,
+                                    val laboratoryDao: LaboratoryDao
                                     val configuration: Configuration,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao
@@ -31,8 +32,17 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   def receive = {
 
-//    case AddLaboratory(data) =>
-//      addLaboratory(data).pipeTo(sender())
+    case AddLaboratory(data) =>
+      addLaboratory(data).pipeTo(sender())
+
+    case GetLaboratoryList =>
+      getLaboratoryList.pipeTo(sender())
+
+    case DeleteLaboratory(id) =>
+      deleteLaboratory(id).pipeTo(sender())
+
+    case UpdateLaboratory(data) =>
+      updateLaboratory(data).pipeTo(sender())
 
     case AddOrganization(data) =>
       addOrganization(data).pipeTo(sender())
@@ -80,10 +90,22 @@ class RegistrationManager @Inject()(val environment: Environment,
     patientDao.addPatient(patientData)
   }
 
-//  private def addLaboratory(data: Laboratory): Future[Int] = {
-//    laboratoryDao.addLaboratory(data)
-//  }
+  private def addLaboratory(data: Laboratory): Future[Int] = {
+    laboratoryDao.addLaboratory(data)
+  }
 
+
+  private def getLaboratoryList: Future[Seq[Laboratory]] = {
+    laboratoryDao.getLaboratory
+  }
+
+  private def deleteLaboratory(id: Int): Future[Int] = {
+    laboratoryDao.deleteLaboratory(id)
+  }
+
+  private def updateLaboratory(data: Laboratory): Future[Int] = {
+    laboratoryDao.updateLaboratory(data)
+  }
 
   private def addOrganization(data: Organization): Future[Int] = {
     organizationDao.addOrganization(data)

@@ -17,10 +17,10 @@ trait LaboratoryComponent {
 
   import utils.PostgresDriver.api._
 
-  class LaboratoryTable(tag: Tag) extends Table[Laboratory](tag, "Laboratory") with Date2SqlDate {
+  class LaboratoryTable(tag: Tag) extends Table[Laboratory](tag, "Lab_type") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def laboratoryName = column[String]("laboratory_name")
+    def laboratoryName = column[String]("lab_type")
 
     def * = (id.?, laboratoryName) <> (Laboratory.tupled, Laboratory.unapply _)
   }
@@ -31,6 +31,13 @@ trait LaboratoryComponent {
 trait LaboratoryDao {
 
   def addLaboratory(data: Laboratory): Future[Int]
+
+  def getLaboratory: Future[Seq[Laboratory]]
+
+  def deleteLaboratory(id: Int): Future[Int]
+
+  def updateLaboratory(data: Laboratory): Future[Int]
+
 
 }
 
@@ -55,5 +62,22 @@ class LaboratoryDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfig
     }
   }
 
+  override def getLaboratory: Future[Seq[Laboratory]] = {
+    db.run {
+      laboratorysTable.result
+    }
+  }
+
+  override def deleteLaboratory(id: Int): Future[Int] = {
+    db.run{
+      laboratorysTable.filter(_.id === id).delete
+    }
+  }
+
+  override def updateLaboratory(data: Laboratory): Future[Int] = {
+    db.run{
+      laboratorysTable.filter(_.id === data.id).update(data)
+    }
+  }
 }
 

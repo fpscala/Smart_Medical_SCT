@@ -30,6 +30,12 @@ object RegistrationProtocol {
 
   case class AddDoctorType(data: DoctorType)
 
+  case object GetLaboratoryList
+
+  case class DeleteLaboratory(id: Int)
+
+  case class UpdateLaboratory(update: Laboratory)
+
   case class Patient(id: Option[Int] = None,
                           firsName: String,
                           middleName: String,
@@ -63,7 +69,7 @@ object RegistrationProtocol {
   implicit val workTypeFormat: OFormat[WorkType] = Json.format[WorkType]
 
   case class Laboratory(id: Option[Int] = None,
-                        laboratoryType: String)
+                        laboratoryName: String)
 
   implicit val laboratoryFormat: OFormat[Laboratory] = Json.format[Laboratory]
 
