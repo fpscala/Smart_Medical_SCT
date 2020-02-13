@@ -50,9 +50,7 @@ $ ->
       type: 'GET'
     .fail handleError
     .done (response) ->
-      console.log('1: ', vm.getList().length)
       vm.getList(response)
-      console.log('2: ', vm.getList().length)
 
   vm.getOrganization()
 
@@ -85,5 +83,18 @@ $ ->
     .fail handleError
     .done (response) ->
       toastr.success(response)
+
+  $(document).on 'click', '.clickOnRow', ->
+    row = $(this).closest('tr').children('td')
+    id = row[0].innerText
+    table = document.getElementById("orgTable")
+    row = table.insertRow(parseInt(id) + 1)
+    cell1 = row.insertCell(1).colSpan = 5
+    cell2 = row.insertCell(2)
+    cell1.innerHTML = "NEW CELL1"
+    cell2.innerHTML = "NEW CELL2"
+    console.log(id)
+
+
 
   ko.applyBindings {vm}
