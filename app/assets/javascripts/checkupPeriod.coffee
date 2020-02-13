@@ -13,7 +13,6 @@ $ ->
     doctorTypeId: []
     labTypeId: []
     workTypeId: 0
-    id: 0
     getCheckupPeriodList: []
 
   handleError = (error) ->
@@ -27,10 +26,10 @@ $ ->
     if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    if (!vm.doctorTypeId())
+    if (vm.doctorTypeId().length is 0)
       toastr.error("please enter the doctor type!")
       return no
-    if (!vm.labTypeId())
+    if (vm.labTypeId().length is 0)
       toastr.error("please enter the laboratory type!")
       return no
     if (!vm.workTypeId())
@@ -61,54 +60,6 @@ $ ->
     .done (response) ->
       vm.getCheckupPeriodList(response)
   getCheckupPeriod()
-
-  $(document).on 'click', '.addCheckupPeriod', ->
-    empty = false
-    input = $(this).parents('tr').find('input[type="text"]')
-    input.each ->
-      if !$(this).val()
-        $(this).addClass 'error'
-        empty = true
-      else
-        $(this).removeClass 'error'
-    $(this).parents('tr').find('.error').first().focus()
-    if !empty
-      input.each ->
-        $(this).parent('td').html $(this).val()
-      $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
-
-  $(document).on 'click', '.editCheckupPeriod', ->
-    row = $(this).closest('tr').children('td')
-    numberPerYear = row[1].innerText
-    doctorTypeId = row[2].innerText
-    labTypeId = row[3].innerText
-    workTypeId = row[4].innerText
-    row[1].innerHTML = '<input type="text" class="form-control" value="' + numberPerYear + '">'
-    row[2].innerHTML = '<input type="text" class="form-control" value="' + doctorTypeId + '">'
-    row[3].innerHTML = '<input type="text" class="form-control" value="' + labTypeId + '">'
-    row[4].innerHTML = '<input type="text" class="form-control" value="' + workTypeId + '">'
-    $(this).parents('tr').find('.addCheckupPeriod, .editCheckupPeriod').toggle()
-
-
-  $(document).on 'click', '.addCheckupPeriod', ->
-    row = $(this).closest('tr').children('td')
-    data =
-      id: row[0].innerText
-      numberPerYear: row[1].innerText
-      doctorTypeId: row[2].innerText
-      labTypeId: row[3].innerText
-      workTypeId: row[4].innerText
-    console.log(data)
-    $.ajax
-      url: apiUrl.updateCheckupPeriod
-      type: 'POST'
-      data: JSON.stringify(data)
-      dataType: 'json'
-      contentType: 'application/json'
-    .fail handleError
-    .done (response) ->
-      toastr.success(response)
-
 
 
   ko.applyBindings {vm}
