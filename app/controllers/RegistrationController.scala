@@ -249,7 +249,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
-    val id = (request.body \ "id").as[String].toInt
+    val id = (request.body \ "id").as[Int]
     (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
       if(bool == 1){
         Ok(Json.toJson(s"$id reqamli bemor o'chirildi"))
