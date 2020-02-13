@@ -127,12 +127,20 @@ $ ->
       .done (response) ->
         for res in response
           res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
-        vm.patientList(response)
+        vm.patientList response
   getPatient()
 
   $(document).on 'click', '#delete_patient', ->
     row = $(this).closest('tr').children('td')
-    data = id: row[0].innerText
+    listId = row[0].innerText
+    $('#delete').open
+    $(document).on 'click','#ask_delete', ->
+      deletePatient(vm.patientList()[parseInt(listId) - 1].id)
+
+
+  deletePatient = (id) ->
+    data =
+      id: id
     $.ajax
       url: apiUrl.delete
       type: 'DELETE'
@@ -141,7 +149,7 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
-      $('#dropdown').click()
+      $('#close_modal').click()
       getPatient()
       toastr.success(response)
     $(this).parents('tr').remove()
