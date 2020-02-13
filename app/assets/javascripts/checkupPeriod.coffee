@@ -47,8 +47,8 @@ $ ->
         data: JSON.stringify(data)
         dataType: 'json'
         contentType: 'application/json'
-      .fail handleError
-      .done (response) ->
+        .fail handleError
+        .done (response) ->
         toastr.success(response)
         getCheckupPeriod()
 
@@ -61,5 +61,53 @@ $ ->
       vm.getCheckupPeriodList(response)
   getCheckupPeriod()
 
+  $(document).ready ->
+    max_fields = 4
+    wrapper = $('.container1')
+    add_button = $('.add_form_field')
+    x = 1
+    $(add_button).click (e) ->
+      e.preventDefault()
+      if x < max_fields
+        x++
+        $(wrapper).append '<div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numberPerYear" >Number per year: </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">1 yilda</span>
+                                        </div>
+                                        <input type="text" class="form-control text-center">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">marta</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group one-line-dropdown">
+                                    <label for="doctorType">Doctor Type</label>
+                                    <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: \'nu\',
+                optionsValue: \'id\', value: vm.doctorTypeId, optionsCaption: \'doctorTypeId\' " id="doctorType" data-show-subtext="true">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group one-line-dropdown">
+                                    <label for="labType">Laboratory Type</label>
+                                    <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: \'name\',
+                optionsValue: \'id\'  value: vm.labTypeId, optionsCaption: \'labTypeId\' " id="labType" data-show-subtext="true">
+                                    </select>
+                                </div>
+                            </div>'
+      else
+        alert 'You Reached the limits'
+      return
+  $(wrapper).on 'click', '.delete', (e) ->
+    e.preventDefault()
+    $(this).parent('div').remove()
+    x--
+    return
+  return
 
   ko.applyBindings {vm}
