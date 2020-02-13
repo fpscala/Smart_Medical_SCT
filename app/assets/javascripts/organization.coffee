@@ -15,6 +15,7 @@ $ ->
     getList: []
     roleList: []
     id: 0
+    after: ''
 
 
   defaultUserdata =
@@ -85,15 +86,12 @@ $ ->
       toastr.success(response)
 
   $(document).on 'click', '.clickOnRow', ->
-    row = $(this).closest('tr').children('td')
-    id = row[0].innerText
-    table = document.getElementById("orgTable")
-    row = table.insertRow(parseInt(id) + 1)
-    cell1 = row.insertCell(1).colSpan = 5
-    cell2 = row.insertCell(2)
-    cell1.innerHTML = "NEW CELL1"
-    cell2.innerHTML = "NEW CELL2"
-    console.log(id)
+    row = $(this).closest('tr')
+    if row.next('tr').hasClass('hide')
+      row.next('tr').removeClass('hide').addClass('show')
+    else
+      row.next('tr').removeClass('show').addClass('hide')
+
 
 
 

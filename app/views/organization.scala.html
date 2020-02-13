@@ -1,6 +1,6 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @()
-@import views.html.main
+  @import views.html.main
 @main("Organization", webJarsUtil) {
   <script src="@routes.Assets.versioned("javascripts/organization.js")" type="text/javascript"></script>
 
@@ -17,7 +17,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <table id="orgTable" class="table table-border table-striped mb-0 dataTable" role="grid" aria-describedby="DataTables_Table_0_info">
+        <table id="orgTable" class="table table-border table-striped mb-0 dataTable display" role="grid" aria-describedby="DataTables_Table_0_info">
           <thead>
             <tr>
               <th >№</th>
@@ -50,6 +50,36 @@
                 </div>
               </td>
             </tr>
+            <tr class="hide">
+              <td></td>
+              <td colspan="4" class="p-0">
+                <table class="table">
+                  <tr>
+                    <td>wdawdad</td>
+                  </tr>
+                  <tr>
+                    <td>wdwadawdad</td>
+                  </tr>
+                  <tr>
+                    <td>wdawdwad wadad</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="p-0">
+                <table class="table">
+                  <tr>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                  </tr>
+                </table>
+              </td>
+              <td></td>
+            </tr>
             <tr class="clickOnRow pointer-event">
               <td>2</td>
               <td>
@@ -69,6 +99,36 @@
                   </div>
                 </div>
               </td>
+            </tr>
+            <tr class="hide">
+              <td></td>
+              <td colspan="4" class="p-0">
+                <table class="table">
+                  <tr>
+                    <td>wdawdad</td>
+                  </tr>
+                  <tr>
+                    <td>wdwadawdad</td>
+                  </tr>
+                  <tr>
+                    <td>wdawdwad wadad</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="p-0">
+                <table class="table">
+                  <tr>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                  </tr>
+                </table>
+              </td>
+              <td></td>
             </tr>
           </tbody>
         </table>

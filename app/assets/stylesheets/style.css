@@ -3929,6 +3929,12 @@ a.status-grey {
   width: 15px;
 }
 
+.hide {
+  display: none;
+}
+.show {
+  display: table-row;
+}
 /*-----------------
 	29. Inbox
 -----------------------*/
