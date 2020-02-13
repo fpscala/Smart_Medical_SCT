@@ -40,7 +40,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        registrationLaboratory: laboratory,
                                        doctorTypeTemplate: doctor_type,
                                        checkupTemplate: checkupPeriod,
-                                       addCheckupPeriodTemplate: addCheckupPeriod,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -75,9 +74,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     Ok(registrationLaboratory())
   }
 
-  def addCheckupPeriodPage = Action {
-    Ok(addCheckupPeriodTemplate())
-  }
 
   def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val laboratoryName = (request.body \ "laboratoryName").as[String]
