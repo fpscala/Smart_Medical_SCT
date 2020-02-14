@@ -16,10 +16,8 @@ $ ->
     getCheckupPeriodList: []
 
   form = (x) ->
-    fields = document.getElementsByClassName('container1')
-    for field in fields
-      console.log(field.id)
-      return field.innerHTML
+    fields = document.getElementById('fields')
+    return fields.outerHTML
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -76,7 +74,8 @@ $ ->
       e.preventDefault()
       if x < max_fields
         x++
-        $(wrapper).append form(x)
+        $(wrapper).after form(x)
+        document.getElementById('fields').nextSibling.setAttribute('id', x)
       else
         alert 'You Reached the limits'
     $(wrapper).on 'click', '.delete', (e) ->
