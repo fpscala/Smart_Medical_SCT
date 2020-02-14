@@ -88,9 +88,9 @@ $ ->
   $(document).on 'click', '.clickOnRow', ->
     row = $(this).closest('tr')
     if row.next('tr').hasClass('hide')
-      row.next('tr').show(1000).removeClass('hide').addClass('show')
+      row.next('tr').show().removeClass('hide').addClass('show')
     else
-      row.next('tr').hide(1000).removeClass('show').addClass('hide')
+      row.next('tr').hide().removeClass('show').addClass('hide')
 
 
 

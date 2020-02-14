@@ -5,21 +5,16 @@ import java.nio.file.{Files, Path}
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import akka.pattern.ask
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.Timeout
-import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
-import protocols.RegistrationProtocol._
-import play.api.libs.json.{JsValue, Json}
-import play.api.mvc._
-import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteLaboratory, DeleteOrganization, GetLaboratoryList, GetOrganizationList, Laboratory, Organization, UpdateLaboratory, UpdateOrganization}
+import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteLaboratory, DeleteOrganization, GetLaboratoryList, GetOrganizationList, Laboratory, Organization, UpdateLaboratory, UpdateOrganization, _}
 import views.html._
 import views.html.checkupPeriod._
 import views.html.patient._
@@ -27,7 +22,6 @@ import views.html.settings._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
-import scala.util.Try
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -222,6 +216,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
     val cardNumber = body("cardNumber").head
     val profession = body("profession").headOption
+    logger.warn(s"asdasdasdasd")
     request.body.file("attachedFile").map { temp =>
       val fileName = filenameGenerator()
       val imgData = getBytesFromPath(temp.ref.path)
