@@ -130,28 +130,22 @@ $ ->
         vm.patientList response
   getPatient()
 
-  $(document).on 'click', '#delete_patient', ->
-    row = $(this).closest('tr').children('td')
-    listId = row[0].innerText
-    $('#delete').open
-    $(document).on 'click','#ask_delete', ->
-      deletePatient(vm.patientList()[parseInt(listId) - 1].id)
-
-
-  deletePatient = (id) ->
+  vm.deletePatient = (id) ->
     data =
       id: id
-    $.ajax
-      url: apiUrl.delete
-      type: 'DELETE'
-      data: JSON.stringify(data)
-      dataType: 'json'
-      contentType: 'application/json'
-    .fail handleError
-    .done (response) ->
-      $('#close_modal').click()
-      getPatient()
-      toastr.success(response)
+    $('#delete').open
+    $(document).on 'click','#ask_delete', ->
+      $.ajax
+        url: apiUrl.delete
+        type: 'DELETE'
+        data: JSON.stringify(data)
+        dataType: 'json'
+        contentType: 'application/json'
+      .fail handleError
+      .done (response) ->
+        $('#close_modal').click()
+        getPatient()
+        toastr.success(response)
     $(this).parents('tr').remove()
 
   vm.convertIntToDate = (intDate)->
