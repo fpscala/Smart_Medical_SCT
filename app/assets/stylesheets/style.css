@@ -3933,8 +3933,7 @@ a.status-grey {
   display: none;
 }
 .show {
-  display: table-row;
-
+  display: block;
 }
 /*-----------------
 	29. Inbox
