@@ -8,10 +8,16 @@ $ ->
     get: '/getDoctorType'
     delete: '/deleteDoctorType'
     update: '/updateDoctorType'
+    sendLab: '/addLaboratory'
+    getLab: '/getLaboratory'
+    deleteLab: '/deleteLaboratory'
+    updateLab: '/updateLaboratory'
 
   vm = ko.mapping.fromJS
     doctorTypeName: ''
+    laboratoryName: ''
     getList: []
+    getLaboratoryList: []
     id: 0
 
   handleError = (error) ->
@@ -65,6 +71,61 @@ $ ->
     data =
       id: parseInt(vm.id())
       doctorTypeNmae: vm.doctorTypeName()
+    $.ajax
+      url: apiUrl.update
+      type: 'POST'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      toastr.success(response)
+
+  vm.createLab = ->
+    toastr.clear()
+    if (!vm.laboratoryName())
+      toastr.error("Please enter a name")
+      return no
+    else
+      data =
+        laboratoryName: vm.laboratoryName()
+      $.ajax
+        url: apiUrl.sendLab
+        type: 'POST'
+        data: JSON.stringify(data)
+        dataType: 'json'
+        contentType: 'application/json'
+      .fail handleError
+      .done (response) ->
+        toastr.success(response)
+
+  getLaboratory = ->
+    $.ajax
+      url: apiUrl.getLab
+      type: 'GET'
+    .fail handleError
+    .done (response) ->
+      vm.getLaboratoryList(response)
+
+  getLaboratory()
+
+  vm.deleteLaboratory = ->
+    data =
+      id: parseInt(vm.id())
+    $.ajax
+      url: apiUrl.delete
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      toastr.success(response)
+
+  vm.updateLaboratory = ->
+    data =
+      id: parseInt(vm.id())
+      laboratoryName: vm.laboratoryName()
     $.ajax
       url: apiUrl.update
       type: 'POST'

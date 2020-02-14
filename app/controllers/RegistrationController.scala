@@ -31,7 +31,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        registrationPatient: registration_patient,
                                        dashboard_patient: dashboard,
                                        registrationOrganization: organization,
-                                       registrationLaboratory: laboratory,
                                        doctorTypeTemplate: doctor_type,
                                        checkupTemplate: checkupPeriod,
                                       )
@@ -62,10 +61,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def organization = Action {
     Ok(registrationOrganization())
-  }
-
-  def laboratory = Action {
-    Ok(registrationLaboratory())
   }
 
 
