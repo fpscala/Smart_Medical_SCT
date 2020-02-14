@@ -9,10 +9,10 @@ $ ->
     updateCheckupPeriod: '/update/checkupPeriod'
 
   vm = ko.mapping.fromJS
-    numberPerYear: 0
+    numberPerYear: ''
     doctorTypeId: []
     labTypeId: []
-    workTypeId: 0
+    workTypeId: ''
     getCheckupPeriodList: []
 
   form = (x) ->

@@ -2,149 +2,183 @@
 @()
 @import views.html.main
 @main("Checkup Period", webJarsUtil) {
-  <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
-  <div class="content">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4 col-3">
-          <h4 class="page-title">Checkup Period</h4>
-        </div>
-        <div class="col-sm-8 col-9 text-right m-b-20">
-            <!-- Button trigger modal addcheckupPeriod-->
-          <button type="button" class="btn  btn-primary btn-rounded float-right" data-toggle="modal" data-target="#addcheckupPeriod">
-            <i class="fas fa-plus">Add New checkupPeriod</i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <table class="table table-border table-striped custom-table datatable mb-0">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Number Per Year</th>
-                <th>Doctor Type Id</th>
-                <th>Laboratory Type Id </th>
-                <th>Work Type Id</th>
-                <th class="text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>23</td>
-                <td>35</td>
-                <td>34</td>
-                <td>8</td>
-                <td class="text-right">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
-                        Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>32</td>
-                <td>63</td>
-                <td>55</td>
-                <td>15</td>
-                <td class="text-right">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
-                        Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-sm-6 col-md-6 mt-3">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
-            Showing 1 to 10 of 14 entries
-          </div>
-        </div>
-        <div class="col-sm-6 offset-9 ">
-          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-            <ul class="pagination">
-              <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
-                  Previous
-                </a>
-              </li>
-              <li class="paginate_button page-item active">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
-                  1
-                </a>
-              </li>
-              <li class="paginate_button page-item ">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
-                  2
-                </a>
-              </li>
-              <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- Modal Add checkupPeriod -->
-  <div class="modal fade bd-example-modal-lg" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add checkupPeriod</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="" class="m-3" method="post">
+    <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
+    <div class="content">
+        <div class="container">
             <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="workType" >Work type: </label>
-                  <textarea class="form-control" id="workType" name="workType"
-                  rows="3" cols="52"></textarea>
+                <div class="col-sm-4 col-3">
+                    <h4 class="page-title">Checkup Period</h4>
                 </div>
-              </div>
+                <div class="col-sm-8 col-9 text-right m-b-20">
+                        <!-- Button trigger modal addcheckupPeriod-->
+                    <button type="button" class="btn  btn-primary btn-rounded float-right" data-toggle="modal" data-target="#addcheckupPeriod">
+                        <i class="fas fa-plus">Add New checkupPeriod</i>
+                    </button>
+                </div>
             </div>
-            <div class="row  container1" id="container1">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="numberPerYear" >Number per year: </label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">1 yilda</span>
-                    </div>
-                    <input type="text" class="form-control text-center">
-                    <div class="input-group-append">
-                      <span class="input-group-text">marta</span>
-                    </div>
-                  </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered  table-striped display datatable mb-0 " role="grid" aria-describedby="DataTables_Table_0_info">
+                        <thead class="text-center">
+                            <tr>
+                                <th>№</th>
+                                <th>Dastlabki tarzda va vaqti-vaqti bilan tibbiy ko`rikdan o`tkazilishi shart bo`lgan shaxslar</th>
+                                <th>Tibbiy ko`rikdan o`tish muddati </th>
+                                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutaxassislar</th>
+                                <th>Laboratoriya va funksional tekshiruvlar</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">1</td>
+                                <td rowspan="2">
+                                    Oziq-ovqat sanoati tashkilotlarida ishlovchilar, jumladan sut fermalari va oshxonalarida, oziq-ovqat maxsulotlarini tarqatish punktlarida, oziq-ovqat maxsulotlarini ishlab </td>
+                                <td><p>1-yilda</p> <p>2 marta</p></td>
+                                <td>Terapevt, dermatovenerolog, ginekolog </td>
+                                <td>ichak infeksiyalari uchun najas tahlili </td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p>1-yilda</p> <p>1 marta</p></td>
+                                <td></td>
+                                <td>flyuoragrafiya elementlarni aniqlash uchun najas taxlili</td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">2</td>
+                                <td rowspan="2">
+                                    Oziq-ovqat sanoati tashkilotlarida ishlovchilar, jumladan sut fermalari va oshxonalarida, oziq-ovqat maxsulotlarini tarqatish punktlarida, oziq-ovqat maxsulotlarini ishlab </td>
+                                <td><p>1-yilda</p> <p>1 marta</p></td>
+                                <td>Terapevt, dermatovenerolog, ginekolog </td>
+                                <td>ichak infeksiyalari uchun najas tahlili </td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p>1-yilda</p> <p>2 marta</p></td>
+                                <td></td>
+                                <td>flyuoragrafiya elementlarni aniqlash uchun najas taxlili</td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-pen-alt m-r-5"></i>
+                                                Edit</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_patient"><i class="fas fa-trash-alt m-r-5"></i>
+                                                Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group one-line-dropdown">
-                  <label for="doctorType">Doctor Type</label>
-                  <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'nu',
+                <div class="col-sm-6 col-md-6 mt-3">
+                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+                        Showing 1 to 10 of 14 entries
+                    </div>
+                </div>
+                <div class="col-sm-6 offset-9 ">
+                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+                                    Previous
+                                </a>
+                            </li>
+                            <li class="paginate_button page-item active">
+                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
+                                    1
+                                </a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+                                    2
+                                </a>
+                            </li>
+                            <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal Add checkupPeriod -->
+    <div class="modal fade bd-example-modal-lg" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add checkupPeriod</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="m-3" method="post">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="workType" >Work type: </label>
+                                    <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workTypeId"
+                                    rows="3" cols="52"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  container1">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numberPerYear" >Number per year: </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">1 yilda</span>
+                                        </div>
+                                        <input type="text" class="form-control text-center" data-bind="value: vm.numberPerYear">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">marta</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group one-line-dropdown">
+                                    <label for="doctorType">Doctor Type</label>
+                                    <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'nu',
                 optionsValue: 'id', value: vm.doctorTypeId, optionsCaption: 'doctorTypeId' " id="doctorType" data-show-subtext="true">
                   </select>
                 </div>
@@ -154,22 +188,25 @@
                   <label for="labType">Laboratory Type</label>
                   <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'name',
                 optionsValue: 'id', value: vm.labTypeId, optionsCaption: 'labTypeId' " id="labType" data-show-subtext="true">
-                  </select>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button type="button" class=" add_form_field add_form_field2 btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="col-md-6 text-light container2">
+
+                        </div>
+                    </form>
                 </div>
-              </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-rounded float-right" data-dismiss="modal">
+                        Close</button>
+                    <button type="submit" data-bind="click: vm.addCheckPeriod" class="btn  btn-primary btn-rounded float-right">
+                        Add checkupPeriod</button>
+                </div>
             </div>
-            <div class="col-md-12 text-center">
-              <button type="button" class=" add_form_field btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
-            </div>
-          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-rounded float-right" data-dismiss="modal">
-            Close</button>
-          <button type="submit" data-bind="click: vm.addCheckPeriod" class="btn  btn-primary btn-rounded float-right">
-            Add checkupPeriod</button>
-        </div>
-      </div>
     </div>
-  </div>
 }
