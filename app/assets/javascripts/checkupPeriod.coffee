@@ -36,18 +36,18 @@ $ ->
     else if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    else if (vm.doctorType().length is 0)
+    else if (vm.doctorType.length is 0)
       toastr.error("please enter the doctor type!")
       return no
-    else if (vm.labType().length is 0)
+    else if (vm.labType.length is 0)
       toastr.error("please enter the laboratory type!")
       return no
     else
       data =
+        workType: vm.workType()
         numberPerYear: vm.numberPerYear()
         doctorType: vm.doctorType()
         labType: vm.labType()
-        workType: vm.workType()
       $.ajax
         url: apiUrl.send
         type: 'POST'

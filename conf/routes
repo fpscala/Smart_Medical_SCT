@@ -1,7 +1,7 @@
 
 GET     /                                                       @controllers.RegistrationController.index
 GET     /organization                                           @controllers.RegistrationController.organization
-GET     /checkupPeriod                                          @controllers.RegistrationController.checkupPeriod
+GET     /workType                                               @controllers.RegistrationController.workType
 POST    /addOrganization                                        @controllers.RegistrationController.addOrganization
 GET     /getOrganization                                        @controllers.RegistrationController.getOrganizationName
 DELETE  /deleteOrganization                                     @controllers.RegistrationController.deleteOrganization
