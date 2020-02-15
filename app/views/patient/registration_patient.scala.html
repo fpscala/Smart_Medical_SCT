@@ -12,9 +12,11 @@
     </div>
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
-        <form class="toggle" id="patient-form" action="@controllers.routes.RegistrationController.createPatient()"
+        <form class="toggle row" id="patient-form" action="@controllers.routes.RegistrationController.createPatient()"
         enctype="multipart/form-data" method="post">
-          <div class="row">
+          <div class="col-sm-12">
+          <div class="row border border-dark p-4 mb-5">
+            <div class="title-div">Patient information</div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>First Name: <span class="text-danger">*</span></label>
@@ -59,13 +61,7 @@
                 <input type="text" class="form-control " name="address" data-bind="value: vm.patient.address">
               </div>
             </div>
-            <div class="col-sm-6 offset-sm-3">
-              <div class="form-group">
-                <label>Card Number: <span class="text-danger">*</span></label>
-                <input class="form-control" name="cardNumber" type="text" data-bind="value: vm.patient.cardNumber">
-              </div>
-            </div>
-            <div class="col-sm-4 text-center">
+            <div class="col-sm-4 offset-sm-4 text-center">
               <div class="form-group">
                 <label class="display-block">Gender: <span class="text-danger">*</span></label>
                  <div class="form-check form-check-inline">
@@ -78,37 +74,12 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-4 text-center">
-              <div class="form-group">
-                <label class="display-block">Checkup type: <span class="text-danger">*</span></label>
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" id="radio1" name="checkupType" value="job" data-bind="checked: vm.patient.checkupType">
-                  <label for="radio1" class="form-check-input">Checkup for Job</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="radio2" name="checkupType" value="medicalForm" data-bind="checked: vm.patient.checkupType">
-                  <label class="form-check-label" for="radio2">Medical Form</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 text-center">
-              <div class="form-group">
-                <label class="display-block">Is this a sick organization worker? <span class="text-danger">*</span></label>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="isWorker" id="worker" data-bind="checked: vm.patient.isWorker" value="yes">
-                  <label class="form-check-label" for="worker">
-                    Yes
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="isWorker" id="noWorker" data-bind="checked: vm.patient.isWorker" value="no">
-                  <label class="form-check-label" for="noWorker">
-                    No
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
+          </div>
+          </div>
+          <div class="col-sm-12">
+          <div class="row border border-dark p-4">
+            <div class="title-div">Organization information</div>
+            <div class="col-sm-6">
               <div class="form-group">
                 <label>Organization: <span class="text-danger">*</span></label>
                 <select class="form-control" name="organizationId" tabindex="-1" data-bind="value: vm.patient.organizationId" aria-hidden="true">
@@ -117,7 +88,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-sm-6" data-bind="visible: vm.patient.isWorker() == 'yes'">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label>Work Type: <span class="text-danger">*</span></label>
                 <select class="form-control" tabindex="-1" name="workerTypeId" data-bind="value: vm.patient.workTypeId" aria-hidden="true">
@@ -127,10 +98,16 @@
               </div>
             </div>
 
-            <div class="col-sm-6 offset-sm-3" data-bind="visible: vm.patient.isWorker() == 'yes'">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label>Profession: <span class="text-danger">*</span></label>
                 <input class="form-control" name="profession" data-bind="value: vm.patient.profession" type="text">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Card Number: <span class="text-danger">*</span></label>
+                <input class="form-control" name="cardNumber" type="text" data-bind="value: vm.patient.cardNumber">
               </div>
             </div>
             <div class="col-sm-6 offset-sm-3">
@@ -147,6 +124,7 @@
                 </div>
               </div>
             </div>
+          </div>
           </div>
           <div class="m-t-20 text-center">
             <button class="btn btn-primary submit-btn" type="submit" data-bind="click: vm.onSubmit, enable: vm.enableSubmitButton">Create Patient</button>

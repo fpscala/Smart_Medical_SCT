@@ -134,7 +134,7 @@ $ ->
     data =
       id: id
     $('#delete').open
-    $(document).on 'click','#ask_delete', ->
+    $(document).on 'click', '#ask_delete', ->
       $.ajax
         url: apiUrl.delete
         type: 'DELETE'
