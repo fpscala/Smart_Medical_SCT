@@ -10,10 +10,11 @@ $ ->
 
   vm = ko.mapping.fromJS
     numberPerYear: ''
-    doctorTypeId: []
-    labTypeId: []
-    workTypeId: ''
-    getCheckupPeriodList: []
+    doctorType: []
+    labType: []
+    labTypeList: [{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}]
+    workType: ''
+    getCheckupPeriodList: [{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}]
 
   form = (x) ->
     fields = document.getElementById('fields')
@@ -25,26 +26,28 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
+
   vm.addCheckupPeriod = ->
     toastr.clear()
-    if (!vm.numberPerYear())
+    console.log("sdcsdc")
+    if (!vm.workType())
+      toastr.error("please enter the work type!")
+      return no
+    else if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    if (vm.doctorTypeId().length is 0)
+    else if (vm.doctorType().length is 0)
       toastr.error("please enter the doctor type!")
       return no
-    if (vm.labTypeId().length is 0)
+    else if (vm.labType().length is 0)
       toastr.error("please enter the laboratory type!")
-      return no
-    if (!vm.workTypeId())
-      toastr.error("please enter the work type!")
       return no
     else
       data =
         numberPerYear: vm.numberPerYear()
-        doctorTypeId: vm.doctorTypeId()
-        labTypeId: vm.labTypeId()
-        workTypeId: vm.workTypeId()
+        doctorType: vm.doctorType()
+        labType: vm.labType()
+        workType: vm.workType()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -63,7 +66,6 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.getCheckupPeriodList(response)
-  getCheckupPeriod()
 
   $(document).ready ->
     max_fields = 4

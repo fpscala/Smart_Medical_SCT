@@ -23,13 +23,13 @@ trait CheckupPeriodComponent {
 
     def numberPerYear = column[Int]("numberPerYear")
 
-    def doctorTypeId = column[JsValue]("doctorTypeId" )
+    def doctorType = column[JsValue]("doctorType" )
 
-    def labTypeId = column[JsValue]("labTypeId")
+    def labType = column[JsValue]("labType")
 
-    def workTypeId = column[Int]("workType")
+    def workType = column[String]("workType")
 
-    def * = (id.?, numberPerYear, doctorTypeId, labTypeId, workTypeId) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
+    def * = (id.?, numberPerYear, doctorType, labType, workType) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
   }
 
 }
@@ -57,7 +57,6 @@ class CheckupPeriodDaoImpl @Inject()(protected val dbConfigProvider: DatabaseCon
 
   override def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
     db.run {
-      logger.warn(s"daoga keldi: $data")
       (CheckupPeriodsTable returning CheckupPeriodsTable.map(_.id)) += data
     }
   }

@@ -19,7 +19,8 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val organizationDao: OrganizationDao,
                                     val laboratoryDao: LaboratoryDao,
                                     val patientDao: PatientDao,
-                                    val doctorTypeDao: DoctorTypeDao
+                                    val doctorTypeDao: DoctorTypeDao,
+                                    val checkupPeriodDao: CheckupPeriodDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -81,6 +82,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case AddImage(fileName, imgData) =>
       addImage(fileName, imgData).pipeTo(sender())
+
+    case AddCheckupPeriod(data) =>
+      addCheckupPeriod(data).pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -154,6 +158,10 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def updateDoctorType(data: DoctorType): Future[Int] = {
     doctorTypeDao.updateDoctorType(data)
+  }
+
+  private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
+    checkupPeriodDao.addCheckupPeriod(data)
   }
 
 }

@@ -91,9 +91,9 @@ object RegistrationProtocol {
 
   case class CheckupPeriod(id: Option[Int] = None,
                            numberPerYear: Int,
-                           doctorTypeId: JsValue,
-                           labTypeId: JsValue,
-                           workTypeId: Int
+                           doctorType: JsValue,
+                           labType: JsValue,
+                           workType: String
                           )
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]
