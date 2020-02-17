@@ -6,6 +6,7 @@ $ ->
   apiUrl =
     get: '/get-patient'
     delete: '/delete-patient'
+    region: '/get-regionList'
 
   defaultPatientData =
     firstName: ''
@@ -29,6 +30,7 @@ $ ->
     patient: defaultPatientData
     enableSubmitButton: yes
     patientList: []
+    regionList: []
 
 
   handleError = (error) ->
@@ -129,6 +131,13 @@ $ ->
           res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
         vm.patientList response
   getPatient()
+
+  getRegion = ->
+    $.get(apiUrl.region)
+      .fail(handleError)
+      .done (response) ->
+        vm.regionList response
+  getRegion()
 
   vm.deletePatient = (id) ->
     data =

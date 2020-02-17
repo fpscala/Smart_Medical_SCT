@@ -98,4 +98,25 @@ object RegistrationProtocol {
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]
 
+
+  case class Region(id: Int, name: String)
+
+  implicit val regionFormat: OFormat[Region] = Json.format[Region]
+
+  val regionList = Seq(
+    Region(1, "Andijon viloyati"),
+    Region(2, "Buxoro viloyati"),
+    Region(3, "Fargʻona viloyati"),
+    Region(4, "Jizzax viloyati"),
+    Region(5, "Xorazm viloyati"),
+    Region(6, "Namangan viloyati"),
+    Region(7, "Navoiy viloyati"),
+    Region(8, "Qashqadaryo viloyati"),
+    Region(9, "Samarqand viloyati"),
+    Region(10, "Sirdaryo viloyati"),
+    Region(11, "Surxondaryo viloyati"),
+    Region(12, "Toshkent viloyati"),
+    Region(13, "Qoraqalpogʻiston Respublikasi")
+  )
+
 }

@@ -14,7 +14,7 @@ import org.webjars.play.WebJarsUtil
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
-import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteLaboratory, DeleteOrganization, GetLaboratoryList, GetOrganizationList, Laboratory, Organization, UpdateLaboratory, UpdateOrganization, _}
+import protocols.RegistrationProtocol._
 import views.html._
 import views.html.checkupPeriod._
 import views.html.patient._
@@ -249,6 +249,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   }
 
+  def getRegionList = Action {
+    Ok(Json.toJson(regionList))
+  }
 
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"

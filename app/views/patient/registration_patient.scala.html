@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-4 offset-sm-4 text-center">
+            <div class="col-sm-6 text-center">
               <div class="form-group">
                 <label class="display-block">Gender: <span class="text-danger">*</span></label>
                  <div class="form-check form-check-inline">
@@ -76,7 +76,9 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Region: </label>
-                  <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
+                  <select class="custom-select" data-bind="options: vm.regionList(), optionsText: 'name',
+                optionsValue: 'name', value: vm.selectedRegion, optionsCaption: 'Select Region' ">
+                  </select>
                 </div>
               </div>
               <div class="col-sm-6">
