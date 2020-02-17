@@ -25,8 +25,11 @@
     <script src="@routes.Assets.versioned("javascripts/common.assist.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("lib/jquery.slimscroll.js")" type="text/javascript"></script>
     @webJarsUtil.locate("min/moment.min.js").script()
+    @webJarsUtil.locate("dist/jquery.mask.min.js").script()
+    <script src="@routes.Assets.versioned("javascripts/util/ko.mask-input.js")"></script>
     <script src="@routes.Assets.versioned("lib/app.js")" type="text/javascript"></script>
     @webJarsUtil.locate("build/toastr.min.js").script()
+
   </head>
   <body>
     <div class="main-wrapper">
