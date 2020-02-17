@@ -246,8 +246,7 @@
               <div class="col-md-4">
                 <div class="form-group one-line-dropdown">
                   <label for="doctorType">Doctor Type</label>
-                  <select multiple name="doctorTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'nu',
-                optionsValue: 'id', value: vm.doctorTypeId, optionsCaption: 'doctorTypeId' " id="doctorType" data-show-subtext="true">
+                  <select multiple class="custom-select selectpicker form-control" data-none-selected-text="" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
                   </select>
                 </div>
               </div>

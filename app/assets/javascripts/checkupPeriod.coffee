@@ -10,7 +10,7 @@ $ ->
 
   vm = ko.mapping.fromJS
     numberPerYear: ''
-    doctorType: []
+    selectedDoctorType: []
     labType: []
     labTypeList: [{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}]
     workType: ''
@@ -29,17 +29,17 @@ $ ->
 
   vm.addCheckupPeriod = ->
     toastr.clear()
-    console.log("sdcsdc")
+    console.log(vm.selectedDoctorType())
     if (!vm.workType())
       toastr.error("please enter the work type!")
       return no
     else if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    else if (vm.doctorType.length is 0)
+    else if (vm.selectedDoctorType.length == 0)
       toastr.error("please enter the doctor type!")
       return no
-    else if (vm.labType.length is 0)
+    else if (vm.labType().length is 0)
       toastr.error("please enter the laboratory type!")
       return no
     else
