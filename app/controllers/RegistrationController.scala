@@ -141,13 +141,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
-    logger.warn(s"controllerga keldi")
-    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
-    }
-  }
+//  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
+//    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
+//    logger.warn(s"controllerga keldi")
+//    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
+//      Ok(Json.toJson(id))
+//    }
+//  }
 
   def getDoctorTypeName: Action[AnyContent] = Action.async {
     (registrationManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
@@ -188,8 +188,17 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+    def addDoctorType(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
+      val body = request.body.asFormUrlEncoded
+      val doctorTypeName = body("docterType").head
+      logger.warn(s"controllerga keldi")
+      (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
+        Ok(Json.toJson(id))
+      }
+    }
+    }
 
-  def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
+    def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     val firstName = body("firstName").head
     val middleName = body("middleName").head
