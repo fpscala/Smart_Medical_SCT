@@ -12,6 +12,7 @@ POST    /addCheckUpPeriod                                       @controllers.Reg
 GET     /doctorType                                             @controllers.RegistrationController.doctorType
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient
+POST    /add-doctor-type                                        @controllers.RegistrationController.addDoctorType
 GET     /getLaboratory                                          @controllers.RegistrationController.getLaboratoryName
 DELETE  /deleteLaboratory                                       @controllers.RegistrationController.deleteLaboratory
 POST    /updateLaboratory                                       @controllers.RegistrationController.updateLaboratory

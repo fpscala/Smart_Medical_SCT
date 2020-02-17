@@ -141,7 +141,7 @@
     <div class="modal fade" id="add_doctor_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="#" method="post">
+                <form action="@controllers.routes.RegistrationController.addDoctorType()" enctype="multipart/form-data" method="post">
                     <div class="modal-header">
                         <h3 class="modal-title" id="editModalLongTitle">Add Doctor Type</h3>
                         <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
