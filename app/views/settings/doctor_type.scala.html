@@ -124,7 +124,7 @@
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_lab_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
+                                                <a class="dropdown-item" href="#delete" data-bind="click: $root.vm.deleteLaboratory.bind($data, $data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</a>
                                             </div>
                                         </div>
                                     </td>
@@ -251,8 +251,8 @@
                     <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
                     <h3>Are you sure want to delete this Laboratory?</h3>
                     <div class="m-t-20">
-                        <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a href="#" class="btn btn-white" id="close_modal" data-dismiss="modal">Close</a>
+                        <button  type="submit" id="ask_delete" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>

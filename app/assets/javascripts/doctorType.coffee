@@ -111,18 +111,23 @@ $ ->
 
   getLaboratory()
 
-  vm.deleteLaboratory = ->
+  vm.deleteLaboratory = (id) ->
     data =
-      id: parseInt(vm.id())
-    $.ajax
-      url: apiUrl.delete
-      type: 'DELETE'
-      data: JSON.stringify(data)
-      dataType: 'json'
-      contentType: 'application/json'
-    .fail handleError
-    .done (response) ->
-      toastr.success(response)
+      id: id
+    $('#delete').open
+    $(document).on 'click','#ask_delete', ->
+      $.ajax
+        url: apiUrl.deleteLab
+        type: 'DELETE'
+        data: JSON.stringify(data)
+        dataType: 'json'
+        contentType: 'application/json'
+      .fail handleError
+      .done (response) ->
+        $('#close_modal').click()
+        getLaboratory()
+        toastr.success(response)
+    $(this).parents('tr').remove()
 
   vm.updateLaboratory = ->
     data =
