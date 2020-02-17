@@ -4,7 +4,7 @@ $ ->
   Glob = window.Glob || {}
 
   apiUrl =
-    send: '/addDoctorType'
+    send: '/add-doctor-type'
     get: '/getDoctorType'
     delete: '/deleteDoctorType'
     update: '/updateDoctorType'
@@ -29,11 +29,12 @@ $ ->
   vm.onSubmit = ->
     toastr.clear()
     if (!vm.doctorTypeName())
-      toastr.error("Please enter a login")
+      toastr.error("Please enter a Doctor type name")
       return no
     else
       data =
-        doctorTypeName: vm.doctorTypeName()
+        doctorType: vm.doctorTypeName()
+      console.log(data)
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -43,6 +44,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+
 
   vm.getDoctorType = ->
     $.ajax
