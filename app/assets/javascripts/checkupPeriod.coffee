@@ -11,7 +11,7 @@ $ ->
   vm = ko.mapping.fromJS
     numberPerYear: ''
     selectedDoctorType: []
-    labType: []
+    selectedLabType: []
     labTypeList: [{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}]
     workType: ''
     getCheckupPeriodList: [{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}]
@@ -29,25 +29,24 @@ $ ->
 
   vm.addCheckupPeriod = ->
     toastr.clear()
-    console.log(vm.selectedDoctorType())
     if (!vm.workType())
       toastr.error("please enter the work type!")
       return no
     else if (!vm.numberPerYear())
       toastr.error("please enter the number per year!")
       return no
-    else if (vm.selectedDoctorType.length == 0)
+    else if (vm.selectedDoctorType().length is 0)
       toastr.error("please enter the doctor type!")
       return no
-    else if (vm.labType().length is 0)
+    else if (vm.selectedLabType().length is 0)
       toastr.error("please enter the laboratory type!")
       return no
     else
       data =
         workType: vm.workType()
         numberPerYear: vm.numberPerYear()
-        doctorType: vm.doctorType()
-        labType: vm.labType()
+        doctorType: vm.selectedDoctorType()
+        labType: vm.selectedLabType()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -57,7 +56,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        getCheckupPeriod()
+#        getCheckupPeriod()
 
   getCheckupPeriod = ->
     $.ajax

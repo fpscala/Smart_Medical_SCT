@@ -8,7 +8,7 @@ DELETE  /deleteOrganization                                     @controllers.Reg
 GET     /patient                                                @controllers.RegistrationController.patient
 GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
 POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
-POST    /addCheckUpPeriod                                       @controllers.RegistrationController.addCheckupPeriod
+POST    /addCheckupPeriod                                       @controllers.RegistrationController.addCheckupPeriod
 GET     /doctorType                                             @controllers.RegistrationController.doctorType
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient

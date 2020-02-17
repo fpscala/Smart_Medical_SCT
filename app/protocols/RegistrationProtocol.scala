@@ -32,6 +32,8 @@ object RegistrationProtocol {
 
   case class AddDoctorType(data: DoctorType)
 
+  case class AddWorkType(data: WorkType)
+
   case object GetLaboratoryList
 
   case class DeleteLaboratory(id: Int)
@@ -41,6 +43,10 @@ object RegistrationProtocol {
   case class DeletePatient(id: Option[Int])
 
   implicit val deleteFormat: OFormat[DeletePatient] = Json.format[DeletePatient]
+
+  case class FindWorkTypeIdByWorkType(id: String)
+
+  implicit val FindWorkTypeIdByWorkTypeFormat: OFormat[FindWorkTypeIdByWorkType] = Json.format[FindWorkTypeIdByWorkType]
 
   case class Patient(id: Option[Int] = None,
                      firstName: String,
@@ -93,11 +99,10 @@ object RegistrationProtocol {
                            numberPerYear: Int,
                            doctorType: JsValue,
                            labType: JsValue,
-                           workType: String
+                           workType: Int
                           )
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]
-
 
   case class Region(id: Int, name: String)
 

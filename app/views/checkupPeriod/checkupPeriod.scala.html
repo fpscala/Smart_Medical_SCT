@@ -177,16 +177,14 @@
                 <div class="col-md-4">
                   <div class="form-group one-line-dropdown">
                     <label for="doctorType">Doctor Type</label>
-                    <select multiple name="doctorType" class="custom-select selectpicker form-control" data-bind="options: vm.getCheckupPeriodList(), optionsText: 'doctorType',
-                optionsValue: 'id', value: vm.doctorType " id="doctorType" data-show-subtext="true">
+                    <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
                     </select>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group one-line-dropdown">
                     <label for="labType">Laboratory Type</label>
-                    <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.labTypeList(), optionsText: 'labType',
-                optionsValue: 'id', value: vm.labType " id="labType" data-show-subtext="true">
+                    <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedLabType, selectPickerOptions: {optionsArray: vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
                     </select>
                   </div>
                 </div>

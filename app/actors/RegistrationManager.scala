@@ -20,6 +20,7 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val laboratoryDao: LaboratoryDao,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao,
+                                    val workTypeDao: WorkTypeDao,
                                     val checkupPeriodDao: CheckupPeriodDao
                                    )
                                    (implicit val ec: ExecutionContext)
@@ -85,6 +86,12 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case AddCheckupPeriod(data) =>
       addCheckupPeriod(data).pipeTo(sender())
+
+    case AddWorkType(data) =>
+      addWorkType(data).pipeTo(sender())
+
+    case FindWorkTypeIdByWorkType(workType) =>
+      findWorkTypeIdByWorkType(workType).pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -162,6 +169,17 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
     checkupPeriodDao.addCheckupPeriod(data)
+  }
+
+  private def addWorkType(data: WorkType): Future[Int] = {
+    workTypeDao.addWorkType(data)
+  }
+
+  private def findWorkTypeIdByWorkType(workType: String): Future[Option[Int]] = {
+    workTypeDao.findWorkTypeIdByWorkTypeName(workType).mapTo[Option[WorkType]].map {
+      case Some(workType) => workType.id
+      case None => None
+    }
   }
 
 }

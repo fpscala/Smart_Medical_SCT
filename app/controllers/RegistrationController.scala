@@ -179,14 +179,20 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    val numberPerYear = (request.body \ "numberPerYear").as[Int]
-    val doctorType = (request.body \ "doctorType").as[JsValue]
-    val labType = (request.body \ "labType").as[JsValue]
+  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request =>{
+    val numberPerYear = (request.body \ "numberPerYear").as[String].toInt
+    val doctorType = (request.body \ "doctorType").as[Array[Int]]
+    val labType = (request.body \ "labType").as[Array[Int]]
     val workType = (request.body \ "workType").as[String]
-    (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, doctorType, labType, workType))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
+    val result = (for {
+      _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
+      workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
+      result <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, Json.toJson(doctorType), Json.toJson(labType), workTypeId.head))).mapTo[Int]
+    } yield result)
+    result.map { a =>
+      Ok(Json.toJson("OK"))
     }
+  }
   }
 
 

@@ -18,16 +18,16 @@ trait CheckupPeriodComponent {
 
   import utils.PostgresDriver.api._
 
-  class CheckupPeriodTable(tag: Tag) extends Table[CheckupPeriod](tag, "CheckupPeriod") with Date2SqlDate {
+  class CheckupPeriodTable(tag: Tag) extends Table[CheckupPeriod](tag, "Checkup_period") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def numberPerYear = column[Int]("numberPerYear")
+    def numberPerYear = column[Int]("number_per_year")
 
-    def doctorType = column[JsValue]("doctorType" )
+    def doctorType = column[JsValue]("doctor_type_id" )
 
-    def labType = column[JsValue]("labType")
+    def labType = column[JsValue]("lab_type_id")
 
-    def workType = column[String]("workType")
+    def workType = column[Int]("work_type_id")
 
     def * = (id.?, numberPerYear, doctorType, labType, workType) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
   }
@@ -38,7 +38,6 @@ trait CheckupPeriodComponent {
 trait CheckupPeriodDao {
 
   def addCheckupPeriod(data: CheckupPeriod): Future[Int]
-
 }
 
 @Singleton
