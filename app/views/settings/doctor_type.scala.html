@@ -141,21 +141,19 @@
     <div class="modal fade" id="add_doctor_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="@controllers.routes.RegistrationController.addDoctorType()" enctype="multipart/form-data" method="post">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="editModalLongTitle">Add Doctor Type</h3>
-                        <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-header">
+                    <h3 class="modal-title" id="editModalLongTitle">Add Doctor Type</h3>
+                    <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Doctor Type Name:</label>
+                        <input class="form-control" type="text" name="doctorType" data-bind="value: vm.doctorTypeName">
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Doctor Type Name:</label>
-                            <input class="form-control" type="text" id="name">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary btn-modal">Create</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-modal" data-bind="click: vm.onSubmit">Create</button>
+                </div>
             </div>
         </div>
     </div>
