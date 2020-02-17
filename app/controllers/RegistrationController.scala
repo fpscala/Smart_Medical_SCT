@@ -14,7 +14,7 @@ import org.webjars.play.WebJarsUtil
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
-import protocols.RegistrationProtocol.{AddCheckupPeriod, AddDoctorType, AddImage, AddLaboratory, AddOrganization, CheckupPeriod, CreatePatient, DeleteDoctorType, DeleteLaboratory, DeleteOrganization, DeletePatient, DoctorType, GetDoctorTypeList, GetLaboratoryList, GetOrganizationList, GetPatient, Laboratory, Organization, Patient, UpdateDoctorType, UpdateLaboratory, UpdateOrganization}
+import protocols.RegistrationProtocol.{AddLaboratory, AddOrganization, DeleteLaboratory, DeleteOrganization, GetLaboratoryList, GetOrganizationList, Laboratory, Organization, UpdateLaboratory, UpdateOrganization, _}
 import views.html._
 import views.html.checkupPeriod._
 import views.html.patient._
@@ -141,13 +141,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-//  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
-//    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
-//    logger.warn(s"controllerga keldi")
-//    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
-//      Ok(Json.toJson(id))
-//    }
-//  }
+  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val doctorTypeName = (request.body \ "doctorTypeName").as[String]
+    logger.warn(s"controllerga keldi")
+    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
+      Ok(Json.toJson(id))
+    }
+  }
 
   def getDoctorTypeName: Action[AnyContent] = Action.async {
     (registrationManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
@@ -186,14 +186,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, doctorType, labType, workType))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
-  }
-  def addDoctorType(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
-    val body = request.body.asFormUrlEncoded
-    val doctorTypeName = body("doctorType").head
-    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
-    }
-  }
   }
 
 
