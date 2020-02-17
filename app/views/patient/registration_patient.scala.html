@@ -16,7 +16,7 @@
         enctype="multipart/form-data" method="post">
           <div class="col-sm-12">
           <div class="row border border-dark p-4 mb-5">
-            <div class="title-div">Patient information</div>
+            <div class="title-div">Personal information:</div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>First Name: <span class="text-danger">*</span></label>
@@ -49,18 +49,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>Phone Number: </label>
-                <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label>Address: <span class="text-danger">*</span></label>
-                <input type="text" class="form-control " name="address" data-bind="value: vm.patient.address">
-              </div>
-            </div>
             <div class="col-sm-4 offset-sm-4 text-center">
               <div class="form-group">
                 <label class="display-block">Gender: <span class="text-danger">*</span></label>
@@ -77,8 +65,37 @@
           </div>
           </div>
           <div class="col-sm-12">
+            <div class="row border border-dark p-4 mb-5">
+              <div class="title-div">Contact information: </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Phone Number: </label>
+                  <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Region: </label>
+                  <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>City: </label>
+                  <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Address: <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control " name="address" data-bind="value: vm.patient.address">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
           <div class="row border border-dark p-4">
-            <div class="title-div">Organization information</div>
+            <div class="title-div">Employment information:</div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Organization: <span class="text-danger">*</span></label>
