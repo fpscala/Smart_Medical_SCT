@@ -100,6 +100,9 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        $("#add_lab_type").modal("hide");
+        vm.laboratoryName('')
+        getLaboratory()
 
   getLaboratory = ->
     $.ajax
@@ -112,6 +115,7 @@ $ ->
   getLaboratory()
 
   vm.deleteLaboratory = (id) ->
+    console.log(id)
     data =
       id: id
     $('#delete').open
@@ -124,10 +128,11 @@ $ ->
         contentType: 'application/json'
       .fail handleError
       .done (response) ->
+        console.log(data)
         $('#close_modal').click()
-        getLaboratory()
         toastr.success(response)
-    $(this).parents('tr').remove()
+        getLaboratory()
+        $(this).parents('tr').remove()
 
   vm.updateLaboratory = ->
     data =
