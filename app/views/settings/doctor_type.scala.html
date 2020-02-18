@@ -29,67 +29,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_doctor_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_doctor_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_doctor_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_doctor_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_doctor_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_doctor_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_doctor_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_doctor_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_doctor_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_doctor_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet.</td>
+                                    <td></td>
                                     <td class="text-right">
                                         <div class="dropdown dropdown-action">
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -129,7 +69,7 @@
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-toggle="modal" data-target="#delete_lab_type"><i class="fa fa-trash m-r-5"></i> Delete</a>
+                                                <span class="dropdown-item" data-bind="click: $root.vm.deleteLaboratory($data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</span>
                                             </div>
                                         </div>
                                     </td>
@@ -152,8 +92,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Doctor Type Name:</label>
-                        <input class="form-control" type="text" name="doctorType" data-bind="value: vm.doctorTypeName">
+                        <label for="doctorTypeName">Doctor Type Name:</label>
+                        <input class="form-control" type="text" name="doctorTypeName" data-bind="value: vm.doctorTypeName">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -256,8 +196,8 @@
                     <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
                     <h3>Are you sure want to delete this Laboratory?</h3>
                     <div class="m-t-20">
-                        <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a href="#" class="btn btn-white" id="close_modal" data-dismiss="modal">Close</a>
+                        <button  type="submit" id="ask_delete" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>
