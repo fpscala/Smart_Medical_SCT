@@ -19,6 +19,8 @@ $ ->
     getList: []
     getLaboratoryList: []
     id: 0
+    selectedLanguage: Glob.language
+
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -137,5 +139,16 @@ $ ->
     .fail handleError
     .done (response) ->
       toastr.success(response)
+
+
+  vm.translate = (fieldName) -> ko.computed () ->
+    index = if vm.selectedLanguage() is 'en' then 0 else 1
+    vm.labels[fieldName][index]
+
+  vm.labels =
+    labelTitle: [
+      "Doctor type"
+      "Mutahasislik"
+    ]
 
   ko.applyBindings {vm}

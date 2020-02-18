@@ -1,15 +1,20 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
-@()
+@(lang: String)
 @import views.html.main
 @main("Doctor type", webJarsUtil) {
+    <script type="text/javascript">
+            var Glob = {
+                language: '@lang'
+            }
+    </script>
     <script src="@routes.Assets.versioned("javascripts/doctorType.js")" type="text/javascript"></script>
-
+    @sidebar()
     <div class="content">
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <h4 class="page-title">Doctor type</h4>
+                        <h4 class="page-title"  data-bind="text: vm.translate('labelTitle')"></h4>
                         <a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#add_doctor_type">
                             <i class="fa fa-plus"></i> Add doctor type
                         </a>

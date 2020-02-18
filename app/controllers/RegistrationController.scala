@@ -11,6 +11,7 @@ import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
+import play.api.Configuration
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
@@ -25,6 +26,7 @@ import scala.concurrent.duration.DurationInt
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
+                                       val configuration: Configuration,
                                        implicit val webJarsUtil: WebJarsUtil,
                                        @Named("registration-manager") val registrationManager: ActorRef,
                                        indexTemplate: index,
@@ -38,29 +40,30 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   extends BaseController with LazyLogging {
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
+  val language = configuration.get[String]("language")
 
   def index = Action {
-    Ok(indexTemplate())
+    Ok(indexTemplate(language))
   }
 
   def workType = Action {
-    Ok(workTypeTemplate())
+    Ok(workTypeTemplate(language))
   }
 
   def doctorType = Action {
-    Ok(doctorTypeTemplate())
+    Ok(doctorTypeTemplate(language))
   }
 
   def patient = Action {
-    Ok(registrationPatient())
+    Ok(registrationPatient(language))
   }
 
   def patient_dashboard = Action {
-    Ok(dashboard_patient())
+    Ok(dashboard_patient(language))
   }
 
   def organization = Action {
-    Ok(registrationOrganization())
+    Ok(registrationOrganization(language))
   }
 
 
@@ -73,7 +76,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def getLaboratoryName: Action[AnyContent] = Action.async {
-    (registrationManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map{ laboratoryName =>
+    (registrationManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map { laboratoryName =>
       Ok(Json.toJson(laboratoryName))
     }
   }
@@ -102,6 +105,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       }
     }
   }
+
   def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val organizationName = (request.body \ "organizationName").as[String]
     logger.warn(s"controllerga keldi")
@@ -141,7 +145,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request =>{
+  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val doctorTypeName = (request.body \ "doctorType").as[String]
     logger.warn(s"controllerga keldi")
     (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
@@ -179,7 +183,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request =>{
+  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val numberPerYear = (request.body \ "numberPerYear").as[String].toInt
     val doctorType = (request.body \ "doctorType").as[Array[Int]]
     val labType = (request.body \ "labType").as[Array[Int]]
@@ -217,7 +221,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
     val cardNumber = body("cardNumber").head
     val profession = body("profession").headOption
-    logger.warn(s"asdasdasdasd")
     request.body.file("attachedFile").map { temp =>
       val fileName = filenameGenerator()
       val imgData = getBytesFromPath(temp.ref.path)
@@ -247,7 +250,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
-      if(bool == 1){
+      if (bool == 1) {
         Ok(Json.toJson(s"$id reqamli bemor o'chirildi"))
       } else {
         Ok(Json.toJson(s"Bunday raqamli bemor mavjud emas!"))

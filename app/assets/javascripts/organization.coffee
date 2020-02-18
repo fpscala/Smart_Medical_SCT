@@ -16,6 +16,7 @@ $ ->
     roleList: []
     id: 0
     after: ''
+    language: Glob.language
 
 
   defaultUserdata =
@@ -93,6 +94,14 @@ $ ->
       row.next('tr').hide().removeClass('show').addClass('hide')
 
 
+  vm.translate = (fieldName) -> ko.computed () ->
+    index = if vm.language() is 'en' then 0 else 1
+    vm.labels[fieldName][index]
 
+  vm.labels =
+    label: [
+      "Hello World!"
+      "Salom Dunyo!"
+    ]
 
   ko.applyBindings {vm}

@@ -1,7 +1,13 @@
-@this(webJarsUtil: org.webjars.play.WebJarsUtil)
-@()
 @import views.html.main
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@(lang: String)
 @main("Home Page", webJarsUtil) {
+    <script type="text/javascript">
+            var Glob = {
+                language: '@lang'
+            }
+    </script>
+    @sidebar()
 
    @* <script src="@routes.Assets.versioned("javascripts/medical.js")" type="text/javascript"></script>
     <div class="container">
