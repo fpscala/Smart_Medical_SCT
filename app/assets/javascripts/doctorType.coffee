@@ -114,8 +114,7 @@ $ ->
 
   getLaboratory()
 
-  vm.deleteLaboratory = (id) ->
-    console.log(id)
+  vm.deleteLaboratory = (id) -> ->
     data =
       id: id
     $('#delete').open

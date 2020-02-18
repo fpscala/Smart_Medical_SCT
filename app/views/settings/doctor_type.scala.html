@@ -64,7 +64,7 @@
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#delete" data-bind="click: $root.vm.deleteLaboratory.bind($data, $data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</a>
+                                                <span class="dropdown-item" data-bind="click: $root.vm.deleteLaboratory($data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</span>
                                             </div>
                                         </div>
                                     </td>
