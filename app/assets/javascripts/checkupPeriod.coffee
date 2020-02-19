@@ -8,6 +8,11 @@ $ ->
     getCheckupPeriod: '/get'
     updateCheckupPeriod: '/update/checkupPeriod'
 
+  defaultForm =
+    year: ''
+    labType: ''
+    docType: ''
+
   vm = ko.mapping.fromJS
     numberPerYear: ''
     selectedDoctorType: []
@@ -16,6 +21,23 @@ $ ->
     workType: ''
     getCheckupPeriodList: [{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}]
     language: Glob.language
+    formA: []
+    formB: []
+
+  vm.formA.push(defaultForm)
+
+  vm.addForm = -> ->
+    data =
+      year: vm.numberPerYear()
+      labType: vm.selectedLabType()
+      docType: vm.selectedDoctorType()
+    vm.formB.push(data)
+    vm.numberPerYear('')
+    vm.selectedLabType('')
+    vm.selectedDoctorType('')
+    vm.formA.push(defaultForm)
+    console.log('formA', vm.formA())
+    console.log('formB', vm.formB())
 
 
   form = (x) ->
@@ -44,6 +66,7 @@ $ ->
       toastr.error("please enter the laboratory type!")
       return no
     else
+      # TODO FormB need to send
       data =
         workType: vm.workType()
         numberPerYear: vm.numberPerYear()

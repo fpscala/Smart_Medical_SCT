@@ -166,38 +166,43 @@
                   </div>
                 </div>
               </div>
-              <div class="row  container1" id="fields">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="numberPerYear" >Number per year: </label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">1 yilda</span>
+              <ul data-bind="foreach: vm.formA">
+                <li style="list-style: none">
+                  <div class="row  container1" id="fields">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="numberPerYear" >Number per year: </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">1 yilda</span>
+                          </div>
+                          <input type="text"  class="form-control text-center" data-bind="masked: $parent.vm.numberPerYear, mask: '9'" >
+                          <div class="input-group-append">
+                            <span class="input-group-text">marta</span>
+                          </div>
+                        </div>
                       </div>
-                      <input type="text"  class="form-control text-center" data-bind="masked: vm.numberPerYear, mask: '9'" name="numberPerYear">
-                      <div class="input-group-append">
-                        <span class="input-group-text">marta</span>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group one-line-dropdown">
+                        <label for="doctorType">Doctor Type</label>
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $parent.vm.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group one-line-dropdown">
+                        <label for="labType">Laboratory Type</label>
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $parent.vm.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
+                        </select>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group one-line-dropdown">
-                    <label for="doctorType">Doctor Type</label>
-                    <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group one-line-dropdown">
-                    <label for="labType">Laboratory Type</label>
-                    <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedLabType, selectPickerOptions: {optionsArray: vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
-                    </select>
-                  </div>
-                </div>
-              </div>
+                </li>
+              </ul>
+
               <div class="col-md-6 text-right">
-                <button type="button" class=" add_form_field add_form_field2 btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-success btn-rounded " data-bind="click: vm.addForm()" ><i class="fas fa-plus"></i></button>
               </div>
               <div class="col-md-6 text-light container2">
               </div>
