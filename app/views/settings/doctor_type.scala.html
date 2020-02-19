@@ -1,6 +1,6 @@
+@import views.html.main
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(lang: String)
-@import views.html.main
 @main("Doctor type", webJarsUtil) {
     <script type="text/javascript">
             var Glob = {
@@ -54,7 +54,7 @@
                         </a>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <table class="table table-border table-striped custom-table datatable mb-0 dataTable">
+                        <table class="table table-border table-striped custom-table datatable mb-0 dataTable" data-bind="visible: vm.getLaboratoryList().length > 0">
                             <thead>
                                 <tr>
                                     <th style="width: 90%">Name</th>
@@ -69,7 +69,7 @@
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                                                <span class="dropdown-item" data-bind="click: $root.vm.deleteLaboratory($data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</span>
+                                                <span class="dropdown-item" data-bind="click: $root.vm.askDelete($data.id)" data-toggle="modal" data-target="#delete_lab_type" id="deleteLaboratory"><i class="fa fa-trash m-r-5"></i> Delete</span>
                                             </div>
                                         </div>
                                     </td>
@@ -88,7 +88,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="editModalLongTitle">Add Doctor Type</h3>
-                    <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -110,7 +110,7 @@
                 <form action="#" method="post">
                     <div class="modal-header">
                         <h3 class="modal-title" id="editModalLongTitle">Edit Doctor Type</h3>
-                        <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -149,7 +149,7 @@
                 <form action="#" method="post">
                     <div class="modal-header">
                         <h3 class="modal-title" id="editModalLongTitle">Add Laboratory Type</h3>
-                        <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -177,7 +177,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Laboratory Type Name:</label>
-                            <input class="form-control" type="text" id="name">
+                            <input class="form-control" type="text">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -197,7 +197,7 @@
                     <h3>Are you sure want to delete this Laboratory?</h3>
                     <div class="m-t-20">
                         <a href="#" class="btn btn-white" id="close_modal" data-dismiss="modal">Close</a>
-                        <button  type="submit" id="ask_delete" class="btn btn-danger">Delete</button>
+                        <button  type="submit" data-bind="click: vm.deleteLaboratory" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>

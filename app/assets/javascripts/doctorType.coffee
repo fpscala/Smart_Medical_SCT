@@ -20,6 +20,7 @@ $ ->
     getLaboratoryList: []
     id: 0
     selectedLanguage: Glob.language
+    selectedId: ''
 
 
   handleError = (error) ->
@@ -116,24 +117,25 @@ $ ->
 
   getLaboratory()
 
-  vm.deleteLaboratory = (id) -> ->
-    data =
-      id: id
+  vm.askDelete = (id) -> ->
+    vm.selectedId id
     $('#delete').open
-    $(document).on 'click','#ask_delete', ->
-      $.ajax
-        url: apiUrl.deleteLab
-        type: 'DELETE'
-        data: JSON.stringify(data)
-        dataType: 'json'
-        contentType: 'application/json'
-      .fail handleError
-      .done (response) ->
-        console.log(data)
-        $('#close_modal').click()
-        toastr.success(response)
-        getLaboratory()
-        $(this).parents('tr').remove()
+
+  vm.deleteLaboratory = ->
+    data =
+      id: vm.selectedId()
+    $.ajax
+      url: apiUrl.deleteLab
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      $('#close_modal').click()
+      toastr.success(response)
+      getLaboratory()
+      $(this).parents('tr').remove()
 
   vm.updateLaboratory = ->
     data =
