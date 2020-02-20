@@ -50,7 +50,6 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-
   vm.addCheckupPeriod = ->
     toastr.clear()
     if (!vm.workType())
