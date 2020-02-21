@@ -21,6 +21,7 @@ $ ->
     id: 0
     selectedLanguage: Glob.language
     selectedId: ''
+    selectedName: ''
 
 
   handleError = (error) ->
@@ -121,6 +122,11 @@ $ ->
     vm.selectedId id
     $('#delete').open
 
+  vm.openEditForm = (data) -> ->
+    vm.selectedId data.id
+    vm.selectedName data.laboratoryName
+    $('#edit_lab_type').open
+
   vm.deleteLaboratory = ->
     data =
       id: vm.selectedId()
@@ -137,19 +143,21 @@ $ ->
       getLaboratory()
       $(this).parents('tr').remove()
 
-  vm.updateLaboratory = ->
+  vm.updateLaboratory = () ->
     data =
-      id: parseInt(vm.id())
-      laboratoryName: vm.laboratoryName()
+      id: vm.selectedId()
+      laboratoryName: vm.selectedName()
     $.ajax
-      url: apiUrl.update
+      url: apiUrl.updateLab
       type: 'POST'
       data: JSON.stringify(data)
       dataType: 'json'
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
+      $('#closeModalLanguage').click()
       toastr.success(response)
+      getLaboratory()
 
 
   vm.translate = (fieldName) -> ko.computed () ->
