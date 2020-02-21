@@ -55,7 +55,9 @@ $ ->
           toastr.error("please enter the laboratory type!")
           return no
 
-      data = ko.mapping.toJS(vm.formA())
+      data =
+        workType: vm.workType()
+        form: ko.mapping.toJS(vm.formA())
       $.ajax
         url: apiUrl.send
         type: 'POST'
