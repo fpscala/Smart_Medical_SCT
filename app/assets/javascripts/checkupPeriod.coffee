@@ -9,40 +9,19 @@ $ ->
     updateCheckupPeriod: '/update/checkupPeriod'
 
   defaultForm =
-    year: ''
-    labType: ''
-    docType: ''
-
-  vm = ko.mapping.fromJS
     numberPerYear: ''
     selectedDoctorType: []
     selectedLabType: []
-    labTypeList: [{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}]
+
+  vm = ko.mapping.fromJS
+    labTypeList: []
     workType: ''
-    getCheckupPeriodList: [{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}]
+    getCheckupPeriodList: []
     language: Glob.language
     formA: []
     formB: []
 
-  vm.formA.push(defaultForm)
 
-  vm.addForm = -> ->
-    data =
-      year: vm.numberPerYear()
-      labType: vm.selectedLabType()
-      docType: vm.selectedDoctorType()
-    vm.formB.push(data)
-    vm.numberPerYear('')
-    vm.selectedLabType('')
-    vm.selectedDoctorType('')
-    vm.formA.push(defaultForm)
-    console.log('formA', vm.formA())
-    console.log('formB', vm.formB())
-
-
-  form = (x) ->
-    fields = document.getElementById('fields')
-    return fields.outerHTML
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -50,27 +29,33 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
+  vm.addForm = -> ->
+    vm.formA.push ko.mapping.fromJS(defaultForm)
+    vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
+    vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+    console.log('formA', ko.mapping.toJS(vm.formA()))
+
   vm.addCheckupPeriod = ->
     toastr.clear()
     if (!vm.workType())
       toastr.error("please enter the work type!")
       return no
-    else if (!vm.numberPerYear())
-      toastr.error("please enter the number per year!")
-      return no
-    else if (vm.selectedDoctorType().length is 0)
-      toastr.error("please enter the doctor type!")
-      return no
-    else if (vm.selectedLabType().length is 0)
-      toastr.error("please enter the laboratory type!")
+    else if ko.mapping.toJS(vm.formA()).length is 0
+      toastr.error("please click button plus")
       return no
     else
-      # TODO FormB need to send
-      data =
-        workType: vm.workType()
-        numberPerYear: vm.numberPerYear()
-        doctorType: vm.selectedDoctorType()
-        labType: vm.selectedLabType()
+      for form in ko.mapping.toJS(vm.formA())
+        if (!form.numberPerYear)
+          toastr.error("please enter the number per year!")
+          return no
+        else if (form.selectedDoctorType.length is 0)
+          toastr.error("please enter the doctor type!")
+          return no
+        else if (form.selectedLabType.length is 0)
+          toastr.error("please enter the laboratory type!")
+          return no
+
+      data = ko.mapping.toJS(vm.formA())
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -89,24 +74,6 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.getCheckupPeriodList(response)
-
-  $(document).ready ->
-    max_fields = 4
-    wrapper = $('.container1')
-    add_button = $('.add_form_field')
-    x = 1
-    $(add_button).click (e) ->
-      e.preventDefault()
-      if x < max_fields
-        x++
-        $(wrapper).after form(x)
-        document.getElementById('fields').nextSibling.setAttribute('id', x)
-      else
-        alert 'You Reached the limits'
-    $(wrapper).on 'click', '.delete', (e) ->
-      e.preventDefault()
-      $(this).parent('div').remove()
-      x--
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

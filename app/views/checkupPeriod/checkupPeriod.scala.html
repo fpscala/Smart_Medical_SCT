@@ -176,7 +176,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text">1 yilda</span>
                           </div>
-                          <input type="text"  class="form-control text-center" data-bind="masked: $parent.vm.numberPerYear, mask: '9'" >
+                          <input type="text"  class="form-control text-center" data-bind="value: $data.numberPerYear" >
                           <div class="input-group-append">
                             <span class="input-group-text">marta</span>
                           </div>
@@ -186,14 +186,14 @@
                     <div class="col-md-4">
                       <div class="form-group one-line-dropdown">
                         <label for="doctorType">Doctor Type</label>
-                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $parent.vm.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
                         </select>
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group one-line-dropdown">
                         <label for="labType">Laboratory Type</label>
-                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $parent.vm.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
                         </select>
                       </div>
                     </div>

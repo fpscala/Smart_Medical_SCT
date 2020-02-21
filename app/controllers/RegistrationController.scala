@@ -184,6 +184,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
+    // TODO parse objects from array
     val numberPerYear = (request.body \ "numberPerYear").as[String].toInt
     val doctorType = (request.body \ "doctorType").as[Array[Int]]
     val labType = (request.body \ "labType").as[Array[Int]]
