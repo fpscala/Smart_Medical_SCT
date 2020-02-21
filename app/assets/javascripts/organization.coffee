@@ -12,7 +12,7 @@ $ ->
   vm = ko.mapping.fromJS
     organizationName: ''
     user: defaultUserdata
-    getList: []
+    organizations: []
     roleList: []
     id: 0
     after: ''
@@ -47,16 +47,15 @@ $ ->
         toastr.success(response)
         $("#closeModalLanguage").click()
 
-  vm.getOrganization = ->
+  getOrganization = ->
     $.ajax
       url: apiUrl.get
       type: 'GET'
     .fail handleError
     .done (response) ->
-      vm.getList(response)
+      vm.organizations(response)
 
-  vm.getOrganization()
-
+  getOrganization()
 
   $(document).on 'click', '.deleteOrganization', ->
     row = $(this).closest('tr').children('td')
