@@ -45,7 +45,7 @@
                   <div class="dropdown-menu dropdown-menu-right">
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
                       Edit</a>
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete"><i class="fas fa-trash m-r-5"></i>
+                    <a href="#" data-bind="click: $parent.vm.askDelete($data.id)" class="dropdown-item" data-toggle="modal" data-target="#delete" ><i class="fas fa-trash m-r-5"></i>
                       Delete</a>
                   </div>
                 </div>
@@ -276,7 +276,7 @@
       </div>
     </div>
   </div>
-  @* DELETE DOCTOR TYPE *@
+  @* DELETE ORG TYPE *@
   <div id="delete" class="modal fade delete-modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -284,8 +284,8 @@
           <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
           <h3>Are you sure want to delete this Organization?</h3>
           <div class="m-t-20">
-            <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="#" class="btn btn-white" id="close_delete_modal" data-dismiss="modal">Close</a>
+            <button type="submit" data-bind="click: vm.deleteOrg" class="btn btn-danger">Delete</button>
           </div>
         </div>
       </div>

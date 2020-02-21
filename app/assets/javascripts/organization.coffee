@@ -17,6 +17,8 @@ $ ->
     id: 0
     after: ''
     language: Glob.language
+    selected:
+      id: ''
 
 
   defaultUserdata =
@@ -46,6 +48,7 @@ $ ->
       .done (response) ->
         toastr.success(response)
         $("#closeModalLanguage").click()
+        getOrganization()
 
   getOrganization = ->
     $.ajax
@@ -57,10 +60,13 @@ $ ->
 
   getOrganization()
 
-  $(document).on 'click', '.deleteOrganization', ->
-    row = $(this).closest('tr').children('td')
+  vm.askDelete = (id) -> ->
+    vm.selected.id id
+    $('#delete').open
+
+  vm.deleteOrg = ->
     data =
-      id: row[0].innerText
+      id: vm.selected.id()
     $.ajax
       url: apiUrl.delete
       type: 'DELETE'
@@ -69,8 +75,10 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
+      $('#close_delete_modal').click()
       toastr.success(response)
-    $(this).parents('tr').remove()
+      getOrganization()
+#    $(this).parents('tr').remove()
 
   vm.updateOrganization = ->
     data =
