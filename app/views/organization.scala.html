@@ -177,10 +177,10 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="organizationName">Organization Name: </label>
-                  <input class="form-control" type="text" id="organizationName" name="organizationName" data-bind="">
+                  <input class="form-control" type="text" id="organizationName" data-bind="value: vm.organizationName">
                 </div>
               </div>
-              <div class="col-sm-6">
+              @*<div class="col-sm-6">
                 <div class="form-group">
                   <label for="phonenumber">Phone Number: </label>
                   <input class="form-control" type="text" id="phonenumber" name="phonenumber" data-bind="">
@@ -212,7 +212,7 @@
                   <select multiple name="roles" class="custom-select selectpicker form-control" data-bind="options: vm.roleList(), optionsText: 'name', optionsValue: 'id', value: vm.user.selectedRoles, optionsCaption: 'Select Role' " data-show-subtext="true">
                   </select>
                 </div>
-              </div>
+              </div>*@
             </div>
           </div>
           <div class="modal-footer">

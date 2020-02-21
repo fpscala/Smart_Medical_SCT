@@ -45,6 +45,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        $("#closeModalLanguage").click()
 
   vm.getOrganization = ->
     $.ajax
