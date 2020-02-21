@@ -20,7 +20,7 @@ object RegistrationProtocol {
 
   case class AddLaboratory(data: Laboratory)
 
-  case class AddCheckupPeriod(data: CheckupPeriod)
+  case class AddCheckupPeriod(data: Set[CheckupPeriod])
 
   case object GetDoctorTypeList
 

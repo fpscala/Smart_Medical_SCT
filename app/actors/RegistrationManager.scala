@@ -167,8 +167,10 @@ class RegistrationManager @Inject()(val environment: Environment,
     doctorTypeDao.updateDoctorType(data)
   }
 
-  private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
-    checkupPeriodDao.addCheckupPeriod(data)
+  private def addCheckupPeriod(data: Set[CheckupPeriod]): Future[Int] = {
+    data.map {chp =>
+      checkupPeriodDao.addCheckupPeriod(chp)
+    }.head
   }
 
   private def addWorkType(data: WorkType): Future[Int] = {

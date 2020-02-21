@@ -19,9 +19,6 @@ $ ->
     getCheckupPeriodList: []
     language: Glob.language
     formA: []
-    formB: []
-
-
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)

@@ -21,8 +21,8 @@ import views.html.checkupPeriod._
 import views.html.patient._
 import views.html.settings._
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.DurationInt
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -184,26 +184,22 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
-    // TODO parse objects from array
     logger.warn(s"body: ${request.body}")
     val workType = (request.body \ "workType").as[String]
     val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    logger.warn(s"data: $data")
+    logger.warn(s"data: ${data.map(_.selectedDoctorType)}")
 
-//    val numberPerYear = (request.body \ "numberPerYear").as[String].toInt
-//    val doctorType = (request.body \ "doctorType").as[Array[Int]]
-//    val labType = (request.body \ "labType").as[Array[Int]]
-//    val workType = (request.body \ "workType").as[String]
-//    val result = (for {
-//      _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
-//      workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
-//      result <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, numberPerYear, Json.toJson(doctorType), Json.toJson(labType), workTypeId.head))).mapTo[Int]
-//    } yield result)
-//    result.map { a =>
-     Future.successful( Ok(Json.toJson("OK")))
-//    }
-  }
-  }
+    for {
+      _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
+      workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
+      _ <- (registrationManager ? AddCheckupPeriod(
+        data.toSet.map { d:CheckupPeriodForm  =>
+          CheckupPeriod(None, d.numberPerYear.toInt, Json.toJson(d.selectedDoctorType), Json.toJson(d.selectedLabType), workTypeId.get)
+        })).mapTo[Int]
+    } yield {
+      Ok(Json.toJson("OK"))
+    }
+  }}
 
 
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
