@@ -19,7 +19,7 @@ $ ->
     language: Glob.language
     selected:
       id: ''
-
+      name: ''
 
   defaultUserdata =
     selectedRoles: []
@@ -64,6 +64,11 @@ $ ->
     vm.selected.id id
     $('#delete').open
 
+  vm.openEditForm = (data) -> ->
+    vm.selected.id data.id
+    vm.selected.name(data.organizationName)
+    $('#edit_lab_type').open
+
   vm.deleteOrg = ->
     data =
       id: vm.selected.id()
@@ -82,8 +87,8 @@ $ ->
 
   vm.updateOrganization = ->
     data =
-      id: parseInt(vm.id())
-      organizationName: vm.organizationName()
+      id: vm.selected.id()
+      organizationName: vm.selected.name()
     $.ajax
       url: apiUrl.update
       type: 'POST'
@@ -92,7 +97,9 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
+      $("#closeEditModal").click()
       toastr.success(response)
+      getOrganization()
 
   $(document).on 'click', '.clickOnRow', ->
     row = $(this).closest('tr')

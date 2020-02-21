@@ -43,7 +43,7 @@
                 <div class="dropdown dropdown-action">
                   <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
+                    <a href="#" class="dropdown-item" data-bind="click: $parent.vm.openEditForm($data)" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
                       Edit</a>
                     <a href="#" data-bind="click: $parent.vm.askDelete($data.id)" class="dropdown-item" data-toggle="modal" data-target="#delete" ><i class="fas fa-trash m-r-5"></i>
                       Delete</a>
@@ -224,17 +224,17 @@
         <form action="@controllers.routes.RegistrationController" method="post">
           <div class="modal-header">
             <h3 class="modal-title">Edit organization</h3>
-            <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close" id="closeEditModal" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="organizationName">Organization Name: </label>
-                  <input class="form-control" type="text" id="organizationName" name="organizationName" data-bind="value: vm.organizationName">
+                  <input class="form-control" type="text" id="organizationName" data-bind="value: vm.selected.name">
                 </div>
               </div>
-              <div class="col-sm-6">
+              @*<div class="col-sm-6">
                 <div class="form-group">
                   <label for="phonenumber">Phone Number: </label>
                   <input class="form-control" type="text" id="phonenumber" name="phonenumber" data-bind="">
@@ -266,7 +266,7 @@
                   <select multiple name="roles" class="custom-select selectpicker form-control" data-bind="options: vm.roleList(), optionsText: 'name', optionsValue: 'id', value: vm.user.selectedRoles, optionsCaption: 'Select Role' " data-show-subtext="true">
                   </select>
                 </div>
-              </div>
+              </div>*@
             </div>
           </div>
           <div class="modal-footer">
