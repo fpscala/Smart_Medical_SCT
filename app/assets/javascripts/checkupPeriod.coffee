@@ -16,7 +16,7 @@ $ ->
   vm = ko.mapping.fromJS
     labTypeList: []
     workType: ''
-    getCheckupPeriodList: []
+    doctorTypeList: []
     language: Glob.language
     formA: []
 
@@ -29,7 +29,7 @@ $ ->
   vm.addForm = -> ->
     vm.formA.push ko.mapping.fromJS(defaultForm)
     vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
-    vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+    vm.doctorTypeList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
     console.log('formA', ko.mapping.toJS(vm.formA()))
 
   vm.addCheckupPeriod = ->
