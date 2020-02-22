@@ -4,10 +4,10 @@ $ ->
   Glob = window.Glob || {}
 
   apiUrl =
-    send: '/add-doctor-type'
-    get: '/getDoctorType'
-    delete: '/deleteDoctorType'
-    update: '/updateDoctorType'
+    sendDoc: '/add-doctor-type'
+    getDoctor: '/getDoctorType'
+    deleteDoc: '/deleteDoctorType'
+    updateDoc: '/updateDoctorType'
     sendLab: '/addLaboratory'
     getLab: '/getLaboratory'
     deleteLab: '/deleteLaboratory'
@@ -16,7 +16,7 @@ $ ->
   vm = ko.mapping.fromJS
     doctorTypeName: ''
     laboratoryName: ''
-    getList: []
+    getDoctorTypeList: []
     getLaboratoryList: []
     id: 0
     selectedLanguage: Glob.language
@@ -38,9 +38,8 @@ $ ->
     else
       data =
         doctorType: vm.doctorTypeName()
-      console.log(data)
       $.ajax
-        url: apiUrl.send
+        url: apiUrl.sendDoc
         type: 'POST'
         data: JSON.stringify(data)
         dataType: 'json'
@@ -48,37 +47,46 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        $("#add_doctor_type").modal("hide");
+        vm.doctorTypeName('')
+        getDoctorType()
 
-
-  vm.getDoctorType = ->
+  getDoctorType = ->
     $.ajax
-      url: apiUrl.get
+      url: apiUrl.getDoctor
       type: 'GET'
     .fail handleError
     .done (response) ->
-      console.log('1: ', vm.getList().length)
-      vm.getList(response)
-      console.log('2: ', vm.getList().length)
+      vm.getDoctorTypeList(response)
 
-  vm.deleteDoctorType = ->
+  getDoctorType()
+
+  vm.deleteDoctorType = (id) ->
+    console.log(id)
     data =
-      id: parseInt(vm.id())
-    $.ajax
-      url: apiUrl.delete
-      type: 'DELETE'
-      data: JSON.stringify(data)
-      dataType: 'json'
-      contentType: 'application/json'
-    .fail handleError
-    .done (response) ->
-      toastr.success(response)
+      id: id
+    $('#delete').open
+    $(document).on 'click','#ask_delete', ->
+      $.ajax
+        url: apiUrl.deleteDoc
+        type: 'DELETE'
+        data: JSON.stringify(data)
+        dataType: 'json'
+        contentType: 'application/json'
+      .fail handleError
+      .done (response) ->
+        console.log(data)
+        $('#close_modal').click()
+        toastr.success(response)
+        getDoctorType()
+    $(this).parents('tr').remove()
 
   vm.updateDoctorType = ->
     data =
       id: parseInt(vm.id())
       doctorTypeNmae: vm.doctorTypeName()
     $.ajax
-      url: apiUrl.update
+      url: apiUrl.updateDoc
       type: 'POST'
       data: JSON.stringify(data)
       dataType: 'json'
@@ -142,6 +150,7 @@ $ ->
       toastr.success(response)
       getLaboratory()
       $(this).parents('tr').remove()
+    $(document).on 'click','#ask_delete', ->
 
   vm.updateLaboratory = () ->
     data =
