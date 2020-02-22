@@ -64,7 +64,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-#        getCheckupPeriod()
+        getCheckupPeriod()
 
   getCheckupPeriod = ->
     $.ajax

@@ -25,7 +25,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-bordered  table-striped display datatable mb-0 " role="grid" aria-describedby="DataTables_Table_0_info">
+          <table class="table table-bordered  table-striped display datatable mb-0 " >
             <thead class="text-center">
               <tr>
                 <th>№</th>
@@ -36,65 +36,13 @@
                 <th class="text-right">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody data-bind="foreach: vm.getLaboratoryList">
               <tr>
-                <td rowspan="2">1</td>
-                <td rowspan="2">
-                  Oziq-ovqat sanoati tashkilotlarida ishlovchilar, jumladan sut fermalari va oshxonalarida, oziq-ovqat maxsulotlarini tarqatish punktlarida, oziq-ovqat maxsulotlarini ishlab </td>
-                <td><p>1-yilda</p> <p>2 marta</p></td>
-                <td>Terapevt, dermatovenerolog, ginekolog </td>
-                <td>ichak infeksiyalari uchun najas tahlili </td>
-                <td class="text-right">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt m-r-5"></i>
-                        Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><p>1-yilda</p> <p>1 marta</p></td>
+                <td rowspan="2" data-bind="text: $index() + 1"></td>
+                <td rowspan="2" data-bind="text: $data.workType"></td>
+                <td data-bind="text: $data.numberPerYear"></td>
                 <td></td>
-                <td>flyuoragrafiya elementlarni aniqlash uchun najas taxlili</td>
-                <td class="text-right">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt m-r-5"></i>
-                        Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td rowspan="2">2</td>
-                <td rowspan="2">
-                  Oziq-ovqat sanoati tashkilotlarida ishlovchilar, jumladan sut fermalari va oshxonalarida, oziq-ovqat maxsulotlarini tarqatish punktlarida, oziq-ovqat maxsulotlarini ishlab </td>
-                <td><p>1-yilda</p> <p>1 marta</p></td>
-                <td>Terapevt, dermatovenerolog, ginekolog </td>
-                <td>ichak infeksiyalari uchun najas tahlili </td>
-                <td class="text-right">
-                  <div class="dropdown dropdown-action">
-                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
-                        Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt m-r-5"></i>
-                        Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><p>1-yilda</p> <p>2 marta</p></td>
                 <td></td>
-                <td>flyuoragrafiya elementlarni aniqlash uchun najas taxlili</td>
                 <td class="text-right">
                   <div class="dropdown dropdown-action">
                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -238,7 +186,7 @@
                 </div>
               </div>
             </div>
-            <div class="row  container1">
+            <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="numberPerYear" >Number per year: </label>
