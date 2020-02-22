@@ -1,39 +1,48 @@
 @()
 <div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
-        <div id="sidebar-menu" class="sidebar-menu">
-            <ul>
-                <li class="menu-title">Main</li>
-                <li class="active">
-                    <a href="@controllers.routes.RegistrationController.index()"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
-                </li>
-                <li>
-                    <a href=#><i class="fas fa-file-medical"></i> <span>Registration</span></a>
-                </li>
-                <li>
-                    <a href=#><i class="fas fa-stethoscope"></i> <span>Medical Checkup</span></a>
-                </li>
-                <li>
-                    <a href="@controllers.routes.RegistrationController.patient_dashboard()"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                </li>
-                <li>
-                    <a href="@controllers.routes.RegistrationController.organization()"><i class="far fa-address-card"></i> <span>Organizations</span></a>
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-chart-bar"></i> <span> Report </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href=#>Patients report</a></li>
-                        <li><a href=#>Organizations report</a></li>
-                    </ul>
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fa fa-cog"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="@controllers.routes.RegistrationController.doctorType()">Doctors type</a></li>
-                        <li><a href="@controllers.routes.RegistrationController.workType()">Work type</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+  <div class="sidebar-inner slimscroll">
+    <div id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        <li class="menu-title">Main</li>
+        <li class="active">
+          <a href="@controllers.routes.RegistrationController.index()"><i class="fa fa-dashboard"></i>
+            <span>Dashboard</span></a>
+        </li>
+        <li>
+          <a href=#><i class="fas fa-file-medical"></i>
+            <span>Registration</span></a>
+        </li>
+        <li>
+          <a href=#><i class="fas fa-stethoscope"></i>
+            <span>Medical Checkup</span></a>
+        </li>
+        <li>
+          <a href="@controllers.routes.RegistrationController.patient_dashboard()"><i class="fa fa-wheelchair"></i>
+            <span>Patients</span></a>
+        </li>
+        <li>
+          <a href="@controllers.routes.RegistrationController.organization()"><i class="far fa-address-card"></i>
+            <span>Organizations</span></a>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chart-bar"></i>
+            <span> Report </span>
+            <span class="menu-arrow"></span></a>
+          <ul style="display: none;">
+            <li><a href=#>Patients report</a></li>
+            <li><a href=#>Organizations report</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fa fa-cog"></i>
+            <span> Settings </span>
+            <span class="menu-arrow"></span></a>
+          <ul style="display: none;">
+            <li><a href="@controllers.routes.RegistrationController.doctorType()">Doctors type</a></li>
+            <li><a href="@controllers.routes.RegistrationController.workType()">Work type</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>

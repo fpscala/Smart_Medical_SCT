@@ -1,6 +1,6 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(lang: String)
-@import views.html.main
+  @import views.html.main
 @main("Registration Page", webJarsUtil) {
   <script type="text/javascript">
           var Glob = {
@@ -23,109 +23,111 @@
     </div>
     <div class="row" data-bind="visible: vm.patientList().length > 0">
       <div class="col-md-12 table-responsive">
-          <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-            <div class="row">
-              <div class="col-sm-12 col-md-6">
-                <div class="dataTables_length" >
-                  <label>
-                    Show
-                    <select name="DataTables_Table_0_length" class="custom-select custom-select-sm form-control form-control-sm">
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                    </select>
-                    entries</label>
-                </div>
+        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" >
+                <label>
+                  Show
+                  <select name="DataTables_Table_0_length" class="custom-select custom-select-sm form-control form-control-sm">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
               </div>
-              <div class="col-sm-12 col-md-6"></div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer" >
-                  <thead>
-                    <tr role="row">
-                      <th>№</th>
-                      <th class="sorting_asc" rowspan="1" colspan="1">
-                        Name</th>
-                      <th class="sorting">
-                        Age</th>
-                      <th class="sorting" >
-                        Address</th>
-                      <th class="sorting" >
-                        Phone</th>
-                      <th class="sorting" >
-                        Passport Serial Number</th>
-                      <th class="sorting" >
-                        Card Number</th>
-                      <th class="sorting" >
-                        Profession</th>
-                      <th class="sorting" >
-                        Last Checkup</th>
-                      <th class="text-right sorting">
-                        Action</th>
-                    </tr>
-                  </thead>
-                  <tbody data-bind="foreach: vm.patientList">
-                    <tr role="row">
-                      <td data-bind="text: ($index() + 1)"></td>
-                      <td class="sorting_1">
-                        <img width="28" height="28" src="/assets/images/user.jpg" class="rounded-circle m-r-5" alt="">
+            <div class="col-sm-12 col-md-6"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer" >
+                <thead>
+                  <tr role="row">
+                    <th>№</th>
+                    <th class="sorting_asc" rowspan="1" colspan="1">
+                      Name</th>
+                    <th class="sorting">
+                      Age</th>
+                    <th class="sorting" >
+                      Address</th>
+                    <th class="sorting" >
+                      Phone</th>
+                    <th class="sorting" >
+                      Passport Serial Number</th>
+                    <th class="sorting" >
+                      Card Number</th>
+                    <th class="sorting" >
+                      Profession</th>
+                    <th class="sorting" >
+                      Last Checkup</th>
+                    <th class="text-right sorting">
+                      Action</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: vm.patientList">
+                  <tr role="row">
+                    <td data-bind="text: ($index() + 1)"></td>
+                    <td class="sorting_1">
+                      <img width="28" height="28" src="/assets/images/user.jpg" class="rounded-circle m-r-5" alt="">
                         &nbsp;<span data-bind="text: $data.firstName"></span></td>
-                      <td data-bind="text: $root.vm.convertStrToDate($data.birthday)"></td>
-                      <td data-bind="text: $data.address"></td>
-                      <td data-bind="text: $data.phone"></td>
-                      <td data-bind="text: $data.passport_sn"></td>
-                      <td data-bind="text: $data.cardNumber"></td>
-                      <td data-bind="text: $data.profession"></td>
-                      <td data-bind="text: $root.vm.convertStrToDate($data.lastCheckup)"></td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#delete" data-bind="click: $root.vm.deletePatient.bind($data, $data.id)" data-toggle="modal" id="delete_patient"><i class="fa fa-trash m-r-5"></i> Delete</a>
-                          </div>
+                    <td data-bind="text: $root.vm.convertStrToDate($data.birthday)"></td>
+                    <td data-bind="text: $data.address"></td>
+                    <td data-bind="text: $data.phone"></td>
+                    <td data-bind="text: $data.passport_sn"></td>
+                    <td data-bind="text: $data.cardNumber"></td>
+                    <td data-bind="text: $data.profession"></td>
+                    <td data-bind="text: $root.vm.convertStrToDate($data.lastCheckup)"></td>
+                    <td class="text-right">
+                      <div class="dropdown dropdown-action">
+                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i>
+                            Edit</a>
+                          <a class="dropdown-item" href="#delete" data-bind="click: $root.vm.deletePatient.bind($data, $data.id)" data-toggle="modal" id="delete_patient"><i class="fa fa-trash m-r-5"></i>
+                            Delete</a>
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="row"><div class="col-sm-12 col-md-5">
-              <div class="dataTables_info" >
-                Showing 1 to 10 of 14 entries
-              </div>
+          </div>
+          <div class="row"><div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" >
+              Showing 1 to 10 of 14 entries
             </div>
-              <div class="col-sm-12 col-md-7">
-                <div class="dataTables_paginate paging_simple_numbers" >
-                  <ul class="pagination">
-                    <li class="paginate_button page-item previous disabled" >
-                      <a href="#" class="page-link">
-                        Previous
-                      </a>
-                    </li>
-                    <li class="paginate_button page-item active">
-                      <a href="#" class="page-link">
-                        1
-                      </a>
-                    </li>
-                    <li class="paginate_button page-item ">
-                      <a href="#" class="page-link">
-                        2
-                      </a>
-                    </li>
-                    <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                      <a href="#" class="page-link">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+          </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" >
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous disabled" >
+                    <a href="#" class="page-link">
+                      Previous
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item active">
+                    <a href="#" class="page-link">
+                      1
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item ">
+                    <a href="#" class="page-link">
+                      2
+                    </a>
+                  </li>
+                  <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                    <a href="#" class="page-link">
+                      Next
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
