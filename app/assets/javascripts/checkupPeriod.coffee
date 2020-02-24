@@ -5,7 +5,7 @@ $ ->
 
   apiUrl =
     send: '/addCheckupPeriod'
-    getCheckupPeriod: '/get'
+    getCheckupPeriod: '/get-workType'
     updateCheckupPeriod: '/update/checkupPeriod'
 
   defaultForm =
@@ -14,9 +14,9 @@ $ ->
     selectedLabType: []
 
   vm = ko.mapping.fromJS
-    labTypeList: []
+    getCheckupPeriodList: []
     workType: ''
-    doctorTypeList: []
+    getCheckupPeriodList: []
     language: Glob.language
     formA: []
 
@@ -29,7 +29,7 @@ $ ->
   vm.addForm = -> ->
     vm.formA.push ko.mapping.fromJS(defaultForm)
     vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
-    vm.doctorTypeList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+    vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
     console.log('formA', ko.mapping.toJS(vm.formA()))
 
   vm.addCheckupPeriod = ->
@@ -73,6 +73,7 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.getCheckupPeriodList(response)
+  getCheckupPeriod()
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

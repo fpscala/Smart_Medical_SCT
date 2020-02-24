@@ -11,7 +11,7 @@ import utils.Date2SqlDate
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait WorkTypeComponent {
+trait WorkTypeComponent extends CheckupPeriodComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import utils.PostgresDriver.api._
@@ -30,6 +30,8 @@ trait WorkTypeComponent {
 trait WorkTypeDao {
   def addWorkType(data: WorkType  ): Future[Int]
 
+  def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]]
+
   def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]]
 
 }
@@ -47,11 +49,17 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
   import utils.PostgresDriver.api._
 
   val workType = TableQuery[WorkTypeTable]
+  val checkupPeriod = TableQuery[CheckupPeriodTable]
 
   override def addWorkType(data: WorkType): Future[Int] = {
     db.run {
       (workType returning workType.map(_.id)) += data
     }
+  }
+
+  override def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]] = {
+    val query = workType.join(checkupPeriod).on(_.id === _.workType)
+    db.run(query.result)
   }
 
   override def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]] = {

@@ -26,6 +26,8 @@ object RegistrationProtocol {
 
   case object GetPatient
 
+  case object GetWorkTypeWithCheckupPeriod
+
   case class DeleteDoctorType(id: Int)
 
   case class UpdateDoctorType(update: DoctorType)

@@ -79,7 +79,7 @@ $ ->
         $('#close_modal').click()
         toastr.success(response)
         getDoctorType()
-    $(this).parents('tr').remove()
+        $(this).parents('tr').remove()
 
   vm.updateDoctorType = ->
     data =

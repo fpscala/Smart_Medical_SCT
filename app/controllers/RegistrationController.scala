@@ -249,6 +249,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+
+  def getworkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
+    (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { p =>
+      Ok(Json.toJson(p))
+    }
+  }
+
   def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
