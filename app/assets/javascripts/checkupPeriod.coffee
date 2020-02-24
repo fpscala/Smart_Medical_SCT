@@ -5,7 +5,7 @@ $ ->
 
   apiUrl =
     send: '/addCheckupPeriod'
-    getCheckupPeriod: '/get-workType'
+    getWorkType: '/get-workType'
     updateCheckupPeriod: '/update/checkupPeriod'
 
   defaultForm =
@@ -14,9 +14,10 @@ $ ->
     selectedLabType: []
 
   vm = ko.mapping.fromJS
-    getCheckupPeriodList: []
+    labTypeList: []
     workType: ''
     getCheckupPeriodList: []
+    getWorkTypeList: []
     language: Glob.language
     formA: []
 
@@ -68,11 +69,12 @@ $ ->
 
   getCheckupPeriod = ->
     $.ajax
-      url: apiUrl.getCheckupPeriod
+      url: apiUrl.getWorkType
       type: 'GET'
     .fail handleError
     .done (response) ->
-      vm.getCheckupPeriodList(response)
+      vm.getWorkTypeList(response)
+
   getCheckupPeriod()
 
   vm.translate = (fieldName) -> ko.computed () ->
