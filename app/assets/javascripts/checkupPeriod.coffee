@@ -16,6 +16,7 @@ $ ->
   vm = ko.mapping.fromJS
     labTypeList: []
     workType: ''
+    workTypeList: []
     getCheckupPeriodList: []
     getWorkTypeList: []
     language: Glob.language
@@ -32,6 +33,7 @@ $ ->
     vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
     vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
     console.log('formA', ko.mapping.toJS(vm.formA()))
+
 
   vm.addCheckupPeriod = ->
     toastr.clear()
@@ -73,6 +75,8 @@ $ ->
       type: 'GET'
     .fail handleError
     .done (response) ->
+      for k,v of response
+        vm.workTypeList.push(k)
       vm.getWorkTypeList(response)
 
   getCheckupPeriod()

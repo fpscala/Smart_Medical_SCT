@@ -25,7 +25,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-bordered  table-striped display datatable mb-0 " >
+          <table class="table table-bordered table-striped mb-0 " >
             <thead class="text-center">
               <tr>
                 <th>№</th>
@@ -38,12 +38,30 @@
             </thead>
             <tbody data-bind="foreach: vm.getWorkTypeList">
               <tr>
-                <td rowspan="2" data-bind="text: $index() + 1"></td>
-                <td rowspan="2" data-bind="text: $data[0].workType"></td>
-                <td data-bind="text: $data[1].numberPerYear"></td>
-                <td data-bind="text: $data[1].doctorType"></td>
-                <td data-bind="text: $data[1].labType "></td>
-                <td rowspan="2" class="text-right">
+                <td data-bind="text: $index() + 1"></td>
+                <td data-bind="text: $data[0].workType"></td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table-child">
+                    <tr>
+                      <td data-bind="text: $data[1].numberPerYear"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table-child">
+                    <tr>
+                      <td data-bind="text: $data[1].doctorType"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table-child">
+                    <tr>
+                      <td data-bind="text: $data[1].labType"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="text-right">
                   <div class="dropdown dropdown-action">
                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -54,12 +72,6 @@
                     </div>
                   </div>
                 </td>
-              </tr>
-              <tr>
-                <td data-bind=""></td>
-                <td data-bind=""></td>
-                <td data-bind=""></td>
-
               </tr>
             </tbody>
           </table>

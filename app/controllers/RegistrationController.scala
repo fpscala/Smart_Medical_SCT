@@ -248,11 +248,14 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       Ok(Json.toJson(p))
     }
   }
+  case class GroupedWorkType(workType: String, tables: Seq[(WorkType, CheckupPeriod)])
 
+  implicit val groupedWorkTypeWrites = Json.writes[GroupedWorkType]
 
-  def getworkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
+  def getWorkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
     (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { p =>
-      Ok(Json.toJson(p))
+      val grouped = p.groupBy(_._1)
+      Ok(Json.toJson(grouped))
     }
   }
 

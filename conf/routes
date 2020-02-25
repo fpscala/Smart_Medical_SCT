@@ -9,7 +9,7 @@ GET     /patient                                                @controllers.Reg
 GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
 POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
 POST    /addCheckupPeriod                                       @controllers.RegistrationController.addCheckupPeriod
-GET     /get-workType                                           @controllers.RegistrationController.getworkTypeAndCheckupPeriod
+GET     /get-workType                                           @controllers.RegistrationController.getWorkTypeAndCheckupPeriod
 GET     /doctorType                                             @controllers.RegistrationController.doctorType
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient

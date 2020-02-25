@@ -3560,6 +3560,11 @@ a.fc-event:not([href]) {
   overflow: hidden;
 }
 
+.table-child {
+  width: 100%;
+  background: transparent;
+}
+
 .menu-opened .sidebar-overlay {
   display: block;
 }
@@ -3932,9 +3937,11 @@ a.status-grey {
 .hide {
   display: none;
 }
+
 .show {
   display: block;
 }
+
 /*-----------------
 	29. Inbox
 -----------------------*/
