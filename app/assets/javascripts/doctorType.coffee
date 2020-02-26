@@ -20,8 +20,9 @@ $ ->
     getLaboratoryList: []
     id: 0
     selectedLanguage: Glob.language
-    selectedId: ''
-    selectedName: ''
+    selected:
+      id: ''
+      name: ''
 
 
   handleError = (error) ->
@@ -127,12 +128,12 @@ $ ->
   getLaboratory()
 
   vm.askDelete = (id) -> ->
-    vm.selectedId id
+    vm.selected.id(id)
     $('#delete').open
 
   vm.openEditForm = (data) -> ->
-    vm.selectedId data.id
-    vm.selectedName data.laboratoryName
+    vm.selected.id(data.id)
+    vm.selected.name(data.laboratoryName)
     $('#edit_lab_type').open
 
   vm.deleteLaboratory = ->
@@ -152,10 +153,10 @@ $ ->
       $(this).parents('tr').remove()
     $(document).on 'click','#ask_delete', ->
 
-  vm.updateLaboratory = () ->
+  vm.updateLaboratory =  ->
     data =
-      id: vm.selectedId()
-      laboratoryName: vm.selectedName()
+      id: vm.selected.id()
+      laboratoryName: vm.selected.name()
     $.ajax
       url: apiUrl.updateLab
       type: 'POST'
