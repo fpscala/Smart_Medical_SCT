@@ -13,6 +13,9 @@ $ ->
     selectedDoctorType: []
     selectedLabType: []
 
+  defaultButton =
+    buttonMinus: ''
+
   vm = ko.mapping.fromJS
     labTypeList: []
     workType: ''
@@ -21,6 +24,7 @@ $ ->
     getWorkTypeList: []
     language: Glob.language
     formA: []
+    formB: []
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -33,11 +37,13 @@ $ ->
   vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
 
   vm.addForm = -> ->
-    vm.formA.push ko.mapping.fromJS(defaultForm)
+    if(ko.mapping.toJS(vm.formA()).length < 4)
+      vm.formA.push ko.mapping.fromJS(defaultForm)
+    if(ko.mapping.toJS(vm.formB()).length is 0)
+      vm.formB.push ko.mapping.fromJS(defaultButton)
     vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
     vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
     console.log('formA', ko.mapping.toJS(vm.formA()))
-
 
   vm.addCheckupPeriod = ->
     toastr.clear()

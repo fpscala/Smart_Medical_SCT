@@ -132,8 +132,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <ul data-bind="foreach: vm.formA">
-                                <li style="list-style: none">
+                            <div data-bind="foreach: vm.formA">
+                                <div style="list-style: none">
                                     <div class="row" id="fields">
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -164,26 +164,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>
-
-                            </ul>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6 text-right">
                                     <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.addForm()" ><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div class="col-md-6 text-left  ">
-                                    @*<button type="button" class="btn btn-success btn-rounded" data-bind="click:" ><i class="fas fa-minus"></i></button>*@
+                                <div data-bind="foreach: vm.formB" >
+                                    <div style="list-style: none" >
+                                        <div class="col-md-6 text-left" id="fields">
+                                            <button type="button" class="btn btn-success btn-rounded" data-bind="click: " ><i class="fas fa-minus"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" style="text-align: center" data-bind="click: vm.addCheckupPeriod" class="btn btn-primary btn-rounded ">
+                        <button type="submit" data-bind="click: vm.addCheckupPeriod" class="btn btn-primary btn-rounded ">
                             Add Work Type</button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
     @* TO DO UPDATE MODAL WORK TYPE *@
@@ -267,6 +269,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 }
