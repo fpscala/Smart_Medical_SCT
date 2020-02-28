@@ -2,272 +2,267 @@
 @(lang: String)
 @import views.html.main
 @main("Work Type", webJarsUtil) {
-    <script type="text/javascript">
-            var Glob = {
-                language: '@lang'
-            }
-    </script>
-    <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
-    @sidebar()
-
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4 col-3">
-                    <h4 class="page-title">Work Type</h4>
-                </div>
-                <div class="col-sm-8 col-9 text-right m-b-20">
-                        <!-- Button trigger modal addcheckupPeriod-->
-                    <button type="button" class="btn  btn-primary btn-rounded float-right" data-toggle="modal" data-target="#addcheckupPeriod">
-                        <i class="fas fa-plus">Add New Work Type</i>
-                    </button>
-                </div>
-            </div>
-            <div class="row">
+  <script type="text/javascript">
+          var Glob = {
+            language: '@lang'
+          }
+  </script>
+  <script src="@routes.Assets.versioned("javascripts/checkupPeriod.js")" type="text/javascript"></script>
+  @sidebar()
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-4 col-3">
+          <h4 class="page-title">Work Type</h4>
+        </div>
+        <div class="col-sm-8 col-9 text-right m-b-20">
+            <!-- Button trigger modal addcheckupPeriod-->
+          <button type="button" class="btn  btn-primary btn-rounded float-right" data-toggle="modal" data-target="#addcheckupPeriod">
+            <i class="fas fa-plus">Add New Work Type</i>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-striped mb-0 " >
+            <thead class="text-center">
+              <tr>
+                <th>№</th>
+                <th>Dastlabki tarzda va vaqti-vaqti bilan tibbiy ko`rikdan o`tkazilishi shart bo`lgan shaxslar</th>
+                <th>Tibbiy ko`rikdan o`tish muddati </th>
+                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutaxassislar</th>
+                <th>Laboratoriya va funksional tekshiruvlar</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: vm.getWorkTypeList">
+              <tr>
+                <td data-bind="text: $index() + 1"></td>
+                <td data-bind="text: $data[0].workType"></td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table table-striped">
+                    <tr>
+                      <td data-bind="text: $data[1].numberPerYear"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table table-striped">
+                    <tr>
+                      <td data-bind="text: $data[1].doctorType"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <table data-bind="foreach: $data[1]" class="table table-striped">
+                    <tr>
+                      <td data-bind="text: $data[1].labType"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="text-right">
+                  <div class="dropdown dropdown-action">
+                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
+                        Edit</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt m-r-5"></i>
+                        Delete</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-6 col-md-6 mt-3">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+            Showing 1 to 10 of 14 entries
+          </div>
+        </div>
+        <div class="col-sm-6 offset-9 ">
+          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+                  Previous
+                </a>
+              </li>
+              <li class="paginate_button page-item active">
+                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
+                  1
+                </a>
+              </li>
+              <li class="paginate_button page-item ">
+                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+                  2
+                </a>
+              </li>
+              <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
+                  Next
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal Add WORK TYPE -->
+  <div class="modal fade bd-example-modal-lg" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add Work Type</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered table-striped mb-0 " >
-                        <thead class="text-center">
-                            <tr>
-                                <th>№</th>
-                                <th>Dastlabki tarzda va vaqti-vaqti bilan tibbiy ko`rikdan o`tkazilishi shart bo`lgan shaxslar</th>
-                                <th>Tibbiy ko`rikdan o`tish muddati </th>
-                                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutaxassislar</th>
-                                <th>Laboratoriya va funksional tekshiruvlar</th>
-                                <th class="text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach: vm.getWorkTypeList">
-                            <tr>
-                                <td data-bind="text: $index() + 1"></td>
-                                <td data-bind="text: $data[0].workType"></td>
-                                <td>
-                                    <table data-bind="foreach: $data[1]" class="table table-striped">
-                                        <tr>
-                                            <td data-bind="text: $data[1].numberPerYear"></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table data-bind="foreach: $data[1]" class="table table-striped">
-                                        <tr>
-                                            <td data-bind="text: $data[1].doctorType"></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table data-bind="foreach: $data[1]" class="table table-striped">
-                                        <tr>
-                                            <td data-bind="text: $data[1].labType"></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td class="text-right">
-                                    <div class="dropdown dropdown-action">
-                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
-                                                Edit</a>
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt m-r-5"></i>
-                                                Delete</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                  <div class="form-group">
+                    <label for="workType" >Work type: </label>
+                    <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workType"
+                    rows="3" cols="52"></textarea>
+                  </div>
                 </div>
-                <div class="col-sm-6 col-md-6 mt-3">
-                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
-                        Showing 1 to 10 of 14 entries
-                    </div>
-                </div>
-                <div class="col-sm-6 offset-9 ">
-                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
-                                    Previous
-                                </a>
-                            </li>
-                            <li class="paginate_button page-item active">
-                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
-                                    1
-                                </a>
-                            </li>
-                            <li class="paginate_button page-item ">
-                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
-                                    2
-                                </a>
-                            </li>
-                            <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        <!-- Modal Add WORK TYPE -->
-    <div class="modal fade bd-example-modal-lg" id="addcheckupPeriod" tabindex="-1" role="dialog" aria-labelledby="addcheckupPeriodTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add Work Type</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="workType" >Work type: </label>
-                                        <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workType"
-                                        rows="3" cols="52"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-bind="foreach: vm.formA">
-                                <div style="list-style: none">
-                                    <div class="row" id="fields">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="numberPerYear" >Number per year: </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">1 yilda</span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-center" data-bind="value: $data.numberPerYear" >
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">marta</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group one-line-dropdown">
-                                                <label for="doctorType">Doctor Type</label>
-                                                <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group one-line-dropdown">
-                                                <label for="labType">Laboratory Type</label>
-                                                <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.addForm()" ><i class="fas fa-plus"></i></button>
-                                </div>
-                                <div data-bind="foreach: vm.formB" >
-                                    <div style="list-style: none" >
-                                        <div class="col-md-6 text-left" id="fields">
-                                            <button type="button" class="btn btn-success btn-rounded" data-bind="click: " ><i class="fas fa-minus"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+              </div>
+              <div data-bind="foreach: vm.formA">
+                <div style="list-style: none">
+                  <div class="row" id="fields">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="numberPerYear" >Number per year: </label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">1 yilda</span>
+                          </div>
+                          <input type="text" class="form-control text-center" data-bind="value: $data.numberPerYear" >
+                          <div class="input-group-append">
+                            <span class="input-group-text">marta</span>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                    <div class="modal-footer ">
-                        <button type="submit" data-bind="click: vm.addCheckupPeriod" class="btn btn-primary btn-rounded ">
-                            Add Work Type</button>
+                    <div class="col-md-4">
+                      <div class="form-group one-line-dropdown">
+                        <label for="doctorType">Doctor Type</label>
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                        </select>
+                      </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @* TO DO UPDATE MODAL WORK TYPE *@
-    <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLongTitle">Update Work Type</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="col-md-4">
+                      <div class="form-group one-line-dropdown">
+                        <label for="labType">Laboratory Type</label>
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'labType'" data-show-subtext="true">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="modal-body">
-                    <form action="" class="m-3" method="post">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="workType" >Work type: </label>
-                                    <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workTypeId"
-                                    rows="3" cols="52"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="numberPerYear" >Number per year: </label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">1 yilda</span>
-                                        </div>
-                                        <input type="text" class="form-control text-center" data-bind="value: vm.numberPerYear">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">marta</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group one-line-dropdown">
-                                    <label for="doctorType">Doctor Type</label>
-                                    <select multiple class="custom-select selectpicker form-control" data-none-selected-text="" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.doctorTypeList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group one-line-dropdown">
-                                    <label for="labType">Laboratory Type</label>
-                                    <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.labTypeList(), optionsText: 'name',
+              </div>
+              <div class="row">
+                <div class="col-md-6 text-right">
+                  <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.addForm()" ><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="col-md-6 text-left" id="fields">
+                  <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.deleteForm, visible: vm.formA().length > 1" ><i class="fas fa-minus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer ">
+            <button type="submit" data-bind="click: vm.addCheckupPeriod" class="btn btn-primary btn-rounded ">
+              Add Work Type</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  @* TO DO UPDATE MODAL WORK TYPE *@
+  <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLongTitle">Update Work Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" class="m-3" method="post">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="workType" >Work type: </label>
+                  <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workTypeId"
+                  rows="3" cols="52"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="numberPerYear" >Number per year: </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">1 yilda</span>
+                    </div>
+                    <input type="text" class="form-control text-center" data-bind="value: vm.numberPerYear">
+                    <div class="input-group-append">
+                      <span class="input-group-text">marta</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group one-line-dropdown">
+                  <label for="doctorType">Doctor Type</label>
+                  <select multiple class="custom-select selectpicker form-control" data-none-selected-text="" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.doctorTypeList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group one-line-dropdown">
+                  <label for="labType">Laboratory Type</label>
+                  <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.labTypeList(), optionsText: 'name',
                 optionsValue: 'id', value: vm.labTypeId, optionsCaption: 'labTypeId' " id="labType" data-show-subtext="true">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <button type="button" class=" add_form_field add_form_field2 btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
-                        </div>
-                        <div class="col-md-6 text-light container2">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 text-right">
+              <button type="button" class=" add_form_field add_form_field2 btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="col-md-6 text-light container2">
 
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" data-bind="click: " class="btn  btn-primary btn-rounded float-right">
-                        Save</button>
-                </div>
             </div>
+          </form>
         </div>
-    </div>
-    @* DELETE WORK TYPE *@
-    <div id="delete" class="modal fade delete-modal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
-                    <h3>Are you sure want to delete this CheckupPeriod?</h3>
-                    <div class="m-t-20">
-                        <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </div>
-            </div>
+        <div class="modal-footer">
+          <button type="submit" data-bind="click: " class="btn  btn-primary btn-rounded float-right">
+            Save</button>
         </div>
+      </div>
     </div>
+  </div>
+  @* DELETE WORK TYPE *@
+  <div id="delete" class="modal fade delete-modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
+          <h3>Are you sure want to delete this CheckupPeriod?</h3>
+          <div class="m-t-20">
+            <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 }
