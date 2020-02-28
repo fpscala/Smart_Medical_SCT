@@ -48,9 +48,6 @@ $ ->
     if(ko.mapping.toJS(vm.formA()).length > 1)
       vm.formA(vm.formA().slice(0, -1))
 
-
-
-
   vm.addCheckupPeriod = ->
     toastr.clear()
     if (!vm.workType())
