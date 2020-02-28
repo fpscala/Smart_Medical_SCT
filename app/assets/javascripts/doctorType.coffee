@@ -23,7 +23,9 @@ $ ->
     selected:
       id: ''
       name: ''
-
+    selectedDoctor:
+      id: ''
+      doctorName: ''
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -82,10 +84,10 @@ $ ->
         getDoctorType()
         $(this).parents('tr').remove()
 
-  vm.updateDoctorType = ->
+  vm.updateDoctorType =  ->
     data =
-      id: parseInt(vm.id())
-      doctorTypeNmae: vm.doctorTypeName()
+      id: vm.selectedDoctor.id()
+      doctorTypeName: vm.selectedDoctor.doctorName()
     $.ajax
       url: apiUrl.updateDoc
       type: 'POST'
@@ -94,7 +96,9 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
+      $('#closeModalDoctor').click()
       toastr.success(response)
+      getDoctorType()
 
   vm.createLab = ->
     toastr.clear()
@@ -135,6 +139,11 @@ $ ->
     vm.selected.id(data.id)
     vm.selected.name(data.laboratoryName)
     $('#edit_lab_type').open
+
+  vm.openEditFormDoctor = (data) -> ->
+    vm.selectedDoctor.id(data.id)
+    vm.selectedDoctor.doctorName(data.doctorTypeName)
+    $('#edit_doctor_type').open
 
   vm.deleteLaboratory = ->
     data =
