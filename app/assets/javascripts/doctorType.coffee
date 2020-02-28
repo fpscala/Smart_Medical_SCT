@@ -96,8 +96,8 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
-      $('#closeModalDoctor').click()
       toastr.success(response)
+      $('#edit_doctor_type').modal("hide");
       getDoctorType()
 
   vm.createLab = ->
