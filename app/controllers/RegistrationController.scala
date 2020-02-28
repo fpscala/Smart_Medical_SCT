@@ -77,7 +77,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getLaboratoryName: Action[AnyContent] = Action.async {
     (registrationManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map { laboratoryName =>
-      Ok(Json.toJson(laboratoryName))
+      Ok(Json.toJson(laboratoryName.sortBy(_.id)))
     }
   }
 
@@ -156,7 +156,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getDoctorTypeName: Action[AnyContent] = Action.async {
     (registrationManager ? GetDoctorTypeList).mapTo[Seq[DoctorType]].map { doctorTypeName =>
-      Ok(Json.toJson(doctorTypeName))
+      Ok(Json.toJson(doctorTypeName.sortBy(_.id)))
     }
   }
 
