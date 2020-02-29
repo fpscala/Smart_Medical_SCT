@@ -6,15 +6,12 @@ $ ->
   apiUrl =
     send: '/addCheckupPeriod'
     getWorkType: '/get-workType'
-    updateCheckupPeriod: '/update/checkupPeriod'
+    updateCheckupPeriod: '/update-checkupPeriod'
 
   defaultForm =
     numberPerYear: ''
     selectedDoctorType: []
     selectedLabType: []
-
-  defaultButton =
-    buttonMinus: ''
 
   vm = ko.mapping.fromJS
     labTypeList: []
@@ -24,7 +21,6 @@ $ ->
     getWorkTypeList: []
     language: Glob.language
     formA: []
-    formB: []
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -80,6 +76,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        $("#add_work_type").modal("hide");
         getCheckupPeriod()
 
   getCheckupPeriod = ->

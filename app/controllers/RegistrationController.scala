@@ -148,8 +148,11 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val doctorTypeName = (request.body \ "doctorType").as[String]
     logger.warn(s"controllerga keldi")
-    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
+    (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Either[String, String]].map {
+    case Right(str) =>
+      Ok(Json.toJson(str))
+    case Left(err) =>
+      Ok(err)
     }
   }
   }

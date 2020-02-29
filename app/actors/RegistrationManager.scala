@@ -154,8 +154,16 @@ class RegistrationManager @Inject()(val environment: Environment,
     organizationDao.updateOrganization(data)
   }
 
-  private def addDoctorType(data: DoctorType): Future[Int] = {
-    doctorTypeDao.addDoctorType(data)
+  private def addDoctorType(data: DoctorType): Future[Either[String, String]] = {
+    (for {
+      response <- doctorTypeDao.findDoctorType(data.doctorType)
+    } yield response match {
+      case Some(doctorCount) =>
+        Future.successful(Left(doctorCount.doctorType + " bunday doctorType avval kiritilgan!"))
+      case None =>
+        doctorTypeDao.addDoctorType(data)
+        Future.successful(Right(data.doctorType + " nomli doctorType muvoffaqiyatli qo'shildi!"))
+    }).flatten
   }
 
   private def getDoctorTypeList: Future[Seq[DoctorType]] = {

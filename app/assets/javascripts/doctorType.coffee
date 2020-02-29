@@ -28,7 +28,7 @@ $ ->
       doctorName: ''
 
   handleError = (error) ->
-    if error.status is 500 or (error.status is 400 and error.responseText)
+    if error.status is 500 or (error.status is 400 and error.responseText) or error.status is 200
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')

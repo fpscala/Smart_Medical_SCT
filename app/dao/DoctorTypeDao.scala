@@ -35,6 +35,8 @@ trait DoctorTypeDao {
   def deleteDoctorType(id: Int): Future[Int]
 
   def updateDoctorType(data: DoctorType): Future[Int]
+
+  def findDoctorType(doctorType: String): Future[Option[DoctorType]]
 }
 
 @Singleton
@@ -76,6 +78,10 @@ class DoctorTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfig
     }
   }
 
-
+  override def findDoctorType(doctorType: String): Future[Option[DoctorType]] = {
+    db.run{
+      doctorTypeTable.filter(data => data.doctorType === doctorType).result.headOption
+    }
+  }
 }
 
