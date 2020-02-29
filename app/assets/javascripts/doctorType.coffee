@@ -20,12 +20,15 @@ $ ->
     getLaboratoryList: []
     id: 0
     selectedLanguage: Glob.language
-    selectedId: ''
-    selectedName: ''
-
+    selected:
+      id: ''
+      name: ''
+    selectedDoctor:
+      id: ''
+      doctorName: ''
 
   handleError = (error) ->
-    if error.status is 500 or (error.status is 400 and error.responseText)
+    if error.status is 500 or (error.status is 400 and error.responseText) or error.status is 200
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
@@ -81,10 +84,10 @@ $ ->
         getDoctorType()
         $(this).parents('tr').remove()
 
-  vm.updateDoctorType = ->
+  vm.updateDoctorType =  ->
     data =
-      id: parseInt(vm.id())
-      doctorTypeNmae: vm.doctorTypeName()
+      id: vm.selectedDoctor.id()
+      doctorTypeName: vm.selectedDoctor.doctorName()
     $.ajax
       url: apiUrl.updateDoc
       type: 'POST'
@@ -94,6 +97,8 @@ $ ->
     .fail handleError
     .done (response) ->
       toastr.success(response)
+      $('#edit_doctor_type').modal("hide");
+      getDoctorType()
 
   vm.createLab = ->
     toastr.clear()
@@ -127,13 +132,18 @@ $ ->
   getLaboratory()
 
   vm.askDelete = (id) -> ->
-    vm.selectedId id
+    vm.selected.id(id)
     $('#delete').open
 
   vm.openEditForm = (data) -> ->
-    vm.selectedId data.id
-    vm.selectedName data.laboratoryName
+    vm.selected.id(data.id)
+    vm.selected.name(data.laboratoryName)
     $('#edit_lab_type').open
+
+  vm.openEditFormDoctor = (data) -> ->
+    vm.selectedDoctor.id(data.id)
+    vm.selectedDoctor.doctorName(data.doctorTypeName)
+    $('#edit_doctor_type').open
 
   vm.deleteLaboratory = ->
     data =
@@ -152,10 +162,10 @@ $ ->
       $(this).parents('tr').remove()
     $(document).on 'click','#ask_delete', ->
 
-  vm.updateLaboratory = () ->
+  vm.updateLaboratory =  ->
     data =
-      id: vm.selectedId()
-      laboratoryName: vm.selectedName()
+      id: vm.selected.id()
+      laboratoryName: vm.selected.name()
     $.ajax
       url: apiUrl.updateLab
       type: 'POST'

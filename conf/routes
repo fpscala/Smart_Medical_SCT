@@ -14,6 +14,7 @@ GET     /doctorType                                             @controllers.Reg
 POST    /addLaboratory                                          @controllers.RegistrationController.addLaboratory
 POST    /send-patient                                           @controllers.RegistrationController.createPatient
 POST    /add-doctor-type                                        @controllers.RegistrationController.addDoctorType
+POST    /updateDoctorType                                       @controllers.RegistrationController.updateDoctorType
 GET     /getLaboratory                                          @controllers.RegistrationController.getLaboratoryName
 DELETE  /deleteLaboratory                                       @controllers.RegistrationController.deleteLaboratory
 POST    /updateLaboratory                                       @controllers.RegistrationController.updateLaboratory

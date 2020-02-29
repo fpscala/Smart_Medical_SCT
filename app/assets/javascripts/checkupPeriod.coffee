@@ -6,7 +6,7 @@ $ ->
   apiUrl =
     send: '/addCheckupPeriod'
     getWorkType: '/get-workType'
-    updateCheckupPeriod: '/update/checkupPeriod'
+    updateCheckupPeriod: '/update-checkupPeriod'
 
   defaultForm =
     numberPerYear: ''
@@ -28,12 +28,21 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-  vm.addForm = -> ->
-    vm.formA.push ko.mapping.fromJS(defaultForm)
-    vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
-    vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
-    console.log('formA', ko.mapping.toJS(vm.formA()))
+  vm.formA.push ko.mapping.fromJS(defaultForm)
+  vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
+  vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
 
+  vm.addForm = -> ->
+    if(ko.mapping.toJS(vm.formA()).length < 4)
+      vm.formA.push ko.mapping.fromJS(defaultForm)
+      vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
+      vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+    else
+      alert("Yetarlicha maydon qo'shildi.")
+
+  vm.deleteForm = ->
+    if(ko.mapping.toJS(vm.formA()).length > 1)
+      vm.formA(vm.formA().slice(0, -1))
 
   vm.addCheckupPeriod = ->
     toastr.clear()
@@ -67,6 +76,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+        $("#add_work_type").modal("hide");
         getCheckupPeriod()
 
   getCheckupPeriod = ->
