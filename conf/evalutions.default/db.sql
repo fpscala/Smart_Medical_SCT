@@ -26,17 +26,27 @@ CREATE TABLE "Lab_type"
 CREATE TABLE "Organization"
 (
     "id"                SERIAL  NOT NULL PRIMARY KEY,
-    "organization_name" VARCHAR NOT NULL
+    "organization_name" VARCHAR NOT NULL,
+    "address" VARCHAR NULL,
+    "phone_number" VARCHAR NULL,
+    "email" VARCHAR NULL,
+    "workers_number" INTEGER NULL,
+    "work_type" JSONB
+);
+
+CREATE TABLE "Tmp_table"
+(
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "work_type_id" INT CONSTRAINT "Tmp_tableFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "doctor_type_id" INT CONSTRAINT "Tmp_tableFkDoctor_typeId" REFERENCES "Doctor_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "lab_type_id" INT CONSTRAINT "Tmp_tableFkLab_typeId" REFERENCES "Lab_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "Checkup_period"
 (
-    "id"              SERIAL NOT NULL PRIMARY KEY,
-    "number_per_year" INT    NOT NULL,
-    "doctor_type_id"  JSONB,
-    "lab_type_id"     JSONB,
-    "work_type_id"    INT
-        CONSTRAINT "work_type" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "number_per_year" INT NOT NULL,
+    "tmp_table_id" INT CONSTRAINT "Checkup_periodFkTmp_tableId" REFERENCES "Tmp_table" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "Patient"
@@ -60,11 +70,27 @@ CREATE TABLE "Patient"
         CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+INSERT INTO "Work_type" ("work_type")
+VALUES ('Oqituvchi');
+INSERT INTO "Work_type" ("work_type")
+VALUES ('Elektrik');
+
+INSERT INTO "Organization" ("organization_name")
+VALUES ('TATU');
+INSERT INTO "Organization" ("organization_name")
+VALUES ('UZBEKENERGIYA');
+
+
 # --- !Downs
 DROP TABLE "Checkup_type";
 DROP TABLE "Work_type";
 DROP TABLE "Doctor_type";
 DROP TABLE "Lab_type";
 DROP TABLE "Organization";
+DROP TABLE "Tmp_table";
 DROP TABLE "Checkup_period";
 DROP TABLE "Patient";
+DELETE FROM "Work_type" WHERE work_type = 'Oqituvchi';
+DELETE FROM "Work_type" WHERE work_type = 'Elektrik';
+DELETE FROM "Organization" WHERE organization_name = 'TATU';
+DELETE FROM "Organization" WHERE organization_name = 'UZBEKENERGIYA';
