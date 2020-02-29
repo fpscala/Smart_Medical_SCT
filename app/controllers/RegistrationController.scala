@@ -67,13 +67,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
 
-  def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request =>
+  def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val laboratoryName = (request.body \ "laboratoryName").as[String]
     logger.warn(s"controllerga keldi")
-    (registrationManager ? AddLaboratory(Laboratory(None, laboratoryName))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
+    (registrationManager ? AddLaboratory(Laboratory(None, laboratoryName))).mapTo[Either[String, String]].map {
+      case Right(str) =>
+        Ok(Json.toJson(str))
+      case Left(err) =>
+        Ok(err)
     }
   }
+  }
+
 
   def getLaboratoryName: Action[AnyContent] = Action.async {
     (registrationManager ? GetLaboratoryList).mapTo[Seq[Laboratory]].map { laboratoryName =>
@@ -149,10 +154,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val doctorTypeName = (request.body \ "doctorType").as[String]
     logger.warn(s"controllerga keldi")
     (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Either[String, String]].map {
-    case Right(str) =>
-      Ok(Json.toJson(str))
-    case Left(err) =>
-      Ok(err)
+      case Right(str) =>
+        Ok(Json.toJson(str))
+      case Left(err) =>
+        Ok(err)
     }
   }
   }
@@ -196,13 +201,14 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
       workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
       _ <- (registrationManager ? AddCheckupPeriod(
-        data.toSet.map { d:CheckupPeriodForm  =>
+        data.toSet.map { d: CheckupPeriodForm =>
           CheckupPeriod(None, d.numberPerYear.toInt, Json.toJson(d.selectedDoctorType), Json.toJson(d.selectedLabType), workTypeId.get)
         })).mapTo[Int]
     } yield {
       Ok(Json.toJson("OK"))
     }
-  }}
+  }
+  }
 
 
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
@@ -251,6 +257,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       Ok(Json.toJson(p))
     }
   }
+
   case class GroupedWorkType(workType: String, tables: Seq[(WorkType, CheckupPeriod)])
 
   implicit val groupedWorkTypeWrites = Json.writes[GroupedWorkType]

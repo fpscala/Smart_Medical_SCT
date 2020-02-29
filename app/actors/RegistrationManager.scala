@@ -118,13 +118,17 @@ class RegistrationManager @Inject()(val environment: Environment,
     patientDao.getPatientList
   }
 
-  //  private def addLaboratory(data: Laboratory): Future[Int] = {
-  //    laboratoryDao.addLaboratory(data)
-  //  }
-  private def addLaboratory(data: Laboratory): Future[Int] = {
-    laboratoryDao.addLaboratory(data)
+  private def addLaboratory(data: Laboratory): Future[Either[String, String]] = {
+    (for {
+      response <- laboratoryDao.findLabType(data.laboratoryName)
+    } yield response match {
+      case Some(laboratoryCount) =>
+        Future.successful(Left(laboratoryCount.laboratoryName + " bunday doctorType avval kiritilgan!"))
+      case None =>
+        laboratoryDao.addLaboratory(data)
+        Future.successful(Right(data.laboratoryName + " nomli doctorType muvoffaqiyatli qo'shildi!"))
+    }).flatten
   }
-
 
   private def getLaboratoryList: Future[Seq[Laboratory]] = {
     laboratoryDao.getLaboratory

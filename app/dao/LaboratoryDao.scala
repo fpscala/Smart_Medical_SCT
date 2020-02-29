@@ -5,7 +5,7 @@ import com.google.inject.ImplementedBy
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import protocols.RegistrationProtocol.Laboratory
+import protocols.RegistrationProtocol.{DoctorType, Laboratory}
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
 
@@ -38,6 +38,7 @@ trait LaboratoryDao {
 
   def updateLaboratory(data: Laboratory): Future[Int]
 
+  def findLabType(laboratory: String): Future[Option[Laboratory]]
 
 }
 
@@ -77,6 +78,12 @@ class LaboratoryDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfig
   override def updateLaboratory(data: Laboratory): Future[Int] = {
     db.run{
       laboratorysTable.filter(_.id === data.id).update(data)
+    }
+  }
+
+  override def findLabType(laboratory: String): Future[Option[Laboratory]] = {
+    db.run{
+      laboratorysTable.filter(data => data.laboratoryName === laboratory).result.headOption
     }
   }
 }
