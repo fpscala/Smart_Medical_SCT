@@ -64,25 +64,21 @@ $ ->
 
   getDoctorType()
 
-  vm.deleteDoctorType = (id) ->
-    console.log(id)
+  vm.deleteDoctorType = ->
     data =
-      id: id
-    $('#delete').open
-    $(document).on 'click','#ask_delete', ->
-      $.ajax
-        url: apiUrl.deleteDoc
-        type: 'DELETE'
-        data: JSON.stringify(data)
-        dataType: 'json'
-        contentType: 'application/json'
-      .fail handleError
-      .done (response) ->
-        console.log(data)
-        $('#close_modal').click()
-        toastr.success(response)
-        getDoctorType()
-        $(this).parents('tr').remove()
+      id: vm.selectedDoctor.id()
+    $.ajax
+      url: apiUrl.deleteDoc
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      $('#close_doc_modal').click()
+      toastr.success(response)
+      getDoctorType()
+      $(this).parents('tr').remove()
 
   vm.updateDoctorType =  ->
     data =
@@ -117,7 +113,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        $("#add_lab_type").modal("hide");
+        $("#add_lab_type").modal("hide")
         vm.laboratoryName('')
         getLaboratory()
 
@@ -147,7 +143,7 @@ $ ->
 
   vm.deleteLaboratory = ->
     data =
-      id: vm.selectedId()
+      id: vm.selected.id()
     $.ajax
       url: apiUrl.deleteLab
       type: 'DELETE'
@@ -160,7 +156,6 @@ $ ->
       toastr.success(response)
       getLaboratory()
       $(this).parents('tr').remove()
-    $(document).on 'click','#ask_delete', ->
 
   vm.updateLaboratory =  ->
     data =
