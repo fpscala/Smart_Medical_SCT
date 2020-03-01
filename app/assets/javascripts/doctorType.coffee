@@ -131,6 +131,10 @@ $ ->
     vm.selected.id(id)
     $('#delete').open
 
+  vm.askDeleteDoctor = (id) -> ->
+    vm.selectedDoctor.id(id)
+    $('#delete').open
+
   vm.openEditForm = (data) -> ->
     vm.selected.id(data.id)
     vm.selected.name(data.laboratoryName)
