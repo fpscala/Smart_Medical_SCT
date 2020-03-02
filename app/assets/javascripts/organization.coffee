@@ -11,6 +11,9 @@ $ ->
 
   vm = ko.mapping.fromJS
     organizationName: ''
+    phoneNumber: ''
+    address: ''
+    email: ''
     user: defaultUserdata
     organizations: []
     roleList: []
@@ -25,19 +28,32 @@ $ ->
     selectedRoles: []
 
   handleError = (error) ->
-    if error.status is 500 or (error.status is 400 and error.responseText)
+    if error.status is 500 or (error.status is 400 and error.responseText) or error.status is 200
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
 
   vm.onSubmit = ->
+    console.log("onsubmitga keldi")
     toastr.clear()
     if (!vm.organizationName())
       toastr.error("Please enter a Organization Name")
       return no
+    else if (!vm.phoneNumber())
+      toastr.error("Please enter a phone number")
+      return no
+    else if (!vm.address())
+      toastr.error("Please enter a address")
+      return no
+    else if (!vm.email())
+      toastr.error("Please enter a email")
+      return no
     else
       data =
         organizationName: vm.organizationName()
+        phoneNumber: vm.phoneNumber()
+        address: vm.address()
+        email: vm.email()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -47,8 +63,8 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        $("#closeModalLanguage").click()
-        getOrganization()
+        $("#organization").click()
+
 
   getOrganization = ->
     $.ajax
