@@ -110,12 +110,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>
+  def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>{
     val organizationName = (request.body \ "organizationName").as[String]
     logger.warn(s"controllerga keldi")
     (registrationManager ? AddOrganization(Organization(None, organizationName))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
+  }
   }
 
   def getOrganizationName: Action[AnyContent] = Action.async {
