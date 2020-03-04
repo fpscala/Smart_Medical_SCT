@@ -11,7 +11,7 @@ import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
-import play.api.Configuration
+import play.api.{Configuration, data}
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
@@ -112,8 +112,11 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>{
     val organizationName = (request.body \ "organizationName").as[String]
-    logger.warn(s"controllerga keldi")
-    (registrationManager ? AddOrganization(Organization(None, organizationName))).mapTo[Int].map { id =>
+    val phoneNumber = (request.body \ "phoneNumber").as[String]
+    val address = (request.body \ "address").as[String]
+    val email = (request.body \ "email").as[String]
+    val workType = (request.body \ "department").as[JsValue]
+    (registrationManager ? AddOrganization(Organization(None, organizationName, phoneNumber, address, email, workType))).mapTo[Int].map { id =>
       Ok(Json.toJson(id))
     }
   }
@@ -121,7 +124,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getOrganizationName: Action[AnyContent] = Action.async {
     (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizationName =>
-      Ok(Json.toJson(organizationName))
+      Ok(Json.toJson(organizationName.sortBy(_.id)))
     }
   }
 
@@ -137,7 +140,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def updateOrganization = Action.async(parse.json) { implicit request =>
+  /*def updateOrganization = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val organizationName = (request.body \ "organizationName").as[String]
     (registrationManager ? UpdateOrganization(Organization(Some(id), organizationName))).mapTo[Int].map { i =>
@@ -148,7 +151,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         Ok("Bunday raqamli foydalanuvchi topilmadi")
       }
     }
-  }
+  }*/
 
   def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val doctorTypeName = (request.body \ "doctorType").as[String]
@@ -208,7 +211,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
   }
-
 
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded

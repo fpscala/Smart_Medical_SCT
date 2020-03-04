@@ -5,6 +5,7 @@ import com.google.inject.ImplementedBy
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.libs.json.JsValue
 import protocols.RegistrationProtocol.Organization
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
@@ -22,7 +23,15 @@ trait OrganizationComponent {
 
     def organizationName = column[String]("organization_name")
 
-    def * = (id.?, organizationName) <> (Organization.tupled, Organization.unapply _)
+    def phoneNumber = column[String]("phone_number")
+
+    def address = column[String]("address")
+
+    def email = column[String]("email")
+
+    def workType = column[JsValue]("work_type")
+
+    def * = (id.?, organizationName, phoneNumber, address, email, workType) <> (Organization.tupled, Organization.unapply _)
   }
 
 }

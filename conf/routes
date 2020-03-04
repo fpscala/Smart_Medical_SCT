@@ -7,7 +7,7 @@ GET     /getOrganization                                        @controllers.Reg
 DELETE  /deleteOrganization                                     @controllers.RegistrationController.deleteOrganization
 GET     /patient                                                @controllers.RegistrationController.patient
 GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
-POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
+#POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
 POST    /addCheckupPeriod                                       @controllers.RegistrationController.addCheckupPeriod
 GET     /get-workType                                           @controllers.RegistrationController.getWorkTypeAndCheckupPeriod
 GET     /doctorType                                             @controllers.RegistrationController.doctorType

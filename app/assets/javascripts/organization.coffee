@@ -14,6 +14,10 @@ $ ->
     phoneNumber: ''
     address: ''
     email: ''
+    workersNumber: ''
+    workType: []
+    selectedDepartment: []
+    departmentList: [{id: 1, workType: 'workType1'}, {id: 2, workType: 'workType2'}, {id: 3, workType: 'workType3'}]
     user: defaultUserdata
     organizations: []
     roleList: []
@@ -34,7 +38,7 @@ $ ->
       toastr.error('Something went wrong! Please try again.')
 
   vm.onSubmit = ->
-    console.log("onsubmitga keldi")
+    console.log(vm.selectedDepartment())
     toastr.clear()
     if (!vm.organizationName())
       toastr.error("Please enter a Organization Name")
@@ -48,12 +52,16 @@ $ ->
     else if (!vm.email())
       toastr.error("Please enter a email")
       return no
+    else if (vm.selectedDepartment().length is 0)
+      toastr.error("Please enter a Department")
+      return no
     else
       data =
         organizationName: vm.organizationName()
         phoneNumber: vm.phoneNumber()
         address: vm.address()
         email: vm.email()
+        department: vm.selectedDepartment()
       $.ajax
         url: apiUrl.send
         type: 'POST'
@@ -66,15 +74,17 @@ $ ->
         $("#organization").click()
 
 
-  getOrganization = ->
-    $.ajax
-      url: apiUrl.get
-      type: 'GET'
-    .fail handleError
-    .done (response) ->
-      vm.organizations(response)
 
-  getOrganization()
+#  getOrganization = ->
+#    $.ajax
+#      url: apiUrl.get
+#      type: 'GET'
+#    .fail handleError
+#    .done (response) ->
+#      vm.organizations(response)
+#
+#  getOrganization()
+
 
   vm.askDelete = (id) -> ->
     vm.selected.id id

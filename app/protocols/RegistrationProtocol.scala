@@ -73,7 +73,11 @@ object RegistrationProtocol {
   implicit val ImageFormat: OFormat[AddImage] = Json.format[AddImage]
 
   case class Organization(id: Option[Int] = None,
-                          organizationName: String)
+                          organizationName: String,
+                          phoneNumber: String,
+                          address: String,
+                          email: String,
+                          workType: JsValue)
 
   implicit val organizationFormat: OFormat[Organization] = Json.format[Organization]
 
