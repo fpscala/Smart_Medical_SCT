@@ -50,7 +50,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        $("#add_doctor_type").modal("hide");
+        $("#add_doctor_type").modal("hide")
         vm.doctorTypeName('')
         getDoctorType()
 
@@ -93,7 +93,7 @@ $ ->
     .fail handleError
     .done (response) ->
       toastr.success(response)
-      $('#edit_doctor_type').modal("hide");
+      $('#edit_doctor_type').modal("hide")
       getDoctorType()
 
   vm.createLab = ->
@@ -128,20 +128,20 @@ $ ->
   getLaboratory()
 
   vm.askDelete = (id) -> ->
-    vm.selected.id(id)
+    vm.selected.id id
     $('#delete').open
 
   vm.askDeleteDoctor = (id) -> ->
-    vm.selectedDoctor.id(id)
+    vm.selectedDoctor.id (id)
     $('#delete').open
 
   vm.openEditForm = (data) -> ->
-    vm.selected.id(data.id)
+    vm.selected.id (data.id)
     vm.selected.name(data.laboratoryName)
     $('#edit_lab_type').open
 
   vm.openEditFormDoctor = (data) -> ->
-    vm.selectedDoctor.id(data.id)
+    vm.selectedDoctor.id (data.id)
     vm.selectedDoctor.doctorName(data.doctorTypeName)
     $('#edit_doctor_type').open
 

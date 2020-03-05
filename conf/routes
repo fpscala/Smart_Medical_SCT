@@ -22,6 +22,7 @@ GET     /get-patient                                            @controllers.Reg
 GET     /get-regionList                                         @controllers.RegistrationController.getRegionList
 GET     /getDoctorType                                          @controllers.RegistrationController.getDoctorTypeName
 DELETE  /delete-patient                                         @controllers.RegistrationController.deletePatient
+DELETE  /deleteDoctorType                                       @controllers.RegistrationController.deleteDoctorType
 
 GET     /assets/*file                                           @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                                                webjars.Routes
