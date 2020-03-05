@@ -123,10 +123,10 @@ class RegistrationManager @Inject()(val environment: Environment,
       response <- laboratoryDao.findLabType(data.laboratoryName)
     } yield response match {
       case Some(laboratoryCount) =>
-        Future.successful(Left(laboratoryCount.laboratoryName + " bunday doctorType avval kiritilgan!"))
+        Future.successful(Left(laboratoryCount.laboratoryName + " bunday laboratory type avval kiritilgan!"))
       case None =>
         laboratoryDao.addLaboratory(data)
-        Future.successful(Right(data.laboratoryName + " nomli doctorType muvoffaqiyatli qo'shildi!"))
+        Future.successful(Right(data.laboratoryName + " nomli laboratory type muvoffaqiyatli qo'shildi!"))
     }).flatten
   }
 

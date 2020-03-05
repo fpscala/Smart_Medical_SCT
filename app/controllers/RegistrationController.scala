@@ -89,10 +89,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteLaboratory(id)).mapTo[Int].map { i =>
       if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
+        Ok(Json.toJson(id + " raqamli laboratory type o`chirildi"))
       }
       else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
+        Ok("Bunday raqamli laboratory type topilmadi")
       }
     }
   }
@@ -102,10 +102,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val laboratoryName = (request.body \ "laboratoryName").as[String]
     (registrationManager ? UpdateLaboratory(Laboratory(Some(id), laboratoryName))).mapTo[Int].map { i =>
       if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
+        Ok(Json.toJson(id + " raqamli laboratory type yangilandi"))
       }
       else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
+        Ok("Bunday raqamli laboratory type topilmadi")
       }
     }
   }
@@ -132,10 +132,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteOrganization(id)).mapTo[Int].map { i =>
       if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
+        Ok(Json.toJson(id + " raqamli organization o`chirildi"))
       }
       else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
+        Ok("Bunday raqamli organization topilmadi")
       }
     }
   }
@@ -174,9 +174,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
       if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi o`chirildi"))
+        Ok(Json.toJson(id + " raqamli doctor type o`chirildi"))
       } else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
+        Ok("Bunday raqamli doctor type topilmadi")
       }
     }
   }
@@ -186,9 +186,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val doctorTypeName = (request.body \ "doctorTypeName").as[String]
     (registrationManager ? UpdateDoctorType(DoctorType(Some(id), doctorTypeName))).mapTo[Int].map { i =>
       if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
+        Ok(Json.toJson(id + " raqamli doctor type yangilandi"))
       } else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
+        Ok("Bunday raqamli doctor type topilmadi")
       }
     }
   }
