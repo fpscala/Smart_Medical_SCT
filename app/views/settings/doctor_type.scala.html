@@ -15,12 +15,12 @@
           <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <h4 class="page-title" data-bind="text: vm.translate('labelTitle')"></h4>
-              <a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#add_doctor_type">
+              <a href="#" class="btn btn-primary btn-block mb-3 btn-rounded" data-toggle="modal" data-target="#add_doctor_type">
                 <i class="fa fa-plus"></i> Add doctor type
               </a>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <table class="table table-border table-striped mb-0 dataTable custom-table">
+              <table class="table table-border table-striped mb-0 dataTable custom-table" data-bind="visible: vm.getDoctorTypeList().length > 0">
                 <thead>
                   <tr>
                     <th style="width: 90%">Name</th>
@@ -50,7 +50,7 @@
           <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <h4 class="page-title">Laboratory type</h4>
-              <a href="#" class="btn btn-primary btn-block mb-3" data-toggle="modal" data-target="#add_lab_type">
+              <a href="#" class="btn btn-primary btn-block mb-3 btn-rounded" data-toggle="modal" data-target="#add_lab_type">
                 <i class="fa fa-plus"></i> Add laboratory type
               </a>
             </div>
@@ -100,7 +100,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary btn-modal" data-bind="click: vm.onSubmit">Create</button>
+              <button type="submit" class="btn btn-primary btn-modal btn-rounded" data-bind="click: vm.onSubmit">Create</button>
             </div>
           </form>
         </div>
@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="modal-footer text-center">
-              <button type="submit" class="btn btn-primary btn-modal" data-bind="click: vm.updateDoctorType">Save</button>
+              <button type="submit" class="btn btn-primary btn-modal btn-rounded" data-bind="click: vm.updateDoctorType">Save</button>
             </div>
           </form>
         </div>
@@ -159,7 +159,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary btn-modal" data-bind="click: vm.createLab">Create</button>
+              <button class="btn btn-primary btn-modal btn-rounded" data-bind="click: vm.createLab">Create</button>
             </div>
           </form>
         </div>
@@ -181,7 +181,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" data-bind="click: vm.updateLaboratory" class="btn btn-primary btn-modal">Save</button>
+              <button type="button" data-bind="click: vm.updateLaboratory" class="btn btn-primary btn-modal btn-rounded">Save</button>
             </div>
           </form>
         </div>

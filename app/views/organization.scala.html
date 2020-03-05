@@ -87,30 +87,6 @@
           </tbody>
         </table>
       </div>
-      <div class="col-sm-12 col-md-12 mt-3">
-        <ul class="pagination">
-          <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
-              Previous
-            </a>
-          </li>
-          <li class="paginate_button page-item active">
-            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">
-              1
-            </a>
-          </li>
-          <li class="paginate_button page-item ">
-            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
-              2
-            </a>
-          </li>
-          <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">
-              Next
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
   @* ADD ORGANIZATION MODAL *@
@@ -136,7 +112,7 @@
                   <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" data-bind="value: vm.phoneNumber" >
                 </div>
               </div>
-              <div class="col-sm-12">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <label for="address">Address:</label>
                   <input type="text" class="form-control" id="address" data-bind="value: vm.address" name="address">
@@ -148,7 +124,7 @@
                   <input type="text" class="form-control" id="email" data-bind="value: vm.email" name="email">
                 </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <div class="form-group one-line-dropdown">
                   <label for="department">Departments: </label>
                   <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedDepartment,
