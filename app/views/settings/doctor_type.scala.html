@@ -88,7 +88,7 @@
     <div class="modal fade" id="add_doctor_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form action="#" method="post">
+          <form>
             <div class="modal-header">
               <h3 class="modal-title" id="editModalLongTitle">Add Doctor Type</h3>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -110,7 +110,7 @@
     <div class="modal fade" id="edit_doctor_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form action="#" method="post">
+          <form>
             <div class="modal-header">
               <h3 class="modal-title" id="editModalLongTitle">Edit Doctor Type</h3>
               <button type="button" class="close" id="#closeModalDoctor" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -147,7 +147,7 @@
     <div class="modal fade" id="add_lab_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form action="#" method="post">
+          <form>
             <div class="modal-header">
               <h3 class="modal-title" id="editModalLongTitle">Add Laboratory Type</h3>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -169,7 +169,7 @@
     <div class="modal fade" id="edit_lab_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form action="#" method="post">
+          <form>
             <div class="modal-header">
               <h3 class="modal-title" id="editModalLongTitle">Edit Laboratory Type</h3>
               <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -193,7 +193,7 @@
         <div class="modal-content">
           <div class="modal-body text-center">
             <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
-            <h3>Are you sure want to delete this Laboratory?</h3>
+            <h3>Are you sure want to delete this <span data-bind="$data: vm.selected.name"></span> Laboratory?</h3>
             <div class="m-t-20">
               <a href="#" class="btn btn-white" id="close_modal" data-dismiss="modal">Close</a>
               <button type="submit" data-bind="click: vm.deleteLaboratory" class="btn btn-danger">Delete</button>
