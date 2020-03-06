@@ -7,9 +7,9 @@ $ ->
     send: '/addCheckupPeriod'
     getWorkType: '/get-workType'
     updateCheckupPeriod: '/update-checkupPeriod'
-    updateCheckupPeriod: '/update/checkupPeriod'
     deleteWorkType: '/deleteWorkType'
     getLab: '/getLaboratory'
+    getDoctor: '/getDoctorType'
 
   defaultForm =
     numberPerYear: ''
@@ -24,8 +24,6 @@ $ ->
     getWorkTypeList: []
     language: Glob.language
     formA: []
-    formB: []
-    selectedId: 0
 
 
   handleError = (error) ->
@@ -42,10 +40,17 @@ $ ->
       vm.labTypeList response
   getLabTypeList()
 
+  getDoctorTypeList = ->
+    $.get(apiUrl.getDoctor)
+    .fail handleError
+    .done (response) ->
+      vm.getCheckupPeriodList response
+  getDoctorTypeList()
+
   vm.addForm = -> ->
     if(ko.mapping.toJS(vm.formA()).length < 4)
       vm.formA.push ko.mapping.fromJS(defaultForm)
-      vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+      vm.getCheckupPeriodList()
       vm.labTypeList()
     else
       alert("Yetarlicha maydon qo'shildi.")

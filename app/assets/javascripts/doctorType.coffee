@@ -142,7 +142,7 @@ $ ->
 
   vm.openEditFormDoctor = (data) -> ->
     vm.selectedDoctor.id(data.id)
-    vm.selectedDoctor.doctorName(data.doctorTypeName)
+    vm.selectedDoctor.doctorName(data.doctorType)
     $('#edit_doctor_type').open
 
   vm.deleteLaboratory = ->
