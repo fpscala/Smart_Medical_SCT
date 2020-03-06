@@ -7,6 +7,9 @@ $ ->
     send: '/addCheckupPeriod'
     getWorkType: '/get-workType'
     updateCheckupPeriod: '/update-checkupPeriod'
+    updateCheckupPeriod: '/update/checkupPeriod'
+    deleteWorkType: '/deleteWorkType'
+    getLab: '/getLaboratory'
 
   defaultForm =
     numberPerYear: ''
@@ -21,6 +24,9 @@ $ ->
     getWorkTypeList: []
     language: Glob.language
     formA: []
+    formB: []
+    selectedId: 0
+
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
@@ -29,14 +35,18 @@ $ ->
       toastr.error('Something went wrong! Please try again.')
 
   vm.formA.push ko.mapping.fromJS(defaultForm)
-  vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
-  vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+  getLabTypeList = ->
+    $.get(apiUrl.getLab)
+    .fail handleError
+    .done (response) ->
+      vm.labTypeList response
+  getLabTypeList()
 
   vm.addForm = -> ->
     if(ko.mapping.toJS(vm.formA()).length < 4)
       vm.formA.push ko.mapping.fromJS(defaultForm)
-      vm.labTypeList([{id: 1, labType: 'lab1'}, {id: 2, labType: 'lab2'}, {id: 3, labType: 'lab3'}])
       vm.getCheckupPeriodList([{id: 1, doctorType: 'doctor1'}, {id: 2, doctorType: 'doctor2'}, {id: 3, doctorType: 'doctor3'}])
+      vm.labTypeList()
     else
       alert("Yetarlicha maydon qo'shildi.")
 
@@ -90,6 +100,31 @@ $ ->
       vm.getWorkTypeList(response)
 
   getCheckupPeriod()
+
+  vm.askDelete = (id) -> ->
+    vm.selectedId id
+    $('#delete').open
+
+  vm.openEditForm = (data) -> ->
+    vm.selectedId data.id
+    vm.selectedName data.workType
+    $('#edit_work_type').open
+
+  vm.deleteWorkTypeAndCheckup = ->
+    data =
+      id: vm.selectedId()
+    $.ajax
+      url: apiUrl.deleteWorkType
+      type: 'DELETE'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      $('#close_modal').click()
+      toastr.success(response)
+      $(this).parents('tr').remove()
+      getCheckupPeriod()
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1
