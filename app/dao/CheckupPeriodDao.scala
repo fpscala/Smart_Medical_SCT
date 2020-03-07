@@ -23,13 +23,7 @@ trait CheckupPeriodComponent {
 
     def numberPerYear = column[Int]("number_per_year")
 
-    def doctorType = column[JsValue]("doctor_type_id" )
-
-    def labType = column[JsValue]("lab_type_id")
-
-    def workType = column[Int]("work_type_id")
-
-    def * = (id.?, numberPerYear, doctorType, labType, workType) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
+    def * = (id.?, numberPerYear) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
   }
 
 }
@@ -38,6 +32,8 @@ trait CheckupPeriodComponent {
 trait CheckupPeriodDao {
 
   def addCheckupPeriod(data: CheckupPeriod): Future[Int]
+
+  def getCheckupId: Future[Int]
 }
 
 @Singleton
@@ -52,13 +48,18 @@ class CheckupPeriodDaoImpl @Inject()(protected val dbConfigProvider: DatabaseCon
 
   import utils.PostgresDriver.api._
 
-  val CheckupPeriodsTable = TableQuery[CheckupPeriodTable]
+  val checkupPeriod = TableQuery[CheckupPeriodTable]
 
   override def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
     db.run {
-      (CheckupPeriodsTable returning CheckupPeriodsTable.map(_.id)) += data
+      (checkupPeriod returning checkupPeriod.map(_.id)) += data
     }
   }
 
+  override def getCheckupId: Future[Int] = {
+    db.run {
+      checkupPeriod.map(_.id).max.get.result
+    }
+  }
 }
 

@@ -194,21 +194,26 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
-    logger.warn(s"body: ${request.body}")
     val workType = (request.body \ "workType").as[String]
     val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    logger.warn(s"data: ${data.map(_.selectedDoctorType)}")
+    data.toList.map{ d: CheckupPeriodForm =>
+      logger.warn(s"d: $d")
+      for ( (docId, labId) <- (d.selectedDoctorType zip d.selectedLabType)) yield {
+        for {
+          _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
+          workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
+          _ = logger.info(s"work: $workTypeId")
+          _ <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, d.numberPerYear.toInt))).mapTo[Int]
+          checkupId <- (registrationManager ? GetCheckupId).mapTo[Int]
+          _ = logger.info(s"checkup: $checkupId")
 
-    for {
-      _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
-      workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
-      _ <- (registrationManager ? AddCheckupPeriod(
-        data.toSet.map { d: CheckupPeriodForm =>
-          CheckupPeriod(None, d.numberPerYear.toInt, Json.toJson(d.selectedDoctorType), Json.toJson(d.selectedLabType), workTypeId.get)
-        })).mapTo[Int]
-    } yield {
-      Ok(Json.toJson("OK"))
+          _ <- registrationManager ? AddIds(TmpTable(workTypeId.get, checkupId, docId, labId))
+        } yield {
+        }
+      }
     }
+    Future.successful(Ok(Json.toJson("OK")))
+
   }
   }
 

@@ -1,6 +1,7 @@
 # --- !Ups
 CREATE TABLE "Tmp_table"
 (
+    "id" SERIAL NOT NULL PRIMARY KEY,
     "work_type_id" INT CONSTRAINT "Tmp_tableFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "checkup_period_id" INT CONSTRAINT "Tmp_tableFkCheckupId" REFERENCES "Checkup_period" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "doctor_type_id" INT CONSTRAINT "Tmp_tableFkDoctor_typeId" REFERENCES "Doctor_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,

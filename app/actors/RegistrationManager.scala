@@ -9,7 +9,7 @@ import com.typesafe.scalalogging.LazyLogging
 import dao._
 import javax.inject.Inject
 import play.api.{Configuration, Environment}
-import protocols.RegistrationProtocol._
+import protocols.RegistrationProtocol.{GetCheckupId, _}
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
@@ -18,6 +18,7 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val configuration: Configuration,
                                     val organizationDao: OrganizationDao,
                                     val laboratoryDao: LaboratoryDao,
+                                    val tmpTableDao: TmpTableDao,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao,
                                     val workTypeDao: WorkTypeDao,
@@ -90,11 +91,17 @@ class RegistrationManager @Inject()(val environment: Environment,
     case AddWorkType(data) =>
       addWorkType(data).pipeTo(sender())
 
+    case AddIds(data) =>
+      addIds(data).pipeTo(sender())
+
     case GetWorkTypeWithCheckupPeriod =>
-      getWorkTypeWithCheckupPeriod.pipeTo(sender())
+//      getWorkTypeWithCheckupPeriod.pipeTo(sender())
 
     case FindWorkTypeIdByWorkType(workType) =>
       findWorkTypeIdByWorkType(workType).pipeTo(sender())
+
+    case GetCheckupId =>
+      getCheckupId.pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -118,6 +125,10 @@ class RegistrationManager @Inject()(val environment: Environment,
     patientDao.getPatientList
   }
 
+  def getCheckupId = {
+    checkupPeriodDao.getCheckupId
+  }
+
   private def addLaboratory(data: Laboratory): Future[Either[String, String]] = {
     (for {
       response <- laboratoryDao.findLabType(data.laboratoryName)
@@ -128,6 +139,10 @@ class RegistrationManager @Inject()(val environment: Environment,
         laboratoryDao.addLaboratory(data)
         Future.successful(Right(data.laboratoryName + " nomli laboratory type muvoffaqiyatli qo'shildi!"))
     }).flatten
+  }
+
+  private def addIds(data: TmpTable) = {
+     tmpTableDao.addTmpTable(data)
   }
 
   private def getLaboratoryList: Future[Seq[Laboratory]] = {
@@ -182,18 +197,16 @@ class RegistrationManager @Inject()(val environment: Environment,
     doctorTypeDao.updateDoctorType(data)
   }
 
-  private def addCheckupPeriod(data: Set[CheckupPeriod]): Future[Int] = {
-    data.map {chp =>
-      checkupPeriodDao.addCheckupPeriod(chp)
-    }.head
+  private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
+      checkupPeriodDao.addCheckupPeriod(data)
   }
 
   private def addWorkType(data: WorkType): Future[Int] = {
     workTypeDao.addWorkType(data)
   }
 
-  private def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]] = {
-    workTypeDao.getWorkTypeWithCheckupPeriod
+  private def getWorkTypeWithCheckupPeriod = {
+//    workTypeDao.getWorkTypeWithCheckupPeriod
   }
 
   private def findWorkTypeIdByWorkType(workType: String): Future[Option[Int]] = {
