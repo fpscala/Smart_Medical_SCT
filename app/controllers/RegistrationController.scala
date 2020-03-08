@@ -194,11 +194,17 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
+    /** TODO tmp_table ga workTypeId, checkupId, labTypeId, doctorTypeId larni qo'shishni yaxshilash */
+    /** TODO Muammolar:
+     *        1. laboratory va doctor lar id larini zip paralel sikl orqali yugurganda faqat ikkala listda teng holda to'g'ri ishlayapdi
+     *            aks holda faqat o'lchami kichik bo'lgan list uzunligicha marta aylanyapdi
+     *        2. Agar Laboratory va doctorlar uzunligi teng bo'lmasa yetishmay qolgan listning element o'rniga nima yozamiz?
+     */
     val workType = (request.body \ "workType").as[String]
     val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    data.toList.map{ d: CheckupPeriodForm =>
+    data.toList.map { d: CheckupPeriodForm =>
       logger.warn(s"d: $d")
-      for ( (docId, labId) <- (d.selectedDoctorType zip d.selectedLabType)) yield {
+      for ((docId, labId) <- (d.selectedDoctorType zip d.selectedLabType)) yield {
         for {
           _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
           workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
@@ -214,8 +220,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
     Future.successful(Ok(Json.toJson("OK")))
 
-  }
-  }
+  }}
 
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
