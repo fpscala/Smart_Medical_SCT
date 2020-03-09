@@ -31,9 +31,7 @@ trait CheckupPeriodComponent {
 @ImplementedBy(classOf[CheckupPeriodDaoImpl])
 trait CheckupPeriodDao {
 
-  def addCheckupPeriod(data: CheckupPeriod): Future[Int]
-
-  def getCheckupId: Future[Int]
+  def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod]
 }
 
 @Singleton
@@ -50,15 +48,9 @@ class CheckupPeriodDaoImpl @Inject()(protected val dbConfigProvider: DatabaseCon
 
   val checkupPeriod = TableQuery[CheckupPeriodTable]
 
-  override def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
+  override def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod] = {
     db.run {
-      (checkupPeriod returning checkupPeriod.map(_.id)) += data
-    }
-  }
-
-  override def getCheckupId: Future[Int] = {
-    db.run {
-      checkupPeriod.map(_.id).max.get.result
+      (checkupPeriod returning checkupPeriod.map(_.id) into ((t, id) => t.copy(id = Some(id)))) += data.copy(id = data.id)
     }
   }
 }

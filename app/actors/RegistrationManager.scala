@@ -100,9 +100,6 @@ class RegistrationManager @Inject()(val environment: Environment,
     case FindWorkTypeIdByWorkType(workType) =>
       findWorkTypeIdByWorkType(workType).pipeTo(sender())
 
-    case GetCheckupId =>
-      getCheckupId.pipeTo(sender())
-
     case _ => logger.info(s"received unknown message")
   }
 
@@ -123,10 +120,6 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   def getPatientList = {
     patientDao.getPatientList
-  }
-
-  def getCheckupId = {
-    checkupPeriodDao.getCheckupId
   }
 
   private def addLaboratory(data: Laboratory): Future[Either[String, String]] = {
@@ -197,11 +190,11 @@ class RegistrationManager @Inject()(val environment: Environment,
     doctorTypeDao.updateDoctorType(data)
   }
 
-  private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
+  private def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod] = {
       checkupPeriodDao.addCheckupPeriod(data)
   }
 
-  private def addWorkType(data: WorkType): Future[Int] = {
+  private def addWorkType(data: WorkType): Future[WorkType] = {
     workTypeDao.addWorkType(data)
   }
 

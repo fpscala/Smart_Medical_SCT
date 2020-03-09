@@ -28,7 +28,7 @@ trait WorkTypeComponent extends CheckupPeriodComponent {
 
 @ImplementedBy(classOf[WorkTypeDaoImpl])
 trait WorkTypeDao {
-  def addWorkType(data: WorkType  ): Future[Int]
+  def addWorkType(data: WorkType  ): Future[WorkType]
 
 //  def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]]
 
@@ -51,9 +51,9 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
   val workType = TableQuery[WorkTypeTable]
   val checkupPeriod = TableQuery[CheckupPeriodTable]
 
-  override def addWorkType(data: WorkType): Future[Int] = {
+  override def addWorkType(data: WorkType): Future[WorkType] = {
     db.run {
-      (workType returning workType.map(_.id)) += data
+      (workType returning workType.map(_.id) into ((t, id) => t.copy(id = Some(id)))) += data.copy(id = data.id)
     }
   }
 //

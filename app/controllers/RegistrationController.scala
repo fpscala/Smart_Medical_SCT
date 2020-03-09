@@ -206,14 +206,11 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       logger.warn(s"d: $d")
       for ((docId, labId) <- (d.selectedDoctorType zip d.selectedLabType)) yield {
         for {
-          _ <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[Int]
-          workTypeId <- (registrationManager ? FindWorkTypeIdByWorkType(workType)).mapTo[Option[Int]]
-          _ = logger.info(s"work: $workTypeId")
-          _ <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, d.numberPerYear.toInt))).mapTo[Int]
-          checkupId <- (registrationManager ? GetCheckupId).mapTo[Int]
+          workTypeId <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[WorkType].map(_.id)
+          checkupId <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, d.numberPerYear.toInt))).mapTo[CheckupPeriod].map(_.id)
+          _ = logger.info(s"workType: $workTypeId")
           _ = logger.info(s"checkup: $checkupId")
-
-          _ <- registrationManager ? AddIds(TmpTable(workTypeId.get, checkupId, docId, labId))
+          _ <- registrationManager ? AddIds(TmpTable(workTypeId.get, checkupId.get, docId, labId))
         } yield {
         }
       }
