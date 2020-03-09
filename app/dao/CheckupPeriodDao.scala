@@ -21,17 +21,23 @@ trait CheckupPeriodComponent {
   class CheckupPeriodTable(tag: Tag) extends Table[CheckupPeriod](tag, "Checkup_period") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
+    def workTypeId = column[Int]("work_type_id")
+
     def numberPerYear = column[Int]("number_per_year")
 
-    def * = (id.?, numberPerYear) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
+    def docTypeId = column[Int]("doctor_type_id")
+
+    def labTypeId = column[Int]("lab_type_id")
+
+
+    def * = (id.?, workTypeId, numberPerYear, docTypeId.?, labTypeId.?) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
   }
 
 }
 
 @ImplementedBy(classOf[CheckupPeriodDaoImpl])
 trait CheckupPeriodDao {
-
-  def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod]
+  def addCheckupPeriod(data: CheckupPeriod): Future[Int]
 }
 
 @Singleton
@@ -48,9 +54,9 @@ class CheckupPeriodDaoImpl @Inject()(protected val dbConfigProvider: DatabaseCon
 
   val checkupPeriod = TableQuery[CheckupPeriodTable]
 
-  override def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod] = {
+  override def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
     db.run {
-      (checkupPeriod returning checkupPeriod.map(_.id) into ((t, id) => t.copy(id = Some(id)))) += data.copy(id = data.id)
+      (checkupPeriod returning checkupPeriod.map(_.id)) += data
     }
   }
 }

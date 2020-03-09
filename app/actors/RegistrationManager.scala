@@ -18,7 +18,6 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val configuration: Configuration,
                                     val organizationDao: OrganizationDao,
                                     val laboratoryDao: LaboratoryDao,
-                                    val tmpTableDao: TmpTableDao,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao,
                                     val workTypeDao: WorkTypeDao,
@@ -91,9 +90,6 @@ class RegistrationManager @Inject()(val environment: Environment,
     case AddWorkType(data) =>
       addWorkType(data).pipeTo(sender())
 
-    case AddIds(data) =>
-      addIds(data).pipeTo(sender())
-
     case GetWorkTypeWithCheckupPeriod =>
 //      getWorkTypeWithCheckupPeriod.pipeTo(sender())
 
@@ -132,10 +128,6 @@ class RegistrationManager @Inject()(val environment: Environment,
         laboratoryDao.addLaboratory(data)
         Future.successful(Right(data.laboratoryName + " nomli laboratory type muvoffaqiyatli qo'shildi!"))
     }).flatten
-  }
-
-  private def addIds(data: TmpTable) = {
-     tmpTableDao.addTmpTable(data)
   }
 
   private def getLaboratoryList: Future[Seq[Laboratory]] = {
@@ -190,7 +182,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     doctorTypeDao.updateDoctorType(data)
   }
 
-  private def addCheckupPeriod(data: CheckupPeriod): Future[CheckupPeriod] = {
+  private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
       checkupPeriodDao.addCheckupPeriod(data)
   }
 

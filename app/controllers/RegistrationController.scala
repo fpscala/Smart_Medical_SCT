@@ -11,7 +11,7 @@ import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
-import play.api.{Configuration, data}
+import play.api.Configuration
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, _}
@@ -110,7 +110,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>{
+  def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val organizationName = (request.body \ "organizationName").as[String]
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
@@ -194,30 +194,37 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
-    /** TODO tmp_table ga workTypeId, checkupId, labTypeId, doctorTypeId larni qo'shishni yaxshilash */
-    /** TODO Muammolar:
-     *        1. laboratory va doctor lar id larini zip paralel sikl orqali yugurganda faqat ikkala listda teng holda to'g'ri ishlayapdi
-     *            aks holda faqat o'lchami kichik bo'lgan list uzunligicha marta aylanyapdi
-     *        2. Agar Laboratory va doctorlar uzunligi teng bo'lmasa yetishmay qolgan listning element o'rniga nima yozamiz?
-     */
+    /**TODO ikkinchi marotaba qo'shishni oldini olish */
     val workType = (request.body \ "workType").as[String]
     val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    data.toList.map { d: CheckupPeriodForm =>
-      logger.warn(s"d: $d")
-      for ((docId, labId) <- (d.selectedDoctorType zip d.selectedLabType)) yield {
-        for {
-          workTypeId <- (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[WorkType].map(_.id)
-          checkupId <- (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, d.numberPerYear.toInt))).mapTo[CheckupPeriod].map(_.id)
-          _ = logger.info(s"workType: $workTypeId")
-          _ = logger.info(s"checkup: $checkupId")
-          _ <- registrationManager ? AddIds(TmpTable(workTypeId.get, checkupId.get, docId, labId))
-        } yield {
+    (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[WorkType].map { workType =>
+      data.toList.map { d =>
+        var i = 0
+        if (d.selectedLabType.length >= d.selectedDoctorType.length) {
+          while (i < d.selectedLabType.length) {
+            if (i < d.selectedDoctorType.length) {
+              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i))))).mapTo[Int]
+            } else {
+              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, None, Some(d.selectedLabType(i))))).mapTo[Int]
+            }
+            i += 1
+          }
+        } else {
+          while (i < d.selectedDoctorType.length) {
+            if (i < d.selectedLabType.length) {
+              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i))))).mapTo[Int]
+            } else {
+              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), None))).mapTo[Int]
+            }
+            i += 1
+          }
         }
       }
     }
+    /**TODO foydalanuvchilarga yuboriladigan javobni takomillashtirish */
     Future.successful(Ok(Json.toJson("OK")))
-
-  }}
+  }
+  }
 
   def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded

@@ -33,19 +33,12 @@ CREATE TABLE "Organization"
     "workers_number" INTEGER NULL,
     "work_type" JSONB
 );
-
-CREATE TABLE "Tmp_table"
-(
+CREATE TABLE "Checkup_period"(
+    "id"  SERIAL  NOT NULL PRIMARY KEY,
+    "number_per_year"  INT NOT NULL,
     "work_type_id" INT CONSTRAINT "Tmp_tableFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "checkup_period_id" INT CONSTRAINT "Tmp_tableFkCheckupId" REFERENCES "Checkup_period" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "doctor_type_id" INT CONSTRAINT "Tmp_tableFkDoctor_typeId" REFERENCES "Doctor_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "lab_type_id" INT CONSTRAINT "Tmp_tableFkLab_typeId" REFERENCES "Lab_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE "Checkup_period"
-(
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "number_per_year" INT NOT NULL
+    "doctor_type_id" INT NULL CONSTRAINT "Tmp_tableFkDoctor_typeId" REFERENCES "Doctor_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "lab_type_id" INT NULL CONSTRAINT "Tmp_tableFkLab_typeId" REFERENCES "Lab_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "Patient"

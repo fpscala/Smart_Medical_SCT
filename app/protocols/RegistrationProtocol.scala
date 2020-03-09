@@ -104,7 +104,10 @@ object RegistrationProtocol {
   implicit val doctorTypeFormat: OFormat[DoctorType] = Json.format[DoctorType]
 
   case class CheckupPeriod(id: Option[Int] = None,
-                           numberPerYear: Int
+                           workTypeId: Int,
+                           numberPerYear: Int,
+                           doctorType: Option[Int],
+                           labTypeId: Option[Int]
                           )
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]
@@ -116,17 +119,6 @@ object RegistrationProtocol {
                               )
 
   implicit val checkupPeriodFormFormat: OFormat[CheckupPeriodForm] = Json.format[CheckupPeriodForm]
-
-  case class AddIds(table: TmpTable)
-
-  case class TmpTable(workTypeId: Int,
-                       checkupId: Int,
-                       doctorType: Int,
-                       labTypeId: Int
-                      )
-
-  implicit val tmpTableFormFormat: OFormat[TmpTable] = Json.format[TmpTable]
-
 
   case class Region(id: Int, name: String)
 
