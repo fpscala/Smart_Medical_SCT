@@ -279,7 +279,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getWorkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
     (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { p =>
-      val grouped = p.groupBy(_._1)
+      val grouped = p.groupBy(_._1.workType).map(_._2.groupBy(_._2.numberPerYear))
       Ok(Json.toJson(grouped))
     }
   }
