@@ -24,7 +24,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-bordered table-striped mb-0 " >
+          <table class="table table-bordered table-striped mb-0" >
             <thead class="text-center">
               <tr>
                 <th>№</th>
@@ -42,21 +42,29 @@
                 <td>
                   <table data-bind="foreach: $data[1]" class="table table-striped">
                     <tr>
-                      <td data-bind="text: $data[1].numberPerYear"></td>
+                      <td>1 yilda <br><span data-bind="text: $data[0]"></span> marta</td>
                     </tr>
                   </table>
                 </td>
                 <td>
                   <table data-bind="foreach: $data[1]" class="table table-striped">
                     <tr>
-                      <td data-bind="text: $data[1].doctorType"></td>
+                      <td data-bind="foreach: $data[1]">
+                        <div data-bind="foreach: $data">
+                          <span data-bind="text: $data.doctorType"></span>
+                        </div>
+                      </td>
                     </tr>
                   </table>
                 </td>
                 <td>
                   <table data-bind="foreach: $data[1]" class="table table-striped">
                     <tr>
-                      <td data-bind="text: $data[1].labTypeId"></td>
+                      <td data-bind="foreach: $data[1]">
+                        <div data-bind="foreach: $data">
+                          <span data-bind="text: $data.labTypeId"></span>
+                        </div>
+                      </td>
                     </tr>
                   </table>
                 </td>
