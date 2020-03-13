@@ -1,9 +1,4 @@
 # --- !Ups
-CREATE TABLE "Checkup_type"(
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "checkup_type" VARCHAR NOT NULL
-);
-
 CREATE TABLE "Work_type"(
     "id" SERIAL NOT NULL PRIMARY KEY,
     "work_type" VARCHAR NOT NULL

@@ -1,10 +1,4 @@
 # --- !Ups
-CREATE TABLE "Checkup_type"
-(
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "checkup_type" VARCHAR NOT NULL
-);
-
 CREATE TABLE "Work_type"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
@@ -33,12 +27,14 @@ CREATE TABLE "Organization"
     "workers_number" INTEGER NULL,
     "work_type" JSONB
 );
+
 CREATE TABLE "Checkup_period"(
     "id" SERIAL NOT NULL PRIMARY KEY,
     "number_per_year"  INT NOT NULL,
     "work_type_id" INT CONSTRAINT "Checkup_periodFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "doctor_type_id" INT NULL CONSTRAINT "Checkup_periodFkDoctor_typeId" REFERENCES "Doctor_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "lab_type_id" INT NULL CONSTRAINT "Checkup_periodFkLab_typeId" REFERENCES "Lab_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+    "lab_type_id" INT NULL CONSTRAINT "Checkup_periodFkLab_typeId" REFERENCES "Lab_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "spec_part_json" jsonb NULL
 );
 
 CREATE TABLE "Patient"
