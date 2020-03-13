@@ -181,6 +181,17 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def deleteWorkType = Action.async(parse.json) { implicit request =>
+    val id = (request.body \ "id").as[Int]
+    (registrationManager ? DeleteWorkType(id)).mapTo[Int].map { i =>
+      if (i != 0) {
+        Ok(Json.toJson(id + " raqamli doctor type o`chirildi"))
+      } else {
+        Ok("Bunday raqamli doctor type topilmadi")
+      }
+    }
+  }
+
   def updateDoctorType = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val doctorTypeName = (request.body \ "doctorTypeName").as[String]

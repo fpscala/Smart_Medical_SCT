@@ -30,7 +30,7 @@
                 <th>№</th>
                 <th>Dastlabki tarzda va vaqti-vaqti bilan tibbiy ko`rikdan o`tkazilishi shart bo`lgan shaxslar</th>
                 <th>Tibbiy ko`rikdan o`tish muddati </th>
-                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutaxassislar</th>
+                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutax$parentassislar</th>
                 <th>Laboratoriya va funksional tekshiruvlar</th>
                 <th class="text-right">Action</th>
               </tr>
@@ -67,7 +67,7 @@
                     <div class="dropdown-menu dropdown-menu-right">
                       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
                         Edit</a>
-                      <a class="dropdown-item" href="#" data-bind="click: $root.vm.askDelete($data.id)" data-toggle="modal" data-target="#delete" id="deleteWorkType"><i class="fas fa-trash-alt m-r-5"></i>
+                      <a class="dropdown-item" href="#" data-bind="click: $root.vm.askDelete($parent)" data-toggle="modal" data-target="#delete" id="deleteWorkType"><i class="fas fa-trash-alt m-r-5"></i>
                         Delete</a>
                     </div>
                   </div>
@@ -138,14 +138,14 @@
                     <div class="col-md-4">
                       <div class="form-group one-line-dropdown">
                         <label for="doctorType">Doctor Type</label>
-                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $parent.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $root.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
                         </select>
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group one-line-dropdown">
                         <label for="labType">Laboratory Type</label>
-                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $parent.vm.labTypeList}, optionsValue: 'id', optionsText: 'laboratoryName'" data-show-subtext="true">
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $root.vm.labTypeList}, optionsValue: 'id', optionsText: 'laboratoryName'" data-show-subtext="true">
                         </select>
                       </div>
                     </div>

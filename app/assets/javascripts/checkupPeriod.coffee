@@ -24,6 +24,7 @@ $ ->
     getWorkTypeList: []
     language: Glob.language
     formA: []
+    selectedId: ''
 
 
   handleError = (error) ->
@@ -107,11 +108,12 @@ $ ->
   getCheckupPeriod()
 
   vm.checkupLength = (list) ->
-    console.log(list)
     return list.length
 
-  vm.askDelete = (id) -> ->
-    vm.selectedId id
+  vm.askDelete = (data) -> ->
+    vm.selectedId data[0].id
+    console.log('data', data)
+    console.log(vm.selectedId())
     $('#delete').open
 
   vm.openEditForm = (data) -> ->
@@ -122,6 +124,7 @@ $ ->
   vm.deleteWorkTypeAndCheckup = ->
     data =
       id: vm.selectedId()
+    console.log('dwad')
     $.ajax
       url: apiUrl.deleteWorkType
       type: 'DELETE'

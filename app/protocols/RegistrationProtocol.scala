@@ -32,6 +32,8 @@ object RegistrationProtocol {
 
   case class DeleteDoctorType(id: Int)
 
+  case class DeleteWorkType(id: Int)
+
   case class UpdateDoctorType(update: DoctorType)
 
   case class AddDoctorType(data: DoctorType)

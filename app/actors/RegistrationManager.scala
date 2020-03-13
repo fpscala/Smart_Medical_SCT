@@ -69,6 +69,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case DeleteDoctorType(id) =>
       deleteDoctorType(id).pipeTo(sender())
 
+    case DeleteWorkType(id) =>
+      deleteWorkTypeAndCheckupPeriod(id).pipeTo(sender())
+
     case GetDoctorTypeList =>
       getDoctorTypeList.pipeTo(sender())
 
@@ -176,6 +179,10 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def deleteDoctorType(id: Int): Future[Int] = {
     doctorTypeDao.deleteDoctorType(id)
+  }
+
+  private def deleteWorkTypeAndCheckupPeriod(id: Int): Future[Int] = {
+    workTypeDao.deleteWorkType(id)
   }
 
   private def updateDoctorType(data: DoctorType): Future[Int] = {
