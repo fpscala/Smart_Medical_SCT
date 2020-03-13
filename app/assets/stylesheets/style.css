@@ -5804,3 +5804,6 @@ blockquote p {
   cursor: pointer;
 }
 
+li {
+  list-style: none;
+}

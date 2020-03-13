@@ -106,6 +106,10 @@ $ ->
 
   getCheckupPeriod()
 
+  vm.checkupLength = (list) ->
+    console.log(list)
+    return list.length
+
   vm.askDelete = (id) -> ->
     vm.selectedId id
     $('#delete').open

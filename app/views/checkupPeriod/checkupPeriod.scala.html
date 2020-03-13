@@ -24,7 +24,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-bordered table-striped mb-0" >
+          <table class="table table-bordered mb-0" >
             <thead class="text-center">
               <tr>
                 <th>№</th>
@@ -37,38 +37,31 @@
             </thead>
             <tbody data-bind="foreach: vm.getWorkTypeList">
               <tr>
-                <td data-bind="text: $index() + 1"></td>
-                <td data-bind="text: $data[0].workType"></td>
+                <td data-bind="text: $index() + 1, attr: { rowspan: $root.vm.checkupLength($data[1]) + 1}"></td>
+                <td data-bind="text: $data[0].workType, attr: { rowspan: $root.vm.checkupLength($data[1]) + 1}"></td>
+              </tr>
+
+                <!-- ko foreach: $data[1] -->
+              <tr>
                 <td>
-                  <table data-bind="foreach: $data[1]" class="table table-striped">
-                    <tr>
-                      <td>1 yilda <br><span data-bind="text: $data[0]"></span> marta</td>
-                    </tr>
-                  </table>
+                  <div>1 yilda <br><span data-bind="text: $data[0]"></span> marta</div>
                 </td>
                 <td>
-                  <table data-bind="foreach: $data[1]" class="table table-striped">
-                    <tr>
-                      <td data-bind="foreach: $data[1]">
-                        <div data-bind="foreach: $data">
-                          <span data-bind="text: $data.doctorType"></span>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
+                  <!-- ko foreach: $data[1] -->
+                    <ul data-bind="foreach: $data">
+                      <li data-bind="text: $data.doctorType"></li>
+                    </ul>
+                  <!-- /ko -->
                 </td>
                 <td>
-                  <table data-bind="foreach: $data[1]" class="table table-striped">
-                    <tr>
-                      <td data-bind="foreach: $data[1]">
-                        <div data-bind="foreach: $data">
-                          <span data-bind="text: $data.labTypeId"></span>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
+                  <!-- ko foreach: $data[1] -->
+                    <ul data-bind="foreach: $data">
+                      <li data-bind="text: $data.labTypeId"></li>
+                    </ul>
+                <!-- /ko -->
                 </td>
-                <td class="text-right">
+                <!-- ko if: $index() == 0 -->
+                <td class="text-right" data-bind="attr: { rowspan: $root.vm.checkupLength($parent[1]) + 1}">
                   <div class="dropdown dropdown-action">
                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -79,7 +72,9 @@
                     </div>
                   </div>
                 </td>
+                <!-- /ko -->
               </tr>
+                <!-- /ko -->
             </tbody>
           </table>
         </div>
