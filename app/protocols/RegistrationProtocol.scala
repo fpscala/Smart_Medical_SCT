@@ -109,7 +109,8 @@ object RegistrationProtocol {
                            workTypeId: Int,
                            numberPerYear: Int,
                            doctorType: Option[Int],
-                           labTypeId: Option[Int]
+                           labTypeId: Option[Int],
+                           specPartJson: Option[JsValue] = None
                           )
 
   implicit val CheckupPeriodFormat: OFormat[CheckupPeriod] = Json.format[CheckupPeriod]

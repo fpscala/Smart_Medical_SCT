@@ -107,6 +107,12 @@ $ ->
 
   getCheckupPeriod()
 
+  vm.returnDoctorType = (specPart) ->
+    return specPart.specPartJson.docType
+
+  vm.returnLabType = (specPart) ->
+    return specPart.specPartJson.labType
+
   vm.checkupLength = (list) ->
     return list.length
 

@@ -29,8 +29,9 @@ trait CheckupPeriodComponent {
 
     def labTypeId = column[Int]("lab_type_id")
 
+    def specPartJson = column[JsValue]("spec_part_json")
 
-    def * = (id.?, workTypeId, numberPerYear, docTypeId.?, labTypeId.?) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
+    def * = (id.?, workTypeId, numberPerYear, docTypeId.?, labTypeId.?, specPartJson.?) <> (CheckupPeriod.tupled, CheckupPeriod.unapply _)
   }
 
 }

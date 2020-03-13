@@ -30,7 +30,7 @@
                 <th>№</th>
                 <th>Dastlabki tarzda va vaqti-vaqti bilan tibbiy ko`rikdan o`tkazilishi shart bo`lgan shaxslar</th>
                 <th>Tibbiy ko`rikdan o`tish muddati </th>
-                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutax$parentassislar</th>
+                <th>Tibbiy ko`rikdan o`tkazuvchi vrach-mutaxassislar</th>
                 <th>Laboratoriya va funksional tekshiruvlar</th>
                 <th class="text-right">Action</th>
               </tr>
@@ -47,18 +47,14 @@
                   <div>1 yilda <br><span data-bind="text: $data[0]"></span> marta</div>
                 </td>
                 <td>
-                  <!-- ko foreach: $data[1] -->
-                    <ul data-bind="foreach: $data">
-                      <li data-bind="text: $data.doctorType"></li>
-                    </ul>
-                  <!-- /ko -->
+                  <ul data-bind="foreach: $data[1]">
+                    <li data-bind="text: $root.vm.returnDoctorType($data[1])"></li>
+                  </ul>
                 </td>
                 <td>
-                  <!-- ko foreach: $data[1] -->
-                    <ul data-bind="foreach: $data">
-                      <li data-bind="text: $data.labTypeId"></li>
-                    </ul>
-                <!-- /ko -->
+                  <ul data-bind="foreach: $data[1]">
+                    <li data-bind="text: $root.vm.returnLabType($data[1])"></li>
+                  </ul>
                 </td>
                 <!-- ko if: $index() == 0 -->
                 <td class="text-right" data-bind="attr: { rowspan: $root.vm.checkupLength($parent[1]) + 1}">

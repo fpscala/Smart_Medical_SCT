@@ -292,6 +292,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { seqCheckup =>
       val grouped = seqCheckup.groupBy(_._1).mapValues( v => v.groupBy(_._2.numberPerYear))
       Ok(Json.toJson(grouped))
+    }.recover {
+      case err =>
+        logger.warn(s"error: $err")
+        BadRequest("ddd")
     }
   }
 

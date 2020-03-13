@@ -54,36 +54,36 @@ class LaboratoryDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfig
 
   import utils.PostgresDriver.api._
 
-  val laboratorysTable = TableQuery[LaboratoryTable]
+  val laboratoryTable = TableQuery[LaboratoryTable]
 
   override def addLaboratory(data: Laboratory): Future[Int] = {
     db.run {
       logger.warn(s"daoga keldi: $data")
-      (laboratorysTable returning laboratorysTable.map(_.id)) += data
+      (laboratoryTable returning laboratoryTable.map(_.id)) += data
     }
   }
 
   override def getLaboratory: Future[Seq[Laboratory]] = {
     db.run {
-      laboratorysTable.result
+      laboratoryTable.result
     }
   }
 
   override def deleteLaboratory(id: Int): Future[Int] = {
     db.run{
-      laboratorysTable.filter(_.id === id).delete
+      laboratoryTable.filter(_.id === id).delete
     }
   }
 
   override def updateLaboratory(data: Laboratory): Future[Int] = {
     db.run{
-      laboratorysTable.filter(_.id === data.id).update(data)
+      laboratoryTable.filter(_.id === data.id).update(data)
     }
   }
 
   override def findLabType(laboratory: String): Future[Option[Laboratory]] = {
     db.run{
-      laboratorysTable.filter(data => data.laboratoryName === laboratory).result.headOption
+      laboratoryTable.filter(data => data.laboratoryName === laboratory).result.headOption
     }
   }
 }

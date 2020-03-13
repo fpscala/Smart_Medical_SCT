@@ -5,13 +5,14 @@ import com.google.inject.ImplementedBy
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.libs.json.{Json, OFormat}
 import protocols.RegistrationProtocol._
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait WorkTypeComponent extends CheckupPeriodComponent {
+trait WorkTypeComponent extends CheckupPeriodComponent with DoctorTypeComponent with LaboratoryComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import utils.PostgresDriver.api._
@@ -52,6 +53,10 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
 
   val workType = TableQuery[WorkTypeTable]
   val checkupPeriod = TableQuery[CheckupPeriodTable]
+  val doctorTypeTable = TableQuery[DoctorTypeTable]
+  val laboratoryTable = TableQuery[LaboratoryTable]
+
+
 
   override def addWorkType(data: WorkType): Future[WorkType] = {
     db.run {
@@ -65,10 +70,27 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
       workType.filter(_.id === id).delete
     }
   }
+  case class SpecPart(docType: Option[String] = None, labType: Option[String] = None)
+  implicit val specPartFormat: OFormat[SpecPart] = Json.format[SpecPart]
+
 
   override def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]] = {
     val query = workType.join(checkupPeriod).on(_.id === _.workTypeId)
-    db.run(query.result)
+      .joinLeft(doctorTypeTable).on(_._2.docTypeId ===_.id)
+      .joinLeft(laboratoryTable).on(_._1._2.labTypeId ===_.id)
+
+    db.run(query.result).map{ r =>
+      r.map { case (((w, ch), d), l)  =>
+        (w, ch.copy(specPartJson =  if (d.isEmpty){
+          Some(Json.toJson(SpecPart(Some(""), Some(l.get.laboratoryName))))
+        } else if (l.isEmpty){
+          Some(Json.toJson(SpecPart(Some(d.get.doctorType), Some(""))))
+        } else {
+          Some(Json.toJson(SpecPart(Some(d.get.doctorType), Some(l.get.laboratoryName))))
+        }
+          ))
+      }
+    }
   }
 
   override def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]] = {
