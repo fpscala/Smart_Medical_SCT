@@ -16,7 +16,7 @@ object RegistrationProtocol {
 
   case class CreatePatient(data: Patient)
 
-  case class AddOrganization(data: Organization)
+  case class AddOrganization(data: OrganizationReader)
 
   case class AddLaboratory(data: Laboratory)
 
@@ -87,6 +87,16 @@ object RegistrationProtocol {
                           workType: Int)
 
   implicit val organizationFormat: OFormat[Organization] = Json.format[Organization]
+
+  case class OrganizationReader(id: Option[Int] = None,
+                          organizationName: String,
+                          phoneNumber: String,
+                          address: String,
+                          email: String,
+                          countWorkers: Int,
+                          workType: Array[Int])
+
+  implicit val organizationReaderFormat: OFormat[OrganizationReader] = Json.format[OrganizationReader]
 
   case class WorkType(id: Option[Int] = None,
                       workType: String)
