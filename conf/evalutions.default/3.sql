@@ -12,7 +12,7 @@ ALTER TABLE public."Organization"
     ADD COLUMN workers_number integer;
 
 ALTER TABLE public."Organization"
-    ADD COLUMN work_type jsonb;
+    ADD COLUMN work_type INT CONSTRAINT "OrganizationFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 # --- !Downs
 ALTER TABLE public."Organization" DROP COLUMN address;

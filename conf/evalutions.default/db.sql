@@ -25,7 +25,7 @@ CREATE TABLE "Organization"
     "phone_number" VARCHAR NULL,
     "email" VARCHAR NULL,
     "workers_number" INTEGER NULL,
-    "work_type" JSONB
+    "work_type" INT CONSTRAINT "OrganizationFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "Checkup_period"(

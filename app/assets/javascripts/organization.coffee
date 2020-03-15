@@ -15,6 +15,7 @@ $ ->
     phoneNumber: ''
     address: ''
     email: ''
+    countWorkers: ''
     workersNumber: ''
     workType: []
     selectedDepartment: []
@@ -54,7 +55,7 @@ $ ->
       toastr.error("Please enter a email")
       return no
     else if (vm.selectedDepartment().length is 0)
-      toastr.error("Please enter a Department")
+      toastr.error("Please select a Department")
       return no
     else
       data =
@@ -62,6 +63,7 @@ $ ->
         phoneNumber: vm.phoneNumber()
         address: vm.address()
         email: vm.email()
+        countWorkers: vm.countWorkers()
         department: vm.selectedDepartment()
       $.ajax
         url: apiUrl.send
@@ -72,8 +74,6 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        $("#organization").click()
-
 
 
 #  getOrganization = ->

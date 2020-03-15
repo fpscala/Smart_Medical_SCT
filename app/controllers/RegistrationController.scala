@@ -115,15 +115,27 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addOrganization: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def addOrganization = Action.async(parse.json) { implicit request => {
+    logger.warn(s"data: ${request.body}")
     val organizationName = (request.body \ "organizationName").as[String]
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
     val email = (request.body \ "email").as[String]
-    val workType = (request.body \ "department").as[JsValue]
-    (registrationManager ? AddOrganization(Organization(None, organizationName, phoneNumber, address, email, workType))).mapTo[Int].map { id =>
-      Ok(Json.toJson(id))
-    }
+    val countWorkers = (request.body \ "countWorkers").as[Int]
+    val workTypeList = (request.body \ "department").as[Array[Int]]
+    workTypeList.toList.map { workType =>
+      logger.warn(s"ddd: $workType")
+      (registrationManager ? AddOrganization(Organization(None, organizationName, phoneNumber, address, email, countWorkers, workType))).mapTo[Either[String,String]].map {
+        case Right(str) =>
+          Ok(Json.toJson(str))
+        case Left(err) =>
+          Ok(err)
+      }.recover {
+        case err =>
+          logger.error(s"err: $err")
+          BadRequest("dwad")
+      }
+    }.head
   }
   }
 

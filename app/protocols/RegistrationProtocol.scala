@@ -83,7 +83,8 @@ object RegistrationProtocol {
                           phoneNumber: String,
                           address: String,
                           email: String,
-                          workType: JsValue)
+                          countWorkers: Int,
+                          workType: Int)
 
   implicit val organizationFormat: OFormat[Organization] = Json.format[Organization]
 

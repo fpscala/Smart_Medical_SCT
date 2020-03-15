@@ -29,16 +29,20 @@ trait OrganizationComponent {
 
     def email = column[String]("email")
 
-    def workType = column[JsValue]("work_type")
+    def countWorkers = column[Int]("workers_number")
 
-    def * = (id.?, organizationName, phoneNumber, address, email, workType) <> (Organization.tupled, Organization.unapply _)
+    def workType = column[Int]("work_type")
+
+    def * = (id.?, organizationName, phoneNumber, address, email, countWorkers, workType) <> (Organization.tupled, Organization.unapply _)
   }
 
 }
 
 @ImplementedBy(classOf[OrganizationDaoImpl])
 trait OrganizationDao {
-  def addOrganization(data: Organization  ): Future[Int]
+  def addOrganization(data: Organization): Future[Int]
+
+  def findOrganizationByName(name: String): Future[Option[Organization]]
 
   def getOrganization: Future[Seq[Organization]]
 
@@ -59,30 +63,36 @@ class OrganizationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConf
 
   import utils.PostgresDriver.api._
 
-  val organizationsTable = TableQuery[OrganizationTable]
+  val organization = TableQuery[OrganizationTable]
 
   override def addOrganization(data: Organization): Future[Int] = {
     db.run {
       logger.warn(s"daoga keldi: $data")
-      (organizationsTable returning organizationsTable.map(_.id)) += data
+      (organization returning organization.map(_.id)) += data
+    }
+  }
+
+  override def findOrganizationByName(name: String): Future[Option[Organization]] = {
+    db.run{
+      organization.filter(_.organizationName === name).result.headOption
     }
   }
 
   override def getOrganization: Future[Seq[Organization]] = {
     db.run {
-      organizationsTable.result
+      organization.result
     }
   }
 
   override def deleteOrganization(id: Int): Future[Int] = {
     db.run{
-      organizationsTable.filter(_.id === id).delete
+      organization.filter(_.id === id).delete
     }
   }
 
   override def updateOrganization(data: Organization): Future[Int] = {
     db.run{
-      organizationsTable.filter(_.id === data.id).update(data)
+      organization.filter(_.id === data.id).update(data)
     }
   }
 

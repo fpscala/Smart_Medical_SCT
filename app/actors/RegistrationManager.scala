@@ -148,8 +148,17 @@ class RegistrationManager @Inject()(val environment: Environment,
     laboratoryDao.updateLaboratory(data)
   }
 
-  private def addOrganization(data: Organization): Future[Int] = {
-    organizationDao.addOrganization(data)
+  private def addOrganization(data: Organization)  = {
+    logger.warn(s"dddd")
+    for {
+      result <- organizationDao.findOrganizationByName(data.organizationName)
+    } yield result match {
+      case Some(organization) =>
+        Future.successful(Left(s"${organization.organizationName} nomli tashkilot ma'lumotlar bazasida mavjud"))
+      case None =>
+        organizationDao.addOrganization(data)
+        Future.successful(Right(s"${data.organizationName} tashkilot ma'lumotlar bazasiga muvofaqiyatli qo'shildi"))
+    }
   }
 
   private def getOrganizationList: Future[Seq[Organization]] = {
