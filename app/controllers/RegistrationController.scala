@@ -121,21 +121,19 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
     val email = (request.body \ "email").as[String]
-    val countWorkers = (request.body \ "countWorkers").as[Int]
+    logger.warn(s"ddd: ")
+    val countWorkers = (request.body \ "countWorkers").as[String].toInt
     val workTypeList = (request.body \ "department").as[Array[Int]]
-    workTypeList.toList.map { workType =>
-      logger.warn(s"ddd: $workType")
-      (registrationManager ? AddOrganization(Organization(None, organizationName, phoneNumber, address, email, countWorkers, workType))).mapTo[Either[String,String]].map {
-        case Right(str) =>
-          Ok(Json.toJson(str))
-        case Left(err) =>
-          Ok(err)
-      }.recover {
-        case err =>
-          logger.error(s"err: $err")
-          BadRequest("dwad")
-      }
-    }.head
+    (registrationManager ? AddOrganization(OrganizationReader(None, organizationName, phoneNumber, address, email, countWorkers, workTypeList))).mapTo[Either[String, String]].map {
+      case Right(str) =>
+        Ok(Json.toJson(str))
+      case Left(err) =>
+        Ok(err)
+    }.recover {
+      case err =>
+        logger.error(s"err: $err")
+        BadRequest("erroooor")
+    }
   }
   }
 
@@ -228,7 +226,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
-    /**TODO ikkinchi marotaba qo'shishni oldini olish */
+    /** TODO ikkinchi marotaba qo'shishni oldini olish */
     val workType = (request.body \ "workType").as[String]
     val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
     (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[WorkType].map { workType =>
@@ -255,7 +253,8 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         }
       }
     }
-    /**TODO foydalanuvchilarga yuboriladigan javobni takomillashtirish */
+
+    /** TODO foydalanuvchilarga yuboriladigan javobni takomillashtirish */
     Future.successful(Ok(Json.toJson("OK")))
   }
   }
@@ -313,7 +312,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getWorkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
     (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { seqCheckup =>
-      val grouped = seqCheckup.groupBy(_._1).mapValues( v => v.groupBy(_._2.numberPerYear))
+      val grouped = seqCheckup.groupBy(_._1).mapValues(v => v.groupBy(_._2.numberPerYear))
       Ok(Json.toJson(grouped))
     }.recover {
       case err =>
