@@ -96,6 +96,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetWorkTypeWithCheckupPeriod =>
       getWorkTypeWithCheckupPeriod.pipeTo(sender())
 
+    case GetDepartmentList =>
+      getWorkTypeList.pipeTo(sender())
+
     case FindWorkTypeIdByWorkType(workType) =>
       findWorkTypeIdByWorkType(workType).pipeTo(sender())
 
@@ -199,6 +202,10 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def getWorkTypeWithCheckupPeriod = {
     workTypeDao.getWorkTypeWithCheckupPeriod
+  }
+
+  private def getWorkTypeList = {
+    workTypeDao.getWorkType
   }
 
   private def findWorkTypeIdByWorkType(workType: String): Future[Option[Int]] = {

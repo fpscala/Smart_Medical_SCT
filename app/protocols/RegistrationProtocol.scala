@@ -24,6 +24,8 @@ object RegistrationProtocol {
 
   case object GetDoctorTypeList
 
+  case object GetDepartmentList
+
   case object GetPatient
 
   case object GetCheckupId

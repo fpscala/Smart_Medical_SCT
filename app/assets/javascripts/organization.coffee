@@ -8,6 +8,7 @@ $ ->
     get: '/getOrganization'
     delete: '/deleteOrganization'
     update: '/updateOrganization'
+    getDepartment: '/getDepartment'
 
   vm = ko.mapping.fromJS
     organizationName: ''
@@ -17,7 +18,7 @@ $ ->
     workersNumber: ''
     workType: []
     selectedDepartment: []
-    departmentList: [{id: 1, workType: 'workType1'}, {id: 2, workType: 'workType2'}, {id: 3, workType: 'workType3'}]
+    departmentList: []
     user: defaultUserdata
     organizations: []
     roleList: []
@@ -85,6 +86,13 @@ $ ->
 #
 #  getOrganization()
 
+  getDepartment = ->
+    $.get(apiUrl.getDepartment)
+    .fail handleError
+    .done (response) ->
+      vm.departmentList(response)
+
+  getDepartment()
 
   vm.askDelete = (id) -> ->
     vm.selected.id id

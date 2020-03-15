@@ -35,14 +35,16 @@ trait WorkTypeDao {
 
   def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]]
 
+  def getWorkType: Future[Seq[WorkType]]
+
   def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]]
 
 }
 
 @Singleton
 class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvider,
-                               val actorSystem: ActorSystem)
-                              (implicit val ec: ExecutionContext)
+                                val actorSystem: ActorSystem)
+                               (implicit val ec: ExecutionContext)
   extends WorkTypeDao
     with WorkTypeComponent
     with HasDatabaseConfigProvider[JdbcProfile]
@@ -57,7 +59,6 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
   val laboratoryTable = TableQuery[LaboratoryTable]
 
 
-
   override def addWorkType(data: WorkType): Future[WorkType] = {
     db.run {
       (workType returning workType.map(_.id) into ((t, id) => t.copy(id = Some(id)))) += data.copy(id = data.id)
@@ -70,27 +71,33 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
       workType.filter(_.id === id).delete
     }
   }
+
   case class SpecPart(docType: Option[String] = None, labType: Option[String] = None)
+
   implicit val specPartFormat: OFormat[SpecPart] = Json.format[SpecPart]
 
 
   override def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]] = {
     val query = workType.join(checkupPeriod).on(_.id === _.workTypeId)
-      .joinLeft(doctorTypeTable).on(_._2.docTypeId ===_.id)
-      .joinLeft(laboratoryTable).on(_._1._2.labTypeId ===_.id)
+      .joinLeft(doctorTypeTable).on(_._2.docTypeId === _.id)
+      .joinLeft(laboratoryTable).on(_._1._2.labTypeId === _.id)
 
-    db.run(query.result).map{ r =>
-      r.map { case (((w, ch), d), l)  =>
-        (w, ch.copy(specPartJson =  if (d.isEmpty){
+    db.run(query.result).map { r =>
+      r.map { case (((w, ch), d), l) =>
+        (w, ch.copy(specPartJson = if (d.isEmpty) {
           Some(Json.toJson(SpecPart(Some(""), Some(l.get.laboratoryName))))
-        } else if (l.isEmpty){
+        } else if (l.isEmpty) {
           Some(Json.toJson(SpecPart(Some(d.get.doctorType), Some(""))))
         } else {
           Some(Json.toJson(SpecPart(Some(d.get.doctorType), Some(l.get.laboratoryName))))
         }
-          ))
+        ))
       }
     }
+  }
+
+  override def getWorkType: Future[Seq[WorkType]] = {
+    db.run(workType.result)
   }
 
   override def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]] = {

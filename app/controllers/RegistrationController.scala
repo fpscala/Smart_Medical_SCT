@@ -175,6 +175,12 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def getWorkType: Action[AnyContent] = Action.async {
+    (registrationManager ? GetDepartmentList).mapTo[Seq[WorkType]].map { department =>
+      Ok(Json.toJson(department.sortBy(_.id)))
+    }
+  }
+
   def deleteDoctorType = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
