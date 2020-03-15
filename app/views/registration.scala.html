@@ -9,7 +9,6 @@
     </script>
     <script src="@routes.Assets.versioned("javascripts/registration.js")" type="text/javascript"></script>
     @sidebar()
-
     <div class="content">
         <div class="row">
             <div class="col-md-8">
@@ -38,13 +37,47 @@
                     <div class="col-md-6">
                         <div class="form-group one-line-dropdown">
                             <label for="department">Department</label>
-                            <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDepartment, selectPickerOptions: {optionsArray: vm.departmentList}, optionsValue: 'id', optionsText: 'workType'" id="department" data-show-subtext="true">
+                            <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedDepartment, selectPickerOptions: {optionsArray: vm.departmentList}, optionsValue: 'id', optionsText: 'workType'" id="department" data-show-subtext="true">
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <select class="custom-select  form-control" multiple size="28" >
+                    <option selected>Selected all</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                    <option>Four</option>
+                    <option>Fife</option>
+                    <option>Six</option>
+                    <option>Seven</option>
+                    <option>Eight</option>
+                    <option>Night</option>
+                    <option>Ten</option>
+                    <option>Eleven</option>
+                    <option>Twelve</option>
+                    <option>Threeten</option>
+                    <option>Fourten</option>
+                    <option>fifeten</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                </select>
+            </div>
         </div>
     </div>
 }

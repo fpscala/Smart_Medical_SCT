@@ -6,7 +6,7 @@ $ ->
   apiUrl =
     send: '/registration'
     getOrganization: '/getOrganization'
-    getDepartment: '/get-workType'
+    getDepartment: '/getDepartment'
 
   defaultRegistrationData =
     fio: ''
@@ -15,9 +15,9 @@ $ ->
   vm = ko.mapping.fromJS
     registration: defaultRegistrationData
     selectedOrganization: []
-    selectedDepartment: []
     organizationList: [{id: 1, organization: 'Organization1'}, {id: 2, organization: 'Organization2'},{id: 3, organization: 'Organization3'}]
-    departmentList: [{id: 1, workType: 'workType1'}, {id: 2, workType: 'workType2'}, {id: 3, workType: 'workType3'}]
+    selectedDepartment: []
+    departmentList: []
     language: Glob.language
 
 
@@ -41,6 +41,14 @@ $ ->
 #    .done (response) ->
 #      vm.departmentList response
 #  getDepartmentList()
+
+  getDepartment = ->
+    $.get(apiUrl.getDepartment)
+    .fail handleError
+    .done (response) ->
+      vm.departmentList(response)
+
+  getDepartment()
 
   vm.onSubmit = ->
     toastr.clear()
