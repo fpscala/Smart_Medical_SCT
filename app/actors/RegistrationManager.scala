@@ -149,7 +149,6 @@ class RegistrationManager @Inject()(val environment: Environment,
   }
 
   private def addOrganization(data: OrganizationReader)  = {
-    logger.warn(s"dddd")
     for {
       result <- organizationDao.findOrganizationByName(data.organizationName)
     } yield result match {

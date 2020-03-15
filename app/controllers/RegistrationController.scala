@@ -116,12 +116,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addOrganization = Action.async(parse.json) { implicit request => {
-    logger.warn(s"data: ${request.body}")
     val organizationName = (request.body \ "organizationName").as[String]
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
     val email = (request.body \ "email").as[String]
-    logger.warn(s"ddd: ")
     val countWorkers = (request.body \ "countWorkers").as[String].toInt
     val workTypeList = (request.body \ "department").as[Array[Int]]
     (registrationManager ? AddOrganization(OrganizationReader(None, organizationName, phoneNumber, address, email, countWorkers, workTypeList))).mapTo[Either[String, String]].map {

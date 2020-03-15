@@ -54,6 +54,9 @@ $ ->
     else if (!vm.email())
       toastr.error("Please enter a email")
       return no
+    else if !my.isValidEmail(vm.email())
+      toastr.error("Please valid email")
+      return no
     else if (vm.selectedDepartment().length is 0)
       toastr.error("Please select a Department")
       return no

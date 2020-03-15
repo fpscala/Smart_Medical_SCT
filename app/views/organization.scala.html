@@ -109,7 +109,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="phoneNumber">Phone Number: </label>
-                  <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" data-bind="value: vm.phoneNumber" >
+                  <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" data-bind="masked: vm.phoneNumber, mask: '(99)-999-99-99'" >
                 </div>
               </div>
               <div class="col-sm-6">
@@ -121,13 +121,13 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="email">Email:</label>
-                  <input type="text" class="form-control" id="email" data-bind="value: vm.email" name="email">
+                  <input type="email" class="form-control" id="email" data-bind="value: vm.email" name="email">
                 </div>
               </div>
               <div class="col-sm-6 offset-sm-3">
                 <div class="form-group">
                   <label for="email">Count Workers:</label>
-                  <input type="text" class="form-control" id="countWorkers" data-bind="value: vm.countWorkers" name="countWorkers">
+                  <input type="text" class="form-control" id="countWorkers" data-bind="masked: vm.countWorkers, mask: '999'" name="countWorkers">
                 </div>
               </div>
               <div class="col-sm-12">

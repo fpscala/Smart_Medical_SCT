@@ -67,7 +67,6 @@ class OrganizationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConf
 
   override def addOrganization(data: Organization): Future[Int] = {
     db.run {
-      logger.warn(s"daoga keldi: $data")
       (organization returning organization.map(_.id)) += data
     }
   }
