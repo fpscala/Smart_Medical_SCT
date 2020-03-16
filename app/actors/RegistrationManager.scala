@@ -93,6 +93,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case AddWorkType(data) =>
       addWorkType(data).pipeTo(sender())
 
+    case AddDepartmentAndCheckupPeriod(department: String, checkupForm: Array[CheckupPeriodForm]) =>
+      addDepartmentAndCheckupPeriod(department, checkupForm).pipeTo(sender())
+
     case GetWorkTypeWithCheckupPeriod =>
       getWorkTypeWithCheckupPeriod.pipeTo(sender())
 
@@ -178,12 +181,45 @@ class RegistrationManager @Inject()(val environment: Environment,
     (for {
       response <- doctorTypeDao.findDoctorType(data.doctorType)
     } yield response match {
-      case Some(doctorCount) =>
-        Future.successful(Left(doctorCount.doctorType + " bunday doctorType avval kiritilgan!"))
+      case Some(doctor) =>
+        Left(doctor.doctorType + " bunday doctor avval kiritilgan!")
       case None =>
         doctorTypeDao.addDoctorType(data)
-        Future.successful(Right(data.doctorType + " nomli doctorType muvoffaqiyatli qo'shildi!"))
-    }).flatten
+        Right(data.doctorType + " nomli doctor muvoffaqiyatli qo'shildi!")
+    })
+  }
+
+  private def addDepartmentAndCheckupPeriod(department: String, checkupForm: Array[CheckupPeriodForm]): Future[Either[String, String]] = {
+    addWorkType(WorkType(None, department)).mapTo[Either[String, WorkType]].map {
+      case Right(workType) =>
+        checkupForm.toList.foreach { d =>
+          var i = 0
+          if (d.selectedLabType.length >= d.selectedDoctorType.length) {
+            while (i < d.selectedLabType.length) {
+              if (i < d.selectedDoctorType.length) {
+                addCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i)))).mapTo[Int]
+              } else {
+                addCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, None, Some(d.selectedLabType(i)))).mapTo[Int]
+              }
+              i += 1
+            }
+          } else {
+            while (i < d.selectedDoctorType.length) {
+              if (i < d.selectedLabType.length) {
+                addCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i)))).mapTo[Int]
+              } else {
+                addCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), None)).mapTo[Int]
+              }
+              i += 1
+            }
+          }
+
+        }
+        Right(s"$department nomli bo'lim ma'lumotlar bazasiga muvofaqiyatli qo'shildi")
+
+      case Left(err) =>
+        Left(err)
+    }
   }
 
   private def getDoctorTypeList: Future[Seq[DoctorType]] = {
@@ -206,8 +242,15 @@ class RegistrationManager @Inject()(val environment: Environment,
       checkupPeriodDao.addCheckupPeriod(data)
   }
 
-  private def addWorkType(data: WorkType): Future[WorkType] = {
-    workTypeDao.addWorkType(data)
+  private def addWorkType(data: WorkType) = {
+    (for {
+      response <- workTypeDao.findDepartment(data.workType)
+    } yield response match {
+      case Some(department) =>
+        Future.successful(Left(department.workType + " nomli bo'lim avval kiritilgan!"))
+      case None =>
+        workTypeDao.addWorkType(data).flatMap(d => Future.successful(Right(d)))
+    }).flatten
   }
 
   private def getWorkTypeWithCheckupPeriod = {

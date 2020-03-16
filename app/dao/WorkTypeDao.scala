@@ -39,6 +39,8 @@ trait WorkTypeDao {
 
   def findWorkTypeIdByWorkTypeName(name: String): Future[Option[WorkType]]
 
+  def findDepartment(name: String): Future[Option[WorkType]]
+
 }
 
 @Singleton
@@ -104,6 +106,10 @@ class WorkTypeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPr
     db.run {
       workType.filter(_.workType === name).result.headOption
     }
+  }
+
+  override def findDepartment(name: String): Future[Option[WorkType]] = {
+    db.run(workType.filter(_.workType === name).result.headOption)
   }
 }
 

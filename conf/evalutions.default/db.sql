@@ -70,13 +70,11 @@ VALUES ('UZBEKENERGIYA');
 
 
 # --- !Downs
-DROP TABLE "Checkup_type";
+DROP TABLE "Checkup_period";
+DROP TABLE "Organization";
 DROP TABLE "Work_type";
 DROP TABLE "Doctor_type";
 DROP TABLE "Lab_type";
-DROP TABLE "Organization";
-DROP TABLE "Tmp_table";
-DROP TABLE "Checkup_period";
 DROP TABLE "Patient";
 DELETE FROM "Work_type" WHERE work_type = 'Oqituvchi';
 DELETE FROM "Work_type" WHERE work_type = 'Elektrik';

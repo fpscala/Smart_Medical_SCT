@@ -224,36 +224,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
-    /** TODO ikkinchi marotaba qo'shishni oldini olish */
-    val workType = (request.body \ "workType").as[String]
-    val data = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    (registrationManager ? AddWorkType(WorkType(None, workType))).mapTo[WorkType].map { workType =>
-      data.toList.map { d =>
-        var i = 0
-        if (d.selectedLabType.length >= d.selectedDoctorType.length) {
-          while (i < d.selectedLabType.length) {
-            if (i < d.selectedDoctorType.length) {
-              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i))))).mapTo[Int]
-            } else {
-              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, None, Some(d.selectedLabType(i))))).mapTo[Int]
-            }
-            i += 1
-          }
-        } else {
-          while (i < d.selectedDoctorType.length) {
-            if (i < d.selectedLabType.length) {
-              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), Some(d.selectedLabType(i))))).mapTo[Int]
-            } else {
-              (registrationManager ? AddCheckupPeriod(CheckupPeriod(None, workType.id.get, d.numberPerYear.toInt, Some(d.selectedDoctorType(i)), None))).mapTo[Int]
-            }
-            i += 1
-          }
-        }
-      }
+    val department = (request.body \ "workType").as[String]
+    val checkupPeriodForm = (request.body \ "form").as[Array[CheckupPeriodForm]]
+    (registrationManager ? AddDepartmentAndCheckupPeriod(department, checkupPeriodForm)).mapTo[Either[String, String]].map{
+      case Right(str) =>
+        Ok(Json.toJson(str))
+      case Left(err) =>
+        Ok(err)
+    }.recover {
+      case err =>
+        logger.error(s"errorWork: $err")
+        BadRequest("erroooor")
     }
-
-    /** TODO foydalanuvchilarga yuboriladigan javobni takomillashtirish */
-    Future.successful(Ok(Json.toJson("OK")))
   }
   }
 
