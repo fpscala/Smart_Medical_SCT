@@ -136,8 +136,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def getOrganizationName: Action[AnyContent] = Action.async {
-    (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizationName =>
-      Ok(Json.toJson(organizationName.sortBy(_.id)))
+    (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizations =>
+      val grouped = organizations.groupBy(data => (data.organizationName, data.address, data.email, data.phoneNumber, data.countWorkers)).toSeq
+      Ok(Json.toJson(grouped))
     }
   }
 

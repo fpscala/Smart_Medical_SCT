@@ -78,16 +78,15 @@ $ ->
       .done (response) ->
         toastr.success(response)
 
+  getOrganization = ->
+    $.ajax
+      url: apiUrl.get
+      type: 'GET'
+    .fail handleError
+    .done (response) ->
+      vm.organizations(response)
 
-#  getOrganization = ->
-#    $.ajax
-#      url: apiUrl.get
-#      type: 'GET'
-#    .fail handleError
-#    .done (response) ->
-#      vm.organizations(response)
-#
-#  getOrganization()
+  getOrganization()
 
   getDepartment = ->
     $.get(apiUrl.getDepartment)
