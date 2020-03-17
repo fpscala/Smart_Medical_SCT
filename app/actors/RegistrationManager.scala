@@ -165,8 +165,17 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }.flatten
 
-  private def getOrganizationList: Future[Seq[Organization]] = {
-    organizationDao.getOrganization
+  private def getOrganizationList = {
+    organizationDao.getOrganization.mapTo[Seq[Organization]].flatMap{ organizations =>
+      Future.sequence {
+        organizations.map { organization =>
+          for {
+            count <- patientDao.getCountDepartment(organization.workType)
+          } yield organization.copy(countWorkers = count)
+        }
+      }
+    }
+
   }
 
   private def deleteOrganization(id: Int): Future[Int] = {

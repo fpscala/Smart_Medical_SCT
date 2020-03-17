@@ -62,6 +62,8 @@ trait PatientDao {
 
   def getPatientList: Future[Seq[Patient]]
 
+  def getCountDepartment(workTypeId: Int): Future[Int]
+
   def delete(id: Option[Int]): Future[Int]
 }
 
@@ -88,6 +90,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def getPatientList: Future[Seq[Patient]] = {
     db.run {
       patient.result
+    }
+  }
+
+  override def getCountDepartment(workTypeId: Int): Future[Int] = {
+    db.run{
+      patient.filter(_.workTypeId === workTypeId).length.result
     }
   }
 
