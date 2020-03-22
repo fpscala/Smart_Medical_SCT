@@ -5,7 +5,7 @@ $ ->
 
   apiUrl =
     send: '/registration'
-    getOrganization: '/getOrganization'
+    getOrganization: '/getOrganizationName'
     getDepartment: '/getDepartment'
 
   defaultRegistrationData =
@@ -15,7 +15,7 @@ $ ->
   vm = ko.mapping.fromJS
     registration: defaultRegistrationData
     selectedOrganization: []
-    organizationList: [{id: 1, organization: 'Organization1'}, {id: 2, organization: 'Organization2'},{id: 3, organization: 'Organization3'}]
+    organizationList: []
     selectedDepartment: []
     departmentList: []
     language: Glob.language
@@ -28,19 +28,12 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-#  getOrganizationList = ->
-#    $.get(apiUrl.getOrganization)
-#    .fail handleError
-#    .done (response) ->
-#      vm.organizationList response
-#  getOrganizationList()
-#
-#  getDepartmentList = ->
-#    $.get(apiUrl.getDepartment)
-#    .fail handleError
-#    .done (response) ->
-#      vm.departmentList response
-#  getDepartmentList()
+  getOrganization = ->
+    $.get(apiUrl.getOrganization)
+    .fail handleError
+    .done (response) ->
+      vm.organizationList(response)
+  getOrganization()
 
   getDepartment = ->
     $.get(apiUrl.getDepartment)

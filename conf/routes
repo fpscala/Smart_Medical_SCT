@@ -3,7 +3,8 @@ GET     /                                                       @controllers.Reg
 GET     /organization                                           @controllers.RegistrationController.organization
 GET     /workType                                               @controllers.RegistrationController.workType
 POST    /addOrganization                                        @controllers.RegistrationController.addOrganization
-GET     /getOrganization                                        @controllers.RegistrationController.getOrganizationName
+GET     /getOrganization                                        @controllers.RegistrationController.getOrganization
+GET     /getOrganizationName                                    @controllers.RegistrationController.getOrganizationName
 DELETE  /deleteOrganization                                     @controllers.RegistrationController.deleteOrganization
 GET     /patient                                                @controllers.RegistrationController.patient
 GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
