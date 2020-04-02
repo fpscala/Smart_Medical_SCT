@@ -36,6 +36,17 @@ $ ->
     townList: []
     language: Glob.language
 
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "dd/mm/yyyy"
+  })
+
+
+  $('#reservationDate').on 'change', () ->
+    pickedDate = $('input').val();
+    $('#pickedDate').html(pickedDate)
+    $('.datepicker-dropdown').hide()
+
 
 
   handleError = (error) ->

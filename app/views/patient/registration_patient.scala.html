@@ -3,24 +3,9 @@
 @import views.html.main
 @main("Registration Page", webJarsUtil) {
   <script type="text/javascript">
-          var Glob = {
-            language: '@lang'
-          };
-          // $(function () {
-          //
-          //   // INITIALIZE DATEPICKER PLUGIN
-          //   $('.datepicker').datepicker({
-          //     clearBtn: true,
-          //     format: "dd/mm/yyyy"
-          //   });
-          //
-          //
-          //   // FOR DEMO PURPOSE
-          //   $('#reservationDate').on('change', function () {
-          //     var pickedDate = $('input').val();
-          //     $('#pickedDate').html(pickedDate);
-          //   });
-          // });
+    var Glob = {
+      language: '@lang'
+    };
   </script>
 
   <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
@@ -69,8 +54,8 @@
               <div class="form-group mb-4">
                 <label>Date of Birth: <span class="text-danger">*</span></label>
                 <div class="datepicker date input-group p-0 shadow-sm">
-                  <input type="text" placeholder="Choose a reservation date" class="form-control py-4 px-4" id="reservationDate">
-                  <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock-o"></i></span></div>
+                  <input type="text" placeholder="Choose a Date of birth" class="form-control py-4 px-4" id="reservationDate" data-bind="value: vm.patient.birthday">
+                  <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock"></i></span></div>
                 </div>
               </div><!-- DEnd ate Picker Input -->
             </div>
