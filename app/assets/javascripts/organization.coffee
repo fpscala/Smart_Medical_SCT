@@ -40,7 +40,6 @@ $ ->
       toastr.error('Something went wrong! Please try again.')
 
   vm.onSubmit = ->
-    console.log(vm.selectedDepartment())
     toastr.clear()
     if (!vm.organizationName())
       toastr.error("Please enter a Organization Name")
@@ -66,7 +65,6 @@ $ ->
         phoneNumber: vm.phoneNumber()
         address: vm.address()
         email: vm.email()
-        countWorkers: vm.countWorkers()
         department: vm.selectedDepartment()
       $.ajax
         url: apiUrl.send
@@ -77,6 +75,10 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
+
+  vm.returnOrganizationName = (data) ->
+    console.log(data)
+    return data.organizationName
 
   getOrganization = ->
     $.ajax

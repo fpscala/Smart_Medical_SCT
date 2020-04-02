@@ -120,9 +120,8 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
     val email = (request.body \ "email").as[String]
-    val countWorkers = (request.body \ "countWorkers").as[String].toInt
     val workTypeList = (request.body \ "department").as[Array[Int]]
-    (registrationManager ? AddOrganization(OrganizationReader(None, organizationName, phoneNumber, address, email, countWorkers, workTypeList))).mapTo[Either[String, String]].map {
+    (registrationManager ? AddOrganization(OrganizationReader(None, organizationName, phoneNumber, address, email, workTypeList))).mapTo[Either[String, String]].map {
       case Right(str) =>
         Ok(Json.toJson(str))
       case Left(err) =>
@@ -137,7 +136,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getOrganization: Action[AnyContent] = Action.async {
     (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizations =>
-      val grouped = organizations.groupBy(data => (data.organizationName, data.address, data.email, data.phoneNumber)).toSeq
+      val grouped = organizations.groupBy(data => OrganizationData(data.organizationName, data.address, data.phoneNumber, data.email)).toSeq
       Ok(Json.toJson(grouped))
     }
   }

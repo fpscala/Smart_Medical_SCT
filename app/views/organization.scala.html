@@ -38,11 +38,10 @@
           <tbody data-bind="foreach: vm.organizations">
             <tr class="clickOnRow pointer-event" >
               <td data-bind="text: $index() + 1"></td>
-              <td data-bind="text: $data[0][0]">
-              <td data-bind="text: $data[0][1]">
-              <td data-bind="text: $data[0][3]">
-              <td data-bind="text: $data[0][2]">
-              <td data-bind="text: $data[0][4]">
+              <td data-bind="text: $data[0].name">
+              <td data-bind="text: $data[0].address">
+              <td data-bind="text: $data[0].phone">
+              <td data-bind="text: $data[0].email">
               <td data-bind="text: $data[0][4]">
               <td class="text-right">
                 <div class="dropdown dropdown-action">
@@ -123,12 +122,6 @@
                 <div class="form-group">
                   <label for="email">Email:</label>
                   <input type="email" class="form-control" id="email" data-bind="value: vm.email" name="email">
-                </div>
-              </div>
-              <div class="col-sm-6 offset-sm-3">
-                <div class="form-group">
-                  <label for="email">Count Workers:</label>
-                  <input type="text" class="form-control" id="countWorkers" data-bind="masked: vm.countWorkers, mask: '999'" name="countWorkers">
                 </div>
               </div>
               <div class="col-sm-12">

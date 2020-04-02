@@ -167,7 +167,7 @@ class RegistrationManager @Inject()(val environment: Environment,
         Future.successful(Left(s"${organization.organizationName} nomli tashkilot ma'lumotlar bazasida mavjud"))
       case None =>
         data.workType.map { department =>
-          organizationDao.addOrganization(Organization(None, data.organizationName, data.phoneNumber, data.address, data.email, data.countWorkers, department))
+          organizationDao.addOrganization(Organization(None, data.organizationName, data.phoneNumber, data.address, data.email, workType = department))
         }
         Future.successful(Right(s"${data.organizationName} tashkilot ma'lumotlar bazasiga muvofaqiyatli qo'shildi"))
     }
@@ -179,7 +179,7 @@ class RegistrationManager @Inject()(val environment: Environment,
         organizations.map { organization =>
           for {
             count <- patientDao.getCountDepartment(organization.workType)
-          } yield organization.copy(countWorkers = count)
+          } yield organization.copy(countWorkers = Some(count))
         }
       }
     }

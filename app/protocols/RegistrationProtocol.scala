@@ -87,17 +87,19 @@ object RegistrationProtocol {
                           phoneNumber: String,
                           address: String,
                           email: String,
-                          countWorkers: Int,
+                          countWorkers: Option[Int] = None,
                           workType: Int)
 
   implicit val organizationFormat: OFormat[Organization] = Json.format[Organization]
+
+  case class OrganizationData(name: String, address: String,  phone: String, email: String)
+  implicit val organizationDataFormat = Json.format[OrganizationData]
 
   case class OrganizationReader(id: Option[Int] = None,
                           organizationName: String,
                           phoneNumber: String,
                           address: String,
                           email: String,
-                          countWorkers: Int,
                           workType: Array[Int])
 
   implicit val organizationReaderFormat: OFormat[OrganizationReader] = Json.format[OrganizationReader]
@@ -109,8 +111,6 @@ object RegistrationProtocol {
 
   case class AddDepartmentAndCheckupPeriod(department: String,
                                            checkupForm: Array[CheckupPeriodForm])
-
-  implicit val addDepartmentAndCheckupPeriodFormat: OFormat[AddDepartmentAndCheckupPeriod] = Json.format[AddDepartmentAndCheckupPeriod]
 
   case class Laboratory(id: Option[Int] = None,
                         laboratoryName: String)

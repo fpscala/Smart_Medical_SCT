@@ -33,7 +33,7 @@ trait OrganizationComponent {
 
     def workType = column[Int]("work_type")
 
-    def * = (id.?, organizationName, phoneNumber, address, email, countWorkers, workType) <> (Organization.tupled, Organization.unapply _)
+    def * = (id.?, organizationName, phoneNumber, address, email, countWorkers.?, workType) <> (Organization.tupled, Organization.unapply _)
   }
 
 }
