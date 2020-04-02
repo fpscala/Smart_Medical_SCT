@@ -22,7 +22,8 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val doctorTypeDao: DoctorTypeDao,
                                     val workTypeDao: WorkTypeDao,
                                     val checkupPeriodDao: CheckupPeriodDao,
-                                    val regionDao: RegionDao
+                                    val regionDao: RegionDao,
+                                    val townDao: TownDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -108,6 +109,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case GetRegion =>
       getRegion.pipeTo(sender())
+
+    case GetTown =>
+      getTown.pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -285,4 +289,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     regionDao.getRegion
   }
 
+  private def getTown: Future[Seq[Town]] ={
+    townDao.getTown
+  }
 }

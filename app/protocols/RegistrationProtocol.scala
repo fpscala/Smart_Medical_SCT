@@ -34,6 +34,8 @@ object RegistrationProtocol {
 
   case object GetRegion
 
+  case object GetTown
+
   case class DeleteDoctorType(id: Int)
 
   case class DeleteWorkType(id: Int)
@@ -143,5 +145,10 @@ object RegistrationProtocol {
 
   implicit val regionFormat: OFormat[Region] = Json.format[Region]
 
+  case class Town(id: Option[Int] = None,
+                  name: String,
+                  regionId: Int)
+
+  implicit val townFormat: OFormat[Town] = Json.format[Town]
 
 }

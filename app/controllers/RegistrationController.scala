@@ -330,6 +330,16 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def getTown = Action.async {
+    (registrationManager ? GetTown).mapTo[Seq[Town]].map { town =>
+      Ok(Json.toJson(town.sortBy(_.id)))
+    }.recover{
+      case err =>
+        logger.error(s"Get Towns error: $err")
+        BadRequest("Read Towns failed")
+    }
+  }
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }

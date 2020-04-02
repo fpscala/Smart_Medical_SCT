@@ -7,7 +7,7 @@ $ ->
     get: '/get-patient'
     delete: '/delete-patient'
     getRegion: '/get-region'
-    city: '/get-cityList'
+    getTown: '/get-town'
 
   defaultPatientData =
     firstName: ''
@@ -32,7 +32,8 @@ $ ->
     patientList: []
     selectedRegion: []
     regionList: []
-    cityList: []
+    selectedTown: []
+    townList: []
     language: Glob.language
 
 
@@ -106,7 +107,7 @@ $ ->
       toastr.error("Ko'rikdan o'tuvchi shaxs telefon raqamini kiriting!")
       return no
     else if (vm.regionList().length is 0)
-      toastr.error("Ko'rikdan o'tuvchi shaxs telefon raqamini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs yashash manzilini kiriting!")
       return no
     else if (!vm.patient.city())
       toastr.error("Ko'rikdan o'tuvchi shaxs shahar yoki tumanni tanlang!")
@@ -143,6 +144,14 @@ $ ->
       vm.regionList(response)
 
   getRegion()
+
+  getTown = ->
+    $.get(apiUrl.getTown)
+     .fail(handleError)
+     .done (response) ->
+       vm.townList(response)
+
+  getTown()
 
   vm.deletePatient = (id) ->
     data =
