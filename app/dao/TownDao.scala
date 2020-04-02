@@ -31,7 +31,7 @@ trait TownComponent {
 @ImplementedBy(classOf[TownDaoImpl])
 trait TownDao {
 
-  def getTown: Future[Seq[Town]]
+  def getTown(id: Int): Future[Seq[Town]]
 
 }
 
@@ -49,11 +49,10 @@ class TownDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   val townTable = TableQuery[TownTable]
 
-  override def getTown: Future[Seq[Town]] = {
+  override def getTown(id: Int): Future[Seq[Town]] = {
     db.run{
-      townTable.result
+      townTable.filter(_.regionId === id).result
     }
   }
-
 }
 

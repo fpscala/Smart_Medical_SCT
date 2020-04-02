@@ -8,7 +8,6 @@ $ ->
     delete: '/delete-patient'
     getRegion: '/get-region'
     getTown: '/get-town'
-    selectRegion: '/select-region'
 
   defaultPatientData =
     firstName: ''
@@ -145,19 +144,13 @@ $ ->
 
   getRegion()
 
-  getTown = ->
-    $.get(apiUrl.getTown)
-     .fail(handleError)
-     .done (response) ->
-       vm.townList(response)
-
-  getTown()
 
   vm.selectedRegion.subscribe (id) ->
-    $.post(apiUrl.selectRegion, JSON.stringify(id))
-    .fail handleError
-    .done (response) ->
-       vm.townList(response)
+    if (id isnt undefined )
+      $.post(apiUrl.getTown, JSON.stringify({id: id}))
+      .fail handleError
+      .done (response) ->
+        vm.townList(response)
 
   vm.deletePatient = (id) ->
     data =

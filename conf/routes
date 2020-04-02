@@ -21,8 +21,7 @@ DELETE  /deleteLaboratory                                       @controllers.Reg
 POST    /updateLaboratory                                       @controllers.RegistrationController.updateLaboratory
 GET     /get-patient                                            @controllers.RegistrationController.getPatientList
 GET     /get-region                                             @controllers.RegistrationController.getRegion
-GET     /get-town                                               @controllers.RegistrationController.getTown
-POST    /select-region                                          @controllers.RegistrationController.selectRegion
+POST    /get-town                                               @controllers.RegistrationController.getTown
 GET     /getDoctorType                                          @controllers.RegistrationController.getDoctorTypeName
 DELETE  /delete-patient                                         @controllers.RegistrationController.deletePatient
 DELETE  /deleteDoctorType                                       @controllers.RegistrationController.deleteDoctorType

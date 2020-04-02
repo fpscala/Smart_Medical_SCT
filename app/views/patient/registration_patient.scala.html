@@ -5,8 +5,24 @@
   <script type="text/javascript">
           var Glob = {
             language: '@lang'
-          }
+          };
+          // $(function () {
+          //
+          //   // INITIALIZE DATEPICKER PLUGIN
+          //   $('.datepicker').datepicker({
+          //     clearBtn: true,
+          //     format: "dd/mm/yyyy"
+          //   });
+          //
+          //
+          //   // FOR DEMO PURPOSE
+          //   $('#reservationDate').on('change', function () {
+          //     var pickedDate = $('input').val();
+          //     $('#pickedDate').html(pickedDate);
+          //   });
+          // });
   </script>
+
   <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/registration/registration_patient.css")">
   <script src="@routes.Assets.versioned("javascripts/patient/registration.patient.js")" type="text/javascript"></script>
   @sidebar()
@@ -49,12 +65,14 @@
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="form-group">
+                <!-- Date Picker Input -->
+              <div class="form-group mb-4">
                 <label>Date of Birth: <span class="text-danger">*</span></label>
-                <div class="cal-icon">
-                  <input type="date" class="form-control" name="birthday" data-bind="value: vm.patient.birthday">
+                <div class="datepicker date input-group p-0 shadow-sm">
+                  <input type="text" placeholder="Choose a reservation date" class="form-control py-4 px-4" id="reservationDate">
+                  <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock-o"></i></span></div>
                 </div>
-              </div>
+              </div><!-- DEnd ate Picker Input -->
             </div>
             <div class="col-sm-6 text-center">
               <div class="form-group">
@@ -83,7 +101,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Region: </label>
-                  <select class="custom-select" data-bind="options: vm.regionList,
+                  <select class="custom-select" data-bind="options: vm.regionList(),
                     optionsValue: 'id',  optionsText: 'name', value: vm.selectedRegion, optionsCaption: 'Select Region'" >
                   </select>
                 </div>
@@ -91,7 +109,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>City: </label>
-                  <select class="custom-select" data-bind="options: vm.townList,
+                  <select class="custom-select" data-bind="options: vm.townList(),
                     optionsValue: 'id',  optionsText: 'name', value: vm.selectedTown, optionsCaption: 'Select Town'" >
                   </select>
                 </div>

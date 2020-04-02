@@ -330,21 +330,16 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def getTown = Action.async {
-    (registrationManager ? GetTown).mapTo[Seq[Town]].map { town =>
-      Ok(Json.toJson(town.sortBy(_.id)))
-    }.recover{
+  def getTown = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[Int]
+    (registrationManager ? GetTown(id)).mapTo[Seq[Town]].map { towns =>
+      Ok(Json.toJson(towns.sortBy(_.id)))
+    }.recover {
       case err =>
         logger.error(s"Get Towns error: $err")
         BadRequest("Read Towns failed")
     }
-  }
-
-  def selectRegion = Action.async{
-    (registrationManager ? GetTown).mapTo[Seq[Town]].map { town =>
-      Ok(Json.toJson(town.sortBy(_.regionId)))
-    }
-  }
+  }}
 
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"

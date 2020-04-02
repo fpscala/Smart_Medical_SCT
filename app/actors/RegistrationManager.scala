@@ -110,8 +110,8 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetRegion =>
       getRegion.pipeTo(sender())
 
-    case GetTown =>
-      getTown.pipeTo(sender())
+    case GetTown(id) =>
+      getTown(id).pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -289,7 +289,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     regionDao.getRegion
   }
 
-  private def getTown: Future[Seq[Town]] ={
-    townDao.getTown
+  private def getTown(id: Int): Future[Seq[Town]] ={
+    townDao.getTown(id)
   }
 }
