@@ -8,6 +8,7 @@ $ ->
     delete: '/delete-patient'
     getRegion: '/get-region'
     getTown: '/get-town'
+    selectRegion: '/select-region'
 
   defaultPatientData =
     firstName: ''
@@ -82,7 +83,6 @@ $ ->
         vm.enableSubmitButton(yes)
         toastr.error(result or 'Something went wrong! Please try again.')
 
-
   vm.onSubmit = ->
     toastr.clear()
     if (!vm.patient.firstName())
@@ -152,6 +152,12 @@ $ ->
        vm.townList(response)
 
   getTown()
+
+  vm.selectedRegion.subscribe (id) ->
+    $.post(apiUrl.selectRegion, JSON.stringify(id))
+    .fail handleError
+    .done (response) ->
+       vm.townList(response)
 
   vm.deletePatient = (id) ->
     data =

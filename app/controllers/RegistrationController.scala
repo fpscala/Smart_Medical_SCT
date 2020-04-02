@@ -340,6 +340,12 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
+  def selectRegion = Action.async{
+    (registrationManager ? GetTown).mapTo[Seq[Town]].map { town =>
+      Ok(Json.toJson(town.sortBy(_.regionId)))
+    }
+  }
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }
