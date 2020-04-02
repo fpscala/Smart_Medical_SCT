@@ -323,6 +323,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def getRegion = Action.async {
     (registrationManager ? GetRegion).mapTo[Seq[Region]].map { region =>
       Ok(Json.toJson(region.sortBy(_.id)))
+    }.recover{
+      case err =>
+        logger.error(s"Get Regions error: $err")
+        BadRequest("Read Regions failed")
     }
   }
 

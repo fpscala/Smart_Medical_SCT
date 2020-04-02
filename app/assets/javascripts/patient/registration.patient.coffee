@@ -129,18 +129,18 @@ $ ->
 
   getPatient = ->
     $.get(apiUrl.get)
-      .fail(handleError)
-      .done (response) ->
-        for res in response
-          res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
-        vm.patientList response
+    .fail(handleError)
+    .done (response) ->
+      for res in response
+        res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
+      vm.patientList response
   getPatient()
 
   getRegion = ->
     $.get(apiUrl.getRegion)
-      .fail(handleError)
-      .done (response) ->
-        vm.regionList(response)
+    .fail(handleError)
+    .done (response) ->
+      vm.regionList(response)
 
   getRegion()
 

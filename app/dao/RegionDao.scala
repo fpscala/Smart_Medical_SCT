@@ -16,7 +16,7 @@ trait RegionComponent {
 
   import utils.PostgresDriver.api._
 
-  class RegionTable(tag: Tag) extends Table[Region](tag, "Region") with Date2SqlDate {
+  class RegionTable(tag: Tag) extends Table[Region](tag, "Regions") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def name = column[String]("region")
