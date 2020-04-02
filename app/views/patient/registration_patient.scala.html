@@ -83,8 +83,8 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Region: </label>
-                  <select class="custom-select" data-bind="options: vm.regionList(), optionsText: 'name',
-                optionsValue: 'name', value: vm.selectedRegion, optionsCaption: 'Select Region' ">
+                  <select class="custom-select" data-bind="options: vm.regionList,
+                    optionsValue: 'id',  optionsText: 'region'" id="department" data-show-subtext="true">
                   </select>
                 </div>
               </div>
@@ -123,20 +123,13 @@
                 </select>
               </div>
             </div>
-
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>Profession: <span class="text-danger">*</span></label>
-                <input class="form-control" name="profession" data-bind="value: vm.patient.profession" type="text">
-              </div>
-            </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Card Number: <span class="text-danger">*</span></label>
                 <input class="form-control" name="cardNumber" type="text" data-bind="value: vm.patient.cardNumber">
               </div>
             </div>
-            <div class="col-sm-6 offset-sm-3">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label>Avatar</label>
                 <div class="profile-upload">

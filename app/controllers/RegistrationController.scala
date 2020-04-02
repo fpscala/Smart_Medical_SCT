@@ -320,8 +320,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   }
 
-  def getRegionList = Action {
-    Ok(Json.toJson(regionList))
+  def getRegion = Action.async {
+    (registrationManager ? GetRegion).mapTo[Seq[Region]].map { region =>
+      Ok(Json.toJson(region.sortBy(_.id)))
+    }
   }
 
   private def filenameGenerator() = {

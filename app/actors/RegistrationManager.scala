@@ -21,7 +21,8 @@ class RegistrationManager @Inject()(val environment: Environment,
                                     val patientDao: PatientDao,
                                     val doctorTypeDao: DoctorTypeDao,
                                     val workTypeDao: WorkTypeDao,
-                                    val checkupPeriodDao: CheckupPeriodDao
+                                    val checkupPeriodDao: CheckupPeriodDao,
+                                    val regionDao: RegionDao
                                    )
                                    (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -104,6 +105,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case FindWorkTypeIdByWorkType(workType) =>
       findWorkTypeIdByWorkType(workType).pipeTo(sender())
+
+    case GetRegion =>
+      getRegion.pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -275,6 +279,10 @@ class RegistrationManager @Inject()(val environment: Environment,
       case Some(workType) => workType.id
       case None => None
     }
+  }
+
+  private def getRegion: Future[Seq[Region]] ={
+    regionDao.getRegion
   }
 
 }

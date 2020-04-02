@@ -6,7 +6,8 @@ $ ->
   apiUrl =
     get: '/get-patient'
     delete: '/delete-patient'
-    region: '/get-regionList'
+    getRegion: '/get-region'
+    city: '/get-cityList'
 
   defaultPatientData =
     firstName: ''
@@ -16,11 +17,10 @@ $ ->
     gender: ''
     birthday: ''
     address: ''
-    checkupType: ''
+    city: ''
     phone: ''
     isWorker: ''
     cardNumber: ''
-    profession: ''
     workTypeId: 0
     lastCheckup: ''
     photo: ''
@@ -30,7 +30,9 @@ $ ->
     patient: defaultPatientData
     enableSubmitButton: yes
     patientList: []
+    selectedRegion: []
     regionList: []
+    cityList: []
     language: Glob.language
 
 
@@ -91,32 +93,32 @@ $ ->
     else if (!vm.patient.lastName())
       toastr.error("Ko'rikdan o'tuvchi shaxs familiyasini kiriting!")
       return no
+    else if (!vm.patient.passport_sn())
+      toastr.error("Ko'rikdan o'tuvchi shaxs passport nomerini kiriting!")
+      return no
     else if (!vm.patient.birthday())
-      toastr.error("Ko'rikdan o'tuvchi shaxs tug'ilgan sanasini tanlang!")
-      return no
-    else if (!vm.patient.address())
-      toastr.error("Ko'rikdan o'tuvchi shaxs mamzilini kiriting!")
-      return no
-    else if (!vm.patient.cardNumber())
-      toastr.error("Ko'rikdan o'tuvchi shaxs karta raqamini kiriting!")
+      toastr.error("Ko'rikdan o'tuvchi shaxs tug'ilgan sanasini kiriting!")
       return no
     else if (!vm.patient.gender())
       toastr.error("Ko'rikdan o'tuvchi shaxs jinsini tanlang!")
       return no
-    else if (!vm.patient.checkupType())
-      toastr.error("Ko'rik maqsadini tanlang!")
+    else if (!vm.patient.phone())
+      toastr.error("Ko'rikdan o'tuvchi shaxs telefon raqamini kiriting!")
       return no
-    else if (!vm.patient.isWorker())
-      toastr.error("Tashkilot ishchisimi yoki yo'q!")
+    else if (vm.regionList().length is 0)
+      toastr.error("Ko'rikdan o'tuvchi shaxs telefon raqamini kiriting!")
       return no
-    else if (!vm.patient.organizationId() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko'rikdan o'tuvchi shaxs tashkilotini tanlang")
+    else if (!vm.patient.city())
+      toastr.error("Ko'rikdan o'tuvchi shaxs shahar yoki tumanni tanlang!")
       return no
-    else if (!vm.patient.workTypeId() && vm.patient.isWorker() is 'yes')
+    else if (!vm.patient.address())
+      toastr.error("Ko'rikdan o'tuvchi shaxs mamzilini kiriting!")
+      return no
+    else if (!vm.patient.workTypeList())
       toastr.error("Ko'rikdan o'tuvchi shaxs ish turini tanlang!")
       return no
-    else if (!vm.patient.profession() && vm.patient.isWorker() is 'yes')
-      toastr.error("Ko'rikdan o'tuvchi shaxs kasbini tanlang!")
+    else if (!vm.patient.cardNumber())
+      toastr.error("Ko'rikdan o'tuvchi shaxs karta raqamini kiriting!")
       return no
     if formData
       vm.enableSubmitButton(no)
@@ -135,10 +137,11 @@ $ ->
   getPatient()
 
   getRegion = ->
-    $.get(apiUrl.region)
+    $.get(apiUrl.getRegion)
       .fail(handleError)
       .done (response) ->
-        vm.regionList response
+        vm.regionList(response)
+
   getRegion()
 
   vm.deletePatient = (id) ->

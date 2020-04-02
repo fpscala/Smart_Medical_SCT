@@ -20,7 +20,7 @@ GET     /getLaboratory                                          @controllers.Reg
 DELETE  /deleteLaboratory                                       @controllers.RegistrationController.deleteLaboratory
 POST    /updateLaboratory                                       @controllers.RegistrationController.updateLaboratory
 GET     /get-patient                                            @controllers.RegistrationController.getPatientList
-GET     /get-regionList                                         @controllers.RegistrationController.getRegionList
+GET     /get-region                                             @controllers.RegistrationController.getRegion
 GET     /getDoctorType                                          @controllers.RegistrationController.getDoctorTypeName
 DELETE  /delete-patient                                         @controllers.RegistrationController.deletePatient
 DELETE  /deleteDoctorType                                       @controllers.RegistrationController.deleteDoctorType
