@@ -113,18 +113,16 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Organization: <span class="text-danger">*</span></label>
-                <select class="form-control" name="organizationId" tabindex="-1" data-bind="value: vm.patient.organizationId" aria-hidden="true">
-                  <option value="1">InfromAlgo</option>
-                  <option value="2">TATU</option>
+                <select class="custom-select" data-bind="options: vm.organizationList(),
+                    optionsValue: 'id',  optionsText: 'organizationName', value: vm.selectedOrganization, optionsCaption: 'Select Organization'" >
                 </select>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Work Type: <span class="text-danger">*</span></label>
-                <select class="form-control" tabindex="-1" name="workerTypeId" data-bind="value: vm.patient.workTypeId" aria-hidden="true">
-                  <option value="1">First</option>
-                  <option value="2">Second</option>
+                <select class="custom-select" data-bind="options: vm.workTypeList(),
+                    optionsValue: 'id',  optionsText: 'workType', value: vm.selectedWorkType, optionsCaption: 'Select WorkType'" >
                 </select>
               </div>
             </div>

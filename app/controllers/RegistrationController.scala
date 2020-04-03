@@ -340,6 +340,17 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }}
 
+  def getWorkTypeWithPatient = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[Int]
+    (registrationManager ? GetWorkTypeWithPatient(id)).mapTo[Seq[Organization]].map { workType =>
+      Ok(Json.toJson(workType.sortBy(_.id)))
+    }.recover {
+      case err =>
+        logger.error(s"Get Towns1 error: $err")
+        BadRequest("Read Towns1 failed")
+    }
+  }}
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }

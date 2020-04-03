@@ -36,6 +36,8 @@ object RegistrationProtocol {
 
   case class GetTown(id: Int)
 
+  case class GetWorkTypeWithPatient(id: Int)
+
   case class DeleteDoctorType(id: Int)
 
   case class DeleteWorkType(id: Int)

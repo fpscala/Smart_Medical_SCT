@@ -8,6 +8,8 @@ $ ->
     delete: '/delete-patient'
     getRegion: '/get-region'
     getTown: '/get-town'
+    getOrganization: '/getOrganizationName'
+    getWorkType: '/getWorkTypeWithPatient'
 
   defaultPatientData =
     firstName: ''
@@ -34,6 +36,10 @@ $ ->
     regionList: []
     selectedTown: []
     townList: []
+    selectedOrganization: []
+    organizationList: []
+    selectedWorkType: []
+    workTypeList: []
     language: Glob.language
 
   $('.datepicker').datepicker({
@@ -155,6 +161,13 @@ $ ->
 
   getRegion()
 
+  getOrganization = ->
+    $.get(apiUrl.getOrganization)
+    .fail(handleError)
+    .done (response) ->
+      vm.organizationList(response)
+
+  getOrganization()
 
   vm.selectedRegion.subscribe (id) ->
     if (id isnt undefined )
@@ -162,6 +175,13 @@ $ ->
       .fail handleError
       .done (response) ->
         vm.townList(response)
+
+  vm.selectedOrganization.subscribe (id) ->
+    if (id isnt undefined )
+      $.post(apiUrl.getWorkType, JSON.stringify({id: id}))
+      .fail handleError
+      .done (response) ->
+        vm.workTypeList(response)
 
   vm.deletePatient = (id) ->
     data =

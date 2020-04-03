@@ -6,7 +6,7 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.JsValue
-import protocols.RegistrationProtocol.Organization
+import protocols.RegistrationProtocol.{Organization, WorkType}
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
 
@@ -49,6 +49,8 @@ trait OrganizationDao {
   def deleteOrganization(id: Int): Future[Int]
 
   def updateOrganization(data: Organization): Future[Int]
+
+  def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]]
 }
 
 @Singleton
@@ -95,6 +97,10 @@ class OrganizationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConf
     }
   }
 
-
+  override def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]] = {
+    db.run{
+      organization.filter(_.workType === id).result
+    }
+  }
 }
 

@@ -113,6 +113,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetTown(id) =>
       getTown(id).pipeTo(sender())
 
+    case GetWorkTypeWithPatient(id) =>
+      getWorkTypeWithPatient(id).pipeTo(sender())
+
     case _ => logger.info(s"received unknown message")
   }
 
@@ -291,5 +294,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def getTown(id: Int): Future[Seq[Town]] ={
     townDao.getTown(id)
+  }
+
+  private def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]] ={
+    organizationDao.getWorkTypeWithPatient(id)
   }
 }
