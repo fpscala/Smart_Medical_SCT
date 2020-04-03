@@ -136,7 +136,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def getOrganization: Action[AnyContent] = Action.async {
     (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organizations =>
-      val grouped = organizations.groupBy(data => OrganizationData(data.organizationName, data.address, data.phoneNumber, data.email)).toSeq
+      val grouped = organizations.groupBy(data => OrganizationData(data.organizationName, data.address, data.phoneNumber, data.email, data.totalWorkers)).toSeq
       Ok(Json.toJson(grouped))
     }
   }
@@ -256,8 +256,8 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val address = body("address").head
     val gender = body("gender").head.toInt
     val checkupType = body("checkupType").head
-    val organizationId = body("organizationId").headOption match {
-      case Some(id) => Some(id.toInt)
+    val organizationName = body("organizationName").headOption match {
+      case Some(name) => Some(name)
       case None => None
     }
     val workerTypeId = body("workerTypeId").headOption match {
@@ -273,13 +273,13 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
         result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName,
           passport_sn, gender, birthday.get, address, phone, cardNumber, profession,
-          workerTypeId, new Date, Some(fileName), organizationId))).mapTo[Int]
+          workerTypeId, new Date, Some(fileName), organizationName))).mapTo[Int]
       } yield result)
       result.map { a =>
         Ok("OK")
       }
     }.getOrElse {
-      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, organizationId = organizationId))).mapTo[Int].map { pr =>
+      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday.get, address, phone, cardNumber, profession, workerTypeId, new Date, organizationName = organizationName))).mapTo[Int].map { pr =>
         Ok("OK")
       }
     }

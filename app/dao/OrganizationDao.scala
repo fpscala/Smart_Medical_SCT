@@ -29,11 +29,13 @@ trait OrganizationComponent {
 
     def email = column[String]("email")
 
-    def countWorkers = column[Int]("workers_number")
+    def countWorkers = column[Option[Int]]("workers_number")
+
+    def totalWorkers = column[Option[Int]]("total_workers")
 
     def workType = column[Int]("work_type")
 
-    def * = (id.?, organizationName, phoneNumber, address, email, countWorkers.?, workType) <> (Organization.tupled, Organization.unapply _)
+    def * = (id.?, organizationName, phoneNumber, address, email, countWorkers, totalWorkers, workType) <> (Organization.tupled, Organization.unapply _)
   }
 
 }

@@ -185,7 +185,8 @@ class RegistrationManager @Inject()(val environment: Environment,
         organizations.map { organization =>
           for {
             count <- patientDao.getCountDepartment(organization.workType)
-          } yield organization.copy(countWorkers = Some(count))
+            totalCount <- patientDao.getCountDepartment(organization.workType)
+          } yield organization.copy(countWorkers = Some(count), totalWorkers = Some(totalCount))
         }
       }
     }

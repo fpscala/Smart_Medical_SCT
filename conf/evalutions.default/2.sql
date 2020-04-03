@@ -1,16 +1,17 @@
 # --- !Ups
-INSERT INTO "Work_type" ("work_type")
-VALUES ('Oqituvchi');
-INSERT INTO "Work_type" ("work_type")
-VALUES ('Elektrik');
+ALTER TABLE "Organization"
+    ADD COLUMN total_workers INT NULL;
 
-INSERT INTO "Organization" ("organization_name")
-VALUES ('TATU');
-INSERT INTO "Organization" ("organization_name")
-VALUES ('UZBEKENERGIYA');
+ALTER TABLE "Patient" DROP COLUMN organization_id;
+
+ALTER TABLE "Patient"
+    ADD COLUMN organization_name VARCHAR NULL;
 
 # --- !Downs
-DELETE FROM "Work_type" WHERE work_type = 'Oqituvchi';
-DELETE FROM "Work_type" WHERE work_type = 'Elektrik';
-DELETE FROM "Organization" WHERE organization_name = 'TATU';
-DELETE FROM "Organization" WHERE organization_name = 'UZBEKENERGIYA';
+ALTER TABLE "Organization" DROP COLUMN total_workers;
+
+ALTER TABLE "Patient" DROP COLUMN organization_name;
+
+ALTER TABLE "Patient"
+    ADD COLUMN organization_id INT NULL
+        CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("id") ON UPDATE CASCADE ON DELETE CASCADE;

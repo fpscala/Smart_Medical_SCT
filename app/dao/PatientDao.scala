@@ -48,9 +48,9 @@ trait PatientComponent {
 
     def photo = column[Option[String]]("photo")
 
-    def organizationId = column[Option[Int]]("organization_id")
+    def organizationName = column[Option[String]]("organization_name")
 
-    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, address, phone, cardNumber, profession, workTypeId, lastCheckup, photo, organizationId) <> (Patient.tupled, Patient.unapply _)
+    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, address, phone, cardNumber, profession, workTypeId, lastCheckup, photo, organizationName) <> (Patient.tupled, Patient.unapply _)
   }
 
 }
@@ -63,6 +63,8 @@ trait PatientDao {
   def getPatientList: Future[Seq[Patient]]
 
   def getCountDepartment(workTypeId: Int): Future[Int]
+
+  def getTotalCountWorkers(organizationName: String): Future[Int]
 
   def delete(id: Option[Int]): Future[Int]
 }
@@ -96,6 +98,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def getCountDepartment(workTypeId: Int): Future[Int] = {
     db.run{
       patient.filter(_.workTypeId === workTypeId).length.result
+    }
+  }
+
+  override def getTotalCountWorkers(organizationName: String): Future[Int] = {
+    db.run{
+      patient.filter(_.organizationName === organizationName).length.result
     }
   }
 

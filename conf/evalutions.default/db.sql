@@ -25,6 +25,7 @@ CREATE TABLE "Organization"
     "phone_number" VARCHAR NULL,
     "email" VARCHAR NULL,
     "workers_number" INTEGER NULL,
+    total_workers INT NULL,
     "work_type" INT CONSTRAINT "OrganizationFkWork_typeId" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -54,20 +55,9 @@ CREATE TABLE "Patient"
         CONSTRAINT "work_type_for_patient" REFERENCES "Work_type" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "last_checkup"    TIMESTAMP NULL,
     "photo"           VARCHAR   NULL,
-    "organization_id" INT
-        CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("id") ON UPDATE CASCADE ON DELETE CASCADE
+    "organization_name" VARCHAR NULL
+        CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("organization_name") ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-INSERT INTO "Work_type" ("work_type")
-VALUES ('Oqituvchi');
-INSERT INTO "Work_type" ("work_type")
-VALUES ('Elektrik');
-
-INSERT INTO "Organization" ("organization_name")
-VALUES ('TATU');
-INSERT INTO "Organization" ("organization_name")
-VALUES ('UZBEKENERGIYA');
-
 
 # --- !Downs
 DROP TABLE "Checkup_period";
@@ -76,7 +66,4 @@ DROP TABLE "Work_type";
 DROP TABLE "Doctor_type";
 DROP TABLE "Lab_type";
 DROP TABLE "Patient";
-DELETE FROM "Work_type" WHERE work_type = 'Oqituvchi';
-DELETE FROM "Work_type" WHERE work_type = 'Elektrik';
-DELETE FROM "Organization" WHERE organization_name = 'TATU';
-DELETE FROM "Organization" WHERE organization_name = 'UZBEKENERGIYA';
+
