@@ -6,7 +6,7 @@ $ ->
   apiUrl =
     send: '/registration'
     getOrganization: '/getOrganizationName'
-    getDepartment: '/getDepartment'
+    getDepartment: '/get-department-for-organization'
 
   defaultRegistrationData =
     fio: ''
@@ -17,7 +17,7 @@ $ ->
     selectedOrganization: []
     organizationList: []
     selectedDepartment: []
-    departmentList: []
+    workTypeList: []
     language: Glob.language
 
 
@@ -35,13 +35,12 @@ $ ->
       vm.organizationList(response)
   getOrganization()
 
-  getDepartment = ->
-    $.get(apiUrl.getDepartment)
-    .fail handleError
-    .done (response) ->
-      vm.departmentList(response)
-
-  getDepartment()
+  vm.selectedOrganization.subscribe (name) ->
+    if (name isnt undefined )
+      $.post(apiUrl.getDepartment, JSON.stringify({name: name}))
+       .fail handleError
+       .done (response) ->
+         vm.workTypeList(response)
 
   vm.onSubmit = ->
     toastr.clear()

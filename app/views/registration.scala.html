@@ -30,14 +30,16 @@
                     <div class="col-md-6">
                         <div class="form-group one-line-dropdown">
                             <label for="organization">Organization</label>
-                            <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedOrganization, selectPickerOptions: {optionsArray: vm.organizationList}, optionsValue: 'id', optionsText: 'organizationName'" id="organization" data-show-subtext="true">
+                            <select class="custom-select" data-bind="options: vm.organizationList(),
+                    optionsValue: 'organizationName',  optionsText: 'organizationName', value: vm.selectedOrganization, optionsCaption: 'Select Organization'" >
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group one-line-dropdown">
                             <label for="department">Department</label>
-                            <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: vm.selectedDepartment, selectPickerOptions: {optionsArray: vm.departmentList}, optionsValue: 'id', optionsText: 'workType'" id="department" data-show-subtext="true">
+                            <select class="custom-select" data-bind="options: vm.workTypeList(),
+                    optionsValue: 'id',  optionsText: 'workType', value: vm.selectedWorkType, optionsCaption: 'Select WorkType'" >
                             </select>
                         </div>
                     </div>
