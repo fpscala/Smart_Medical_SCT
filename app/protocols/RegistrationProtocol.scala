@@ -10,6 +10,8 @@ object RegistrationProtocol {
 
   case object GetOrganizationList
 
+  case object GetOrganizationDist
+
   case class DeleteOrganization(id: Int)
 
   case class UpdateOrganization(update: Organization)
@@ -36,7 +38,7 @@ object RegistrationProtocol {
 
   case class GetTown(id: Int)
 
-  case class GetWorkTypeWithPatient(id: Int)
+  case class GetWorkTypeByOrganizationName(id: String)
 
   case class DeleteDoctorType(id: Int)
 
@@ -93,6 +95,10 @@ object RegistrationProtocol {
                           workType: Int)
 
   implicit val organizationFormat: OFormat[Organization] = Json.format[Organization]
+
+  case class OrganizationName(organizationName: String)
+
+  implicit val organizationNameFormat: OFormat[OrganizationName] = Json.format[OrganizationName]
 
   case class OrganizationData(name: String, address: String,  phone: String, email: String)
   implicit val organizationDataFormat = Json.format[OrganizationData]

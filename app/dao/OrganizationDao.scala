@@ -46,11 +46,13 @@ trait OrganizationDao {
 
   def getOrganization: Future[Seq[Organization]]
 
+  def getOrganizationName: Future[Seq[String]]
+
   def deleteOrganization(id: Int): Future[Int]
 
   def updateOrganization(data: Organization): Future[Int]
 
-  def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]]
+  def getWorkTypeId(name: String): Future[Seq[Int]]
 }
 
 @Singleton
@@ -85,6 +87,12 @@ class OrganizationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConf
     }
   }
 
+  override def getOrganizationName: Future[Seq[String]] = {
+    db.run{
+      organization.map(_.organizationName).result
+    }
+  }
+
   override def deleteOrganization(id: Int): Future[Int] = {
     db.run{
       organization.filter(_.id === id).delete
@@ -97,10 +105,11 @@ class OrganizationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConf
     }
   }
 
-  override def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]] = {
+  override def getWorkTypeId(name: String): Future[Seq[Int]] = {
     db.run{
-      organization.filter(_.workType === id).result
+      organization.filter(_.organizationName === name).map(_.workType).result
     }
   }
+
 }
 

@@ -9,7 +9,7 @@ $ ->
     getRegion: '/get-region'
     getTown: '/get-town'
     getOrganization: '/getOrganizationName'
-    getWorkType: '/getWorkTypeWithPatient'
+    getWorkType: '/get-department-for-organization'
 
   defaultPatientData =
     firstName: ''
@@ -176,9 +176,9 @@ $ ->
       .done (response) ->
         vm.townList(response)
 
-  vm.selectedOrganization.subscribe (id) ->
-    if (id isnt undefined )
-      $.post(apiUrl.getWorkType, JSON.stringify({id: id}))
+  vm.selectedOrganization.subscribe (name) ->
+    if (name isnt undefined )
+      $.post(apiUrl.getWorkType, JSON.stringify({name: name}))
       .fail handleError
       .done (response) ->
         vm.workTypeList(response)

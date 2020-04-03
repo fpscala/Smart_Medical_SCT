@@ -142,8 +142,8 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
 
   def getOrganizationName: Action[AnyContent] = Action.async {
-    (registrationManager ? GetOrganizationList).mapTo[Seq[Organization]].map { organization =>
-      Ok(Json.toJson(organization.sortBy(_.id)))
+    (registrationManager ? GetOrganizationDist).mapTo[Seq[OrganizationName]].map { organization =>
+      Ok(Json.toJson(organization.sortBy(_.organizationName)))
     }
   }
 
@@ -340,14 +340,14 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }}
 
-  def getWorkTypeWithPatient = Action.async(parse.json) { implicit request => {
-    val id = (request.body \ "id").as[Int]
-    (registrationManager ? GetWorkTypeWithPatient(id)).mapTo[Seq[Organization]].map { workType =>
+  def getWorkTypeForOrganization = Action.async(parse.json) { implicit request => {
+    val name = (request.body \ "name").as[String]
+    (registrationManager ? GetWorkTypeByOrganizationName(name)).mapTo[Seq[WorkType]].map { workType =>
       Ok(Json.toJson(workType.sortBy(_.id)))
     }.recover {
       case err =>
-        logger.error(s"Get Towns1 error: $err")
-        BadRequest("Read Towns1 failed")
+        logger.error(s"Get Department error: $err")
+        BadRequest("Get Department failed")
     }
   }}
 

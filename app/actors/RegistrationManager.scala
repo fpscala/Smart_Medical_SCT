@@ -62,6 +62,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetOrganizationList =>
       getOrganizationList.pipeTo(sender())
 
+    case GetOrganizationDist =>
+      getOrganizationDist.pipeTo(sender())
+
     case AddDoctorType(data) =>
       addDoctorType(data).pipeTo(sender())
 
@@ -113,8 +116,8 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetTown(id) =>
       getTown(id).pipeTo(sender())
 
-    case GetWorkTypeWithPatient(id) =>
-      getWorkTypeWithPatient(id).pipeTo(sender())
+    case GetWorkTypeByOrganizationName(name) =>
+      getWorkTypeByOrganizationName(name).pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
@@ -186,7 +189,12 @@ class RegistrationManager @Inject()(val environment: Environment,
         }
       }
     }
+  }
 
+  private def getOrganizationDist = {
+    organizationDao.getOrganizationName.mapTo[Seq[String]].map{ names =>
+        names.map(name => OrganizationName(name)).distinct
+    }
   }
 
   private def deleteOrganization(id: Int): Future[Int] = {
@@ -273,7 +281,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     }).flatten
   }
 
-  private def getWorkTypeWithCheckupPeriod = {
+  private def getWorkTypeWithCheckupPeriod: Future[Seq[(WorkType, CheckupPeriod)]] = {
     workTypeDao.getWorkTypeWithCheckupPeriod
   }
 
@@ -296,7 +304,15 @@ class RegistrationManager @Inject()(val environment: Environment,
     townDao.getTown(id)
   }
 
-  private def getWorkTypeWithPatient(id: Int): Future[Seq[Organization]] ={
-    organizationDao.getWorkTypeWithPatient(id)
+  private def getWorkTypeByOrganizationName(name: String): Future[Seq[WorkType]] ={
+    organizationDao.getWorkTypeId(name).mapTo[Seq[Int]].flatMap{ ids =>
+      Future.sequence {
+        ids.map { id =>
+          for {
+            department <- workTypeDao.getWorkTypeById(id)
+          } yield department.get
+        }
+      }
+    }
   }
 }
