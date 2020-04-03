@@ -19,14 +19,9 @@ $ ->
     gender: ''
     birthday: ''
     address: ''
-    city: ''
     phone: ''
-    isWorker: ''
     cardNumber: ''
-    workTypeId: 0
-    lastCheckup: ''
     photo: ''
-    organizationId: 0
 
   vm = ko.mapping.fromJS
     patient: defaultPatientData
@@ -47,22 +42,16 @@ $ ->
     format: "dd/mm/yyyy"
   })
 
-
   $('#reservationDate').on 'change', () ->
     pickedDate = $('input').val();
     $('#pickedDate').html(pickedDate)
     $('.datepicker-dropdown').hide()
-
-
 
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText)
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
-
-  vm.patient.isWorker.subscribe (boolean) ->
-    vm.patient.isWorker(boolean)
 
   $contentFile = $('input[name=attachedFile]')
   $contentFile.change ->
@@ -122,16 +111,19 @@ $ ->
     else if (!vm.patient.phone())
       toastr.error("Ko'rikdan o'tuvchi shaxs telefon raqamini kiriting!")
       return no
-    else if (vm.regionList().length is 0)
-      toastr.error("Ko'rikdan o'tuvchi shaxs yashash manzilini kiriting!")
+    else if (!vm.selectedRegion())
+      toastr.error("Ko'rikdan o'tuvchi shaxs yashash manzilini tanlang!")
       return no
-    else if (!vm.patient.city())
+    else if (!vm.selectedTown())
       toastr.error("Ko'rikdan o'tuvchi shaxs shahar yoki tumanni tanlang!")
       return no
     else if (!vm.patient.address())
       toastr.error("Ko'rikdan o'tuvchi shaxs mamzilini kiriting!")
       return no
-    else if (!vm.patient.workTypeList())
+    else if (!vm.selectedOrganization())
+      toastr.error("Ko'rikdan o'tuvchi shaxs tashkiloti nomini tanlang!")
+      return no
+    else if (!vm.selectedWorkType())
       toastr.error("Ko'rikdan o'tuvchi shaxs ish turini tanlang!")
       return no
     else if (!vm.patient.cardNumber())
