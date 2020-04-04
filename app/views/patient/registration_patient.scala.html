@@ -54,10 +54,11 @@
               <div class="form-group mb-4">
                 <label>Date of Birth: <span class="text-danger">*</span></label>
                 <div class="datepicker date input-group p-0 shadow-sm">
-                  <input type="text" placeholder="Choose a Date of birth" class="form-control py-4 px-4" id="reservationDate" data-bind="value: vm.patient.birthday">
+                  <input type="text" placeholder="Choose a Date of birth" class="form-control py-4 px-4" id="reservationDate" data-bind="value: vm.patient.birthday" name="birthday">
                   <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock"></i></span></div>
                 </div>
-              </div><!-- DEnd ate Picker Input -->
+              </div>
+                <!-- DEnd ate Picker Input -->
             </div>
             <div class="col-sm-6 text-center">
               <div class="form-group">
@@ -86,7 +87,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Region: </label>
-                  <select class="custom-select" data-bind="options: vm.regionList(),
+                  <select class="custom-select" name="region" data-bind="options: vm.regionList(),
                     optionsValue: 'id',  optionsText: 'name', value: vm.selectedRegion, optionsCaption: 'Select Region'" >
                   </select>
                 </div>
@@ -94,7 +95,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>City: </label>
-                  <select class="custom-select" data-bind="options: vm.townList(),
+                  <select class="custom-select" name="city" data-bind="options: vm.townList(),
                     optionsValue: 'id',  optionsText: 'name', value: vm.selectedTown, optionsCaption: 'Select Town'" >
                   </select>
                 </div>
@@ -113,7 +114,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Organization: <span class="text-danger">*</span></label>
-                <select class="custom-select" data-bind="options: vm.organizationList(),
+                <select class="custom-select" name="organizationName" data-bind="options: vm.organizationList(),
                     optionsValue: 'organizationName',  optionsText: 'organizationName', value: vm.selectedOrganization, optionsCaption: 'Select Organization'" >
                 </select>
               </div>
@@ -121,7 +122,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Work Type: <span class="text-danger">*</span></label>
-                <select class="custom-select" data-bind="options: vm.workTypeList(),
+                <select class="custom-select" name="department" data-bind="options: vm.workTypeList(),
                     optionsValue: 'id',  optionsText: 'workType', value: vm.selectedWorkType, optionsCaption: 'Select WorkType'" >
                 </select>
               </div>

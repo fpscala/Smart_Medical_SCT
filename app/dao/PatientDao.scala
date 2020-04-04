@@ -34,13 +34,15 @@ trait PatientComponent {
 
     def birthday = column[Date]("birthday")
 
+    def region = column[Int]("region")
+
+    def city = column[Int]("city")
+
     def address = column[String]("address")
 
     def phone = column[Option[String]]("phone_number")
 
     def cardNumber = column[String]("card_number")
-
-    def profession = column[Option[String]]("profession")
 
     def workTypeId = column[Option[Int]]("work_type_id")
 
@@ -50,7 +52,7 @@ trait PatientComponent {
 
     def organizationName = column[Option[String]]("organization_name")
 
-    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, address, phone, cardNumber, profession, workTypeId, lastCheckup, photo, organizationName) <> (Patient.tupled, Patient.unapply _)
+    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId, lastCheckup, photo, organizationName) <> (Patient.tupled, Patient.unapply _)
   }
 
 }
