@@ -7,6 +7,7 @@ import com.google.inject.ImplementedBy
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.libs.json.{JsValue, Json, OFormat}
 import protocols.RegistrationProtocol.Patient
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
@@ -14,7 +15,7 @@ import utils.Date2SqlDate
 import scala.concurrent.{ExecutionContext, Future}
 
 
-trait PatientComponent {
+trait PatientComponent extends RegionComponent with TownComponent with WorkTypeComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import utils.PostgresDriver.api._
@@ -52,7 +53,9 @@ trait PatientComponent {
 
     def organizationName = column[Option[String]]("organization_name")
 
-    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId, lastCheckup, photo, organizationName) <> (Patient.tupled, Patient.unapply _)
+    def specPartJson = column[Option[JsValue]]("spec_part_json")
+
+    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId, lastCheckup, photo, organizationName, specPartJson) <> (Patient.tupled, Patient.unapply _)
   }
 
 }
@@ -84,6 +87,9 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   import utils.PostgresDriver.api._
 
   val patient = TableQuery[PatientTable]
+  val department = TableQuery[WorkTypeTable]
+  val city = TableQuery[TownTable]
+  val region = TableQuery[RegionTable]
 
   override def addPatient(data: Patient): Future[Int] = {
     db.run {
@@ -91,9 +97,22 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     }
   }
 
+  case class PatientSpecPart(region: String, city: String, department: Option[String] = None)
+
+  implicit val patientSpecPartFormat: OFormat[PatientSpecPart] = Json.format[PatientSpecPart]
+
   override def getPatientList: Future[Seq[Patient]] = {
-    db.run {
-      patient.result
+    val query = patient
+      .joinLeft(region).on(_.region === _.id)
+      .joinLeft(city).on(_._1.city === _.id)
+      .joinLeft(department).on(_._1._1.workTypeId === _.id)
+
+    db.run(query.result).map { rerult =>
+      rerult.map { case (((patient, region), city), department) =>
+        (patient.copy(specPartJson =
+          Some(Json.toJson(PatientSpecPart(region.get.name, city.get.name, Some(department.get.workType))))
+        ))
+      }
     }
   }
 

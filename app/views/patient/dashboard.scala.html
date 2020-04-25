@@ -51,6 +51,10 @@
                     <th class="sorting">
                       Age</th>
                     <th class="sorting" >
+                      Region</th>
+                    <th class="sorting" >
+                      City</th>
+                    <th class="sorting" >
                       Address</th>
                     <th class="sorting" >
                       Phone</th>
@@ -58,8 +62,6 @@
                       Passport Serial Number</th>
                     <th class="sorting" >
                       Card Number</th>
-                    <th class="sorting" >
-                      Profession</th>
                     <th class="sorting" >
                       Last Checkup</th>
                     <th class="text-right sorting">
@@ -71,13 +73,14 @@
                     <td data-bind="text: ($index() + 1)"></td>
                     <td class="sorting_1">
                       <img width="28" height="28" src="/assets/images/user.jpg" class="rounded-circle m-r-5" alt="">
-                        &nbsp;<span data-bind="text: $data.firstName"></span></td>
+                        &nbsp;<span data-bind="text: $data.fullname"></span></td>
                     <td data-bind="text: $root.vm.convertStrToDate($data.birthday)"></td>
+                    <td data-bind="text: $data.specPartJson.region"></td>
+                    <td data-bind="text: $data.specPartJson.city"></td>
                     <td data-bind="text: $data.address"></td>
                     <td data-bind="text: $data.phone"></td>
                     <td data-bind="text: $data.passport_sn"></td>
                     <td data-bind="text: $data.cardNumber"></td>
-                    <td data-bind="text: $data.profession"></td>
                     <td data-bind="text: $root.vm.convertStrToDate($data.lastCheckup)"></td>
                     <td class="text-right">
                       <div class="dropdown dropdown-action">

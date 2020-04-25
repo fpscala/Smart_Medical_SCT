@@ -141,7 +141,7 @@ $ ->
     .fail(handleError)
     .done (response) ->
       for res in response
-        res.firstName = res.lastName + ' ' + res.firstname + ' '+ res.middleName
+        res.fullname = res.lastName + ' ' + res.firstName + ' '+ res.middleName
       vm.patientList response
   getPatient()
 

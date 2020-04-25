@@ -79,7 +79,9 @@ object RegistrationProtocol {
                      workTypeId: Option[Int],
                      lastCheckup: Date,
                      photo: Option[String] = None,
-                     organizationName: Option[String])
+                     organizationName: Option[String],
+                     specPartJson: Option[JsValue] = None
+                    )
 
   implicit val registrationFormat: OFormat[Patient] = Json.format[Patient]
 

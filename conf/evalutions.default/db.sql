@@ -68,7 +68,9 @@ CREATE TABLE "Patient"
     "last_checkup" TIMESTAMP NULL,
     "photo" VARCHAR   NULL,
     "organization_name" VARCHAR NULL
-        CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("organization_name") ON UPDATE CASCADE ON DELETE CASCADE
+        CONSTRAINT "organization_for_patient" REFERENCES "Organization" ("organization_name") ON UPDATE CASCADE ON DELETE CASCADE,
+    "spec_part_json" jsonb NULL
+
 );
 
 
