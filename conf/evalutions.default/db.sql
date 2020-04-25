@@ -72,7 +72,6 @@ CREATE TABLE "Patient"
 
 );
 
-
 INSERT INTO "Regions" ("region")
 VALUES
     ('Andijon viloyati'),
