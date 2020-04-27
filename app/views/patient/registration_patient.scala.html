@@ -46,7 +46,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Passport SN: </label>
-                <input class="form-control" type="text" name="passport_sn" data-bind="value: vm.patient.passport_sn">
+                <input class="form-control" type="text" name="passport_sn" data-bind="masked: vm.patient.passport_sn, mask: 'SS 9999999'">
               </div>
             </div>
             <div class="col-sm-6">
@@ -58,7 +58,7 @@
                   <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock"></i></span></div>
                 </div>
               </div>
-                <!-- DEnd ate Picker Input -->
+                <!-- End Date Picker Input -->
             </div>
             <div class="col-sm-6 text-center">
               <div class="form-group">
@@ -81,7 +81,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Phone Number: </label>
-                  <input class="form-control" type="text" name="phone" data-bind="value: vm.patient.phone">
+                  <input class="form-control" type="text" name="phone" data-bind="masked: vm.patient.phone, mask: '(99)-999-99-99'">
                 </div>
               </div>
               <div class="col-sm-6">
@@ -130,7 +130,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>Card Number: <span class="text-danger">*</span></label>
-                <input class="form-control" name="cardNumber" type="text" data-bind="value: vm.patient.cardNumber">
+                <input class="form-control" name="cardNumber" type="text" data-bind="masked: vm.patient.cardNumber, mask: '9999999999'">
               </div>
             </div>
             <div class="col-sm-6">
