@@ -1,85 +1,85 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(lang: String)
-@import views.html.main
+  @import views.html.main
 @main("Registration", webJarsUtil) {
-    <script type="text/javascript">
-            var Glob = {
-                language: '@lang'
-            }
-    </script>
-    <script src="@routes.Assets.versioned("javascripts/registration.js")" type="text/javascript"></script>
-    @sidebar()
-    <div class="content">
+  <script type="text/javascript">
+          var Glob = {
+            language: '@lang'
+          }
+  </script>
+  <script src="@routes.Assets.versioned("javascripts/registration.js")" type="text/javascript"></script>
+  @sidebar()
+  <div class="content">
+    <div class="row">
+      <div class="col-md-8">
         <div class="row">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="fio">F.I.O:</label>
-                            <input type="text" class="form-control" name="fio">
-                        </div>                      
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="text" class="form-control" name="password">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group one-line-dropdown">
-                            <label for="organization">Organization</label>
-                            <select class="custom-select" data-bind="options: vm.organizationList(),
-                    optionsValue: 'organizationName',  optionsText: 'organizationName', value: vm.selectedOrganization, optionsCaption: 'Select Organization'" >
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group one-line-dropdown">
-                            <label for="department">Department</label>
-                            <select class="custom-select" data-bind="options: vm.workTypeList(),
-                    optionsValue: 'id',  optionsText: 'workType', value: vm.selectedWorkType, optionsCaption: 'Select WorkType'" >
-                            </select>
-                        </div>
-                    </div>
-                </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="fio">F.I.O:</label>
+              <input type="text" class="form-control" name="fio">
             </div>
-            <div class="col-md-4">
-                <select style="font-size: 18px;" class="custom-select  form-control" multiple size="22" >
-                    <option selected>Selected all</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                    <option>Four</option>
-                    <option>Fife</option>
-                    <option>Six</option>
-                    <option>Seven</option>
-                    <option>Eight</option>
-                    <option>Night</option>
-                    <option>Ten</option>
-                    <option>Eleven</option>
-                    <option>Twelve</option>
-                    <option>Threeten</option>
-                    <option>Fourten</option>
-                    <option>fifeten</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                    <option>One</option>
-                    <option>Two</option>
-                    <option>Three</option>
-                </select>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="text" class="form-control" name="password">
             </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group one-line-dropdown">
+              <label for="organization">Organization</label>
+              <select class="custom-select" data-bind="options: vm.organizationList(),
+                    optionsValue: 'organizationName',  optionsText: 'organizationName', value: vm.selectedOrganization, optionsCaption: 'Select Organization'" >
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group one-line-dropdown">
+              <label for="department">Department</label>
+              <select class="custom-select" data-bind="options: vm.workTypeList(),
+                    optionsValue: 'id',  optionsText: 'workType', value: vm.selectedWorkType, optionsCaption: 'Select WorkType'" >
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="dropdown-menu show" role="combobox" x-placement="bottom-start" style="max-height: 635px;
+          min-height: 197px;
+          min-width: 520px;
+          position: relative;
+          top: 27px;
+          left: 0px;
+          will-change: transform; top: 0"><div class="bs-actionsbox"><div class="btn-group btn-group-sm btn-block"><button type="button" class="actions-btn bs-select-all btn btn-light">
+          Select All</button><button type="button" class="actions-btn bs-deselect-all btn btn-light">
+          Deselect All</button></div></div><ul class="dropdown-menu inner show" style="max-height: 585px;
+          overflow-y: auto;
+          min-height: 98px; position:relative; width: 100%; top: 0"><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 0</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 1</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 2</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 3</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 4</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 5</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 6</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 7</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 8</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 9</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 10</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 11</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 12</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 13</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 14</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 15</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 16</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 17</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 18</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 19</span></a></li><li><a role="option" class="dropdown-item" aria-disabled="false" tabindex="0" aria-selected="false"><span class=" bs-ok-default check-mark"></span><span class="text">
+          Option 20</span></a></li>
+</ul></div>
+      </div>
     </div>
+  </div>
 }
