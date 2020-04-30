@@ -45,7 +45,7 @@ trait PatientComponent extends RegionComponent with TownComponent with WorkTypeC
 
     def cardNumber = column[String]("card_number")
 
-    def workTypeId = column[Option[Int]]("work_type_id")
+    def workTypeId = column[Int]("work_type_id")
 
     def lastCheckup = column[Date]("last_checkup")
 
@@ -55,7 +55,7 @@ trait PatientComponent extends RegionComponent with TownComponent with WorkTypeC
 
     def specPartJson = column[Option[JsValue]]("spec_part_json")
 
-    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId, lastCheckup, photo, organizationName, specPartJson) <> (Patient.tupled, Patient.unapply _)
+    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId.?, lastCheckup, photo, organizationName, specPartJson) <> (Patient.tupled, Patient.unapply _)
   }
 
 }
@@ -105,7 +105,7 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     val query = patient
       .joinLeft(region).on(_.region === _.id)
       .joinLeft(city).on(_._1.city === _.id)
-      .joinLeft(department).on(_._1._1.workTypeId.getOrElse(0) === _.id)
+      .joinLeft(department).on(_._1._1.workTypeId === _.id)
 
     db.run(query.result).map { rerult =>
       rerult.map { case (((patient, region), city), department) =>
