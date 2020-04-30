@@ -58,9 +58,9 @@ CREATE TABLE "Patient"
     "passport_sn" VARCHAR NULL,
     "gender" Int NOT NULL,
     "birthday" DATE NOT NULL,
-    "region" region INT NULL
+    "region" INT NULL
         CONSTRAINT "PatientFkRegionId" REFERENCES "Regions" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "city" city INT NULL
+    "city" INT NULL
         CONSTRAINT "PatientFkTownId" REFERENCES "Towns" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "address" VARCHAR NOT NULL,
     "phone_number" VARCHAR NULL,
