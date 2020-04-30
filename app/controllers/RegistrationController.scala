@@ -283,6 +283,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   def getPatientList: Action[AnyContent] = Action.async {
     (registrationManager ? GetPatient).mapTo[Seq[Patient]].map { p =>
       Ok(Json.toJson(p))
+    }.recover {
+      case err =>
+        logger.error(s"error: $err")
+        BadRequest
     }
   }
 

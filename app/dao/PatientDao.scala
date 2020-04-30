@@ -105,7 +105,7 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     val query = patient
       .joinLeft(region).on(_.region === _.id)
       .joinLeft(city).on(_._1.city === _.id)
-      .joinLeft(department).on(_._1._1.workTypeId === _.id)
+      .joinLeft(department).on(_._1._1.workTypeId.getOrElse(0) === _.id)
 
     db.run(query.result).map { rerult =>
       rerult.map { case (((patient, region), city), department) =>
