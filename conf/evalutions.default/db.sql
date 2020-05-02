@@ -333,8 +333,6 @@ VALUES
     ('Yashnobod tumani', 14),
     ('Yunusobod tumani', 14);
 
-
-
 # --- !Downs
 DROP TABLE "Checkup_period";
 DROP TABLE "Organization";
