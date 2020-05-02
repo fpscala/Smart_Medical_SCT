@@ -353,9 +353,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     val lastName = (request.body \ "lastName").asOpt[String]
     val firstName = (request.body \ "firstName").asOpt[String]
     val secondName = (request.body \ "secondName").asOpt[String]
-    logger.debug(s"lastName: $lastName")
-    logger.debug(s"firstName: $firstName")
-    logger.debug(s"secondName: $secondName")
     (registrationManager ? GetPatientsByFullName(SearchParams(lastName, firstName, secondName))).mapTo[Seq[Patient]].map { patients =>
       Ok(Json.toJson(patients.sortBy(_.id)))
     }.recover {
