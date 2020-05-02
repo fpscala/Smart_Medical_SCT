@@ -16,13 +16,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="fio">F.I.O:</label>
-              <input type="text" class="form-control" name="fio">
+              <input type="text" id="search-by-name" class="form-control" name="fio" data-bind="value: vm.search.fullName, valueUpdate: 'keyup keydown'">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="text" class="form-control" name="password">
+              <label for="passport_sn">Passport SN:</label>
+              <input type="text" class="form-control" name="passport_sn" data-bind="value: vm.passportSn">
             </div>
           </div>
         </div>
@@ -45,29 +45,14 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <select multiple="multiple" id="demo1" name="demo1[]" class="form-control">
-          <option value="elem_1" selected>elem 1</option>
-          <option value="elem_2" selected disabled>elem 2</option>
-          <option value="elem_3">elem 3</option>
-          <option value="elem_4">elem 4</option>
-          <option value="elem_5">elem 5</option>
-          <option value="elem_6">elem 6</option>
-          <option value="elem_7">elem 7</option>
-          <option value="elem_8">elem 8</option>
-          <option value="elem_9">elem 9</option>
-          <option value="elem_10">elem 10</option>
-          <option value="elem_11">elem 11</option>
-          <option value="elem_12">elem 12</option>
-          <option value="elem_13">elem 13</option>
-          <option value="elem_14">elem 14</option>
-          <option value="elem_15">elem 15</option>
-          <option value="elem_16">elem 16</option>
-          <option value="elem_17">elem 17</option>
-          <option value="elem_18">elem 18</option>
-          <option value="elem_19">elem 19</option>
-          <option value="elem_20">elem 20</option>
+      <div class="col-md-4" data-bind="visible: vm.patientList().length > 0">
+        <select multiple="multiple" id="demo1" name="demo1[]" class="form-control" data-bind="foreach: vm.patientList()">
+          <option data-bind="text: $index() + 1 + '. ' + $data.fullName, attr: {value: $data.id}"></option>
+
         </select>
+      </div>
+      <div class="col-md-4 mt-4 pt-5 jumbotron" data-bind="visible: vm.patientList().length == 0">
+        <h4 class="text-center text-primary">Bemorlar ro'yhati topilmadi!</h4>
       </div>
       </div>
     </div>

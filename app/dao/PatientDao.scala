@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.{JsValue, Json, OFormat}
-import protocols.RegistrationProtocol.Patient
+import protocols.RegistrationProtocol.{Patient, SearchParams}
 import slick.jdbc.JdbcProfile
 import utils.Date2SqlDate
 
@@ -67,6 +67,8 @@ trait PatientDao {
 
   def getPatientList: Future[Seq[Patient]]
 
+  def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]]
+
   def getCountDepartment(workTypeId: Int): Future[Int]
 
   def getTotalCountWorkers(organizationName: String): Future[Int]
@@ -114,6 +116,17 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
         ))
       }
     }
+  }
+
+  override def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]] = {
+    val query = if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty && params.secondName.map(_.trim).nonEmpty){
+      patient.filter(p => p.lastName === params.lastName.get &&p.lastName === params.firstName.get && p.lastName === params.secondName.get)
+    } else if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty) {
+      patient.filter(p => p.lastName === params.lastName.get &&p.lastName === params.firstName.get)
+    } else {
+      patient.filter(p => p.lastName === params.lastName.get)
+    }
+    db.run(query.result)
   }
 
   override def getCountDepartment(workTypeId: Int): Future[Int] = {

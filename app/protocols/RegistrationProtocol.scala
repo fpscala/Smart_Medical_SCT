@@ -48,6 +48,8 @@ object RegistrationProtocol {
 
   case class AddDoctorType(data: DoctorType)
 
+  case class GetPatientsByFullName(params: SearchParams)
+
   case class AddWorkType(data: WorkType)
 
   case object GetLaboratoryList
@@ -162,5 +164,11 @@ object RegistrationProtocol {
                   regionId: Int)
 
   implicit val townFormat: OFormat[Town] = Json.format[Town]
+
+  case class SearchParams(lastName: Option[String] = None,
+                          firstName: Option[String] = None,
+                          secondName: Option[String] = None)
+
+  implicit val searchParamsFormat: OFormat[SearchParams] = Json.format[SearchParams]
 
 }
