@@ -363,7 +363,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }}
 
   def searchByPassportSn = Action.async(parse.json) { implicit request => {
-    val passport = (request.body \ "passport-sn").as[String]
+    val passport = (request.body \ "passportSn").as[String]
     (registrationManager ? GetPatientsByPassportSn(passport)).mapTo[Seq[Patient]].map { patients =>
       Ok(Json.toJson(patients.sortBy(_.id)))
     }.recover {

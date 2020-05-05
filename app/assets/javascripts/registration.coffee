@@ -75,15 +75,17 @@ $ ->
     if (event.keyCode == 13)
       passport = vm.search.passportSn().length
       data =
-        if(passport == 10)
-          vm.search.passportSn()
+        if passport == 10
+          passportSn: vm.search.passportSn()
         else
           toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemorning passport seria raqami")
       $.post(apiUrl.searchByPassportSn, JSON.stringify(data))
-       .fail handleError
-       .done (response) ->
-          vm.patientList(response)
-          $('#demo1').selectMultiple();
+      .fail handleError
+      .done (response) ->
+        for obj in response
+          obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
+        vm.patientList(response)
+        $('#demo1').selectMultiple();
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

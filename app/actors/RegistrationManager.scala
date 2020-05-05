@@ -122,8 +122,8 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetPatientsByFullName(params) =>
       getPatientsByFullName(params).pipeTo(sender())
 
-    case GetPatientsByPassportSn(params) =>
-      getPatientsByPassportSn(params).pipeTo(sender())
+    case GetPatientsByPassportSn(passport) =>
+      getPatientsByPassportSn(passport).pipeTo(sender())
 
     case _ => logger.info(s"received unknown message")
   }
