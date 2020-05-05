@@ -17,9 +17,9 @@ $ ->
 
   vm = ko.mapping.fromJS
     search: defaultSearchData
-    selectedOrganization: []
+    selectedOrganization: ''
     organizationList: []
-    selectedDepartment: []
+    selectedDepartment: ''
     workTypeList: []
     patientList: []
     language: Glob.language
@@ -44,11 +44,15 @@ $ ->
        .done (response) ->
          vm.workTypeList(response)
 
-  vm.selectedDepartment.subscribe (name) ->
-    if(name isnt undefined )
-      $.post(apiUrl.getPatient, JSON.stringify({name: name}))
-       .fail handleError
-       .done (response) ->
+  vm.selectedDepartment.subscribe (id) ->
+    if(id isnt undefined )
+      data =
+        organizationName: vm.selectedOrganization()
+        departmentId: id
+      $.post(apiUrl.getPatient, JSON.stringify(data))
+      .fail handleError
+      .done (response) ->
+        ko.mapping.fromJS(defaultSearchData, {}, vm.patientList())
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)

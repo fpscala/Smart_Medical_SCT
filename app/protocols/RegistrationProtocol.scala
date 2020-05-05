@@ -40,7 +40,7 @@ object RegistrationProtocol {
 
   case class GetWorkTypeByOrganizationName(id: String)
 
-  case class GetPatientsByDepartment(id: Int)
+  case class GetPatientsByOrgNameAndDepartmentId(organizationName: String, departmentId: Int)
 
   case class DeleteDoctorType(id: Int)
 

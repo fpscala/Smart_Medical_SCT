@@ -77,7 +77,7 @@ trait PatientDao {
 
   def delete(id: Option[Int]): Future[Int]
 
-  def getPatientsByDepartment(department: Int): Future[Seq[Int]]
+  def getPatientsByOrgNameAndDepartmentId(organizationName: String, departmentId: Int): Future[Seq[Patient]]
 
 }
 
@@ -158,9 +158,9 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     }
   }
 
-  override def getPatientsByDepartment(department: Int): Future[Seq[Int]] = {
+  override def getPatientsByOrgNameAndDepartmentId(organizationName: String, department: Int): Future[Seq[Patient]] = {
     db.run{
-      patient.filter(_.workTypeId === department).map(_.workTypeId).result
+      patient.filter(p => p.organizationName === organizationName && p.workTypeId === department).result
     }
   }
 }
