@@ -373,6 +373,17 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }}
 
+  def getPatientByDepartment = Action.async(parse.json) { implicit request => {
+    val department = (request.body \ "department").as[Int]
+    (registrationManager ? GetPatientsByDepartment(department)).mapTo[Seq[Patient]].map { department =>
+      Ok(Json.toJson(department.sortBy(_.id)))
+    }.recover {
+      case err =>
+        logger.error(s"Search Patient by department error: $err")
+        BadRequest("Search Patient by department failed")
+    }
+  }}
+
   private def filenameGenerator() = {
     new Date().getTime.toString + ".png"
   }

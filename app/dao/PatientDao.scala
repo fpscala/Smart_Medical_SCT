@@ -76,6 +76,9 @@ trait PatientDao {
   def getTotalCountWorkers(organizationName: String): Future[Int]
 
   def delete(id: Option[Int]): Future[Int]
+
+  def getPatientsByDepartment(department: Int): Future[Seq[Int]]
+
 }
 
 @Singleton
@@ -152,6 +155,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def getPatientsByPassportSn(passport: String): Future[Seq[Patient]] = {
     db.run{
       patient.filter(_.passport_sn === passport).result
+    }
+  }
+
+  override def getPatientsByDepartment(department: Int): Future[Seq[Int]] = {
+    db.run{
+      patient.filter(_.workTypeId === department).map(_.workTypeId).result
     }
   }
 }

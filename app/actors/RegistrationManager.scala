@@ -125,6 +125,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetPatientsByPassportSn(passport) =>
       getPatientsByPassportSn(passport).pipeTo(sender())
 
+//    case GetPatientsByDepartment(department) =>
+//      getPatientsByDepartment(department).pipeTo(sender())
+
     case _ => logger.info(s"received unknown message")
   }
 
@@ -330,4 +333,16 @@ class RegistrationManager @Inject()(val environment: Environment,
   private def getPatientsByPassportSn(passport: String): Future[Seq[Patient]] ={
     patientDao.getPatientsByPassportSn(passport)
   }
+
+//  private def getPatientsByDepartment(department: Int): Future[Seq[Patient]] ={
+//    workTypeDao.getWorkTypeById(department).mapTo[Seq[Int]].flatMap{ ids =>
+//      Future.sequence {
+//        ids.map { id =>
+//          for {
+//            patient <- patientDao.getPatientsByDepartment(id)
+//          } yield patient
+//        }
+//      }
+//    }
+//  }
 }

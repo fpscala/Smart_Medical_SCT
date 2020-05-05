@@ -9,6 +9,7 @@ $ ->
     getDepartment: '/get-department-for-organization'
     searchByName: '/search-patient-by-name'
     searchByPassportSn: '/search-patient-by-passport-sn'
+    getPatient: '/search-patient-by-department'
 
   defaultSearchData =
     fullName: ''
@@ -42,6 +43,16 @@ $ ->
        .fail handleError
        .done (response) ->
          vm.workTypeList(response)
+
+  vm.selectedDepartment.subscribe (name) ->
+    if(name isnt undefined )
+      $.post(apiUrl.getPatient, JSON.stringify({name: name}))
+       .fail handleError
+       .done (response) ->
+        for obj in response
+          obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
+        vm.patientList(response)
+        $('#demo1').selectMultiple();
 
   $('#search-by-name').keyup (event) ->
     if (event.keyCode == 13)
