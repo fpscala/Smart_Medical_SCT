@@ -8,6 +8,7 @@ $ ->
     getOrganization: '/getOrganizationName'
     getDepartment: '/get-department-for-organization'
     searchByName: '/search-patient-by-name'
+    searchByPassportSn: '/search-patient-by-passport-sn'
 
   defaultSearchData =
     fullName: ''
@@ -70,8 +71,19 @@ $ ->
         vm.patientList(response)
         $('#demo1').selectMultiple();
 
-
-
+  $('#search-passport-sn').keyup (event) ->
+    if (event.keyCode == 13)
+      passport = vm.search.passportSn().length
+      data =
+        if(passport == 10)
+          vm.search.passportSn()
+        else
+          toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemorning passport seria raqami")
+      $.post(apiUrl.searchByPassportSn, JSON.stringify(data))
+       .fail handleError
+       .done (response) ->
+          vm.patientList(response)
+          $('#demo1').selectMultiple();
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

@@ -357,8 +357,19 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       Ok(Json.toJson(patients.sortBy(_.id)))
     }.recover {
       case err =>
-        logger.error(s"Search Patient error: $err")
-        BadRequest("Search Patient failed")
+        logger.error(s"Search Patient by name error: $err")
+        BadRequest("Search Patient by name failed")
+    }
+  }}
+
+  def searchByPassportSn = Action.async(parse.json) { implicit request => {
+    val passport = (request.body \ "passport-sn").as[String]
+    (registrationManager ? GetPatientsByPassportSn(passport)).mapTo[Seq[Patient]].map { patients =>
+      Ok(Json.toJson(patients.sortBy(_.id)))
+    }.recover {
+      case err =>
+        logger.error(s"Search Patient by passport error: $err")
+        BadRequest("Search Patient by passport failed")
     }
   }}
 

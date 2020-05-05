@@ -50,6 +50,8 @@ object RegistrationProtocol {
 
   case class GetPatientsByFullName(params: SearchParams)
 
+  case class GetPatientsByPassportSn(passport: String)
+
   case class AddWorkType(data: WorkType)
 
   case object GetLaboratoryList

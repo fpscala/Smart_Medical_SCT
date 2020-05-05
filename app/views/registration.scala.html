@@ -22,7 +22,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="passport_sn">Passport SN:</label>
-              <input type="text" class="form-control" name="passport_sn" data-bind="value: vm.passportSn">
+              <input type="text" id="search-passport-sn" class="form-control" name="passport_sn" data-bind="masked: vm.search.passportSn, mask: 'SS 9999999', valueUpdate: 'keyup keydown'">
             </div>
           </div>
         </div>

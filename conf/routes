@@ -30,6 +30,7 @@ GET     /registration                                           @controllers.Reg
 GET     /getDepartment                                          @controllers.RegistrationController.getWorkType
 POST    /get-department-for-organization                        @controllers.RegistrationController.getWorkTypeForOrganization
 POST    /search-patient-by-name                                 @controllers.RegistrationController.searchByName
+POST    /search-patient-by-passport-sn                          @controllers.RegistrationController.searchByPassportSn
 
 GET     /assets/*file                                           @controllers.Assets.versioned(path="/public", file: Asset)
 ->      /webjars                                                webjars.Routes

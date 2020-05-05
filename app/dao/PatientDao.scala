@@ -69,6 +69,8 @@ trait PatientDao {
 
   def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]]
 
+  def getPatientsByPassportSn(passport: String): Future[Seq[Patient]]
+
   def getCountDepartment(workTypeId: Int): Future[Int]
 
   def getTotalCountWorkers(organizationName: String): Future[Int]
@@ -119,10 +121,10 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   }
 
   override def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]] = {
-    val query = if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty && params.secondName.map(_.trim).nonEmpty){
-      patient.filter(p => p.lastName === params.lastName.get &&p.lastName === params.firstName.get && p.lastName === params.secondName.get)
+    val query = if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty && params.secondName.map(_.trim).nonEmpty) {
+      patient.filter(p => p.lastName === params.lastName.get && p.lastName === params.firstName.get && p.lastName === params.secondName.get)
     } else if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty) {
-      patient.filter(p => p.lastName === params.lastName.get &&p.lastName === params.firstName.get)
+      patient.filter(p => p.lastName === params.lastName.get && p.lastName === params.firstName.get)
     } else {
       patient.filter(p => p.lastName === params.lastName.get)
     }
@@ -130,13 +132,13 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   }
 
   override def getCountDepartment(workTypeId: Int): Future[Int] = {
-    db.run{
+    db.run {
       patient.filter(_.workTypeId === workTypeId).length.result
     }
   }
 
   override def getTotalCountWorkers(organizationName: String): Future[Int] = {
-    db.run{
+    db.run {
       patient.filter(_.organizationName === organizationName).length.result
     }
   }
@@ -146,5 +148,10 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
       patient.filter(_.id === id).delete
     }
   }
-}
 
+  override def getPatientsByPassportSn(passport: String): Future[Seq[Patient]] = {
+    db.run{
+      patient.filter(_.passport_sn === passport).result
+    }
+  }
+}
