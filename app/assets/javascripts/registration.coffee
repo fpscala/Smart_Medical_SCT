@@ -56,7 +56,7 @@ $ ->
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)
-        $('#demo1').selectMultiple();
+        $('#demo1').selectMultiple('refresh' );
 
   $('#search-by-name').keyup (event) ->
     if (event.keyCode == 13)
@@ -84,7 +84,7 @@ $ ->
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)
-        $('#demo1').selectMultiple();
+        $('#demo1').selectMultiple('refresh' );
 
   $('#search-passport-sn').keyup (event) ->
     if (event.keyCode == 13)
@@ -100,7 +100,7 @@ $ ->
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)
-        $('#demo1').selectMultiple();
+        $('#demo1').selectMultiple('refresh' );
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1
