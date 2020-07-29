@@ -30,10 +30,10 @@ val akkaHttp = Seq(
 val pgSqlDriver = "org.postgresql" % "postgresql" % "42.0.0"
 
 val dbLibs = Seq(
-  "com.typesafe.slick" %% "slick" % "3.2.1",
-  "com.github.tminglei" %% "slick-pg" % "0.15.1",
-  "com.github.tminglei" %% "slick-pg_play-json" % "0.15.1",
-  "com.opentable.components" % "otj-pg-embedded" % "0.10.0",
+  "com.typesafe.slick" %% "slick" % "3.3.2",
+  "com.github.tminglei" %% "slick-pg" % "0.19.1",
+  "com.github.tminglei" %% "slick-pg_play-json" % "0.19.1",
+  "com.opentable.components" % "otj-pg-embedded" % "0.13.3" % Test,
   pgSqlDriver
 )
 
