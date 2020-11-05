@@ -58,7 +58,7 @@ class LaboratoryDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfig
 
   override def addLaboratory(data: Laboratory): Future[Int] = {
     db.run {
-      logger.warn(s"daoga keldi: $data")
+      logger.debug(s"daoga keldi: $data")
       (laboratoryTable returning laboratoryTable.map(_.id)) += data
     }
   }

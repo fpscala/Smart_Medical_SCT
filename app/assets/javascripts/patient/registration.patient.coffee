@@ -84,6 +84,10 @@ $ ->
       if result is 'OK'
         toastr.success('Form has been successfully submitted!')
         ko.mapping.fromJS(defaultPatientData, {}, vm.patient)
+        vm.selectedRegion('')
+        vm.selectedTown('')
+        vm.selectedOrganization('')
+        vm.selectedWorkType('')
       else
         vm.enableSubmitButton(yes)
         toastr.error(result or 'Something went wrong! Please try again.')
@@ -162,11 +166,13 @@ $ ->
   getOrganization()
 
   vm.selectedRegion.subscribe (id) ->
-    if (id isnt undefined )
+    if (id)
       $.post(apiUrl.getTown, JSON.stringify({id: id}))
       .fail handleError
       .done (response) ->
         vm.townList(response)
+    else
+      vm.townList('')
 
   vm.selectedOrganization.subscribe (name) ->
     if (name isnt undefined )
