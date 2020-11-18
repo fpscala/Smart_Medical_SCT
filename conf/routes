@@ -8,6 +8,8 @@ GET     /getOrganizationName                                    @controllers.Reg
 DELETE  /deleteOrganization                                     @controllers.RegistrationController.deleteOrganization
 GET     /patient                                                @controllers.RegistrationController.patient
 GET     /patient/dashboard                                      @controllers.RegistrationController.patient_dashboard
+GET     /patient/update-dashboard                               @controllers.RegistrationController.updatePatientInfoPage
+POST    /update-patient                                         @controllers.RegistrationController.updatePatient
 #POST    /updateOrganization                                     @controllers.RegistrationController.updateOrganization
 POST    /addCheckupPeriod                                       @controllers.RegistrationController.addCheckupPeriod
 GET     /get-workType                                           @controllers.RegistrationController.getWorkTypeAndCheckupPeriod

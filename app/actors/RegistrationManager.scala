@@ -122,6 +122,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetPatientsByFullName(params) =>
       getPatientsByFullName(params).pipeTo(sender())
 
+    case UpdatePatient(params) =>
+      updatePatient(params).pipeTo(sender())
+
     case _ => logger.info(s"received unknown message")
   }
 
@@ -322,5 +325,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def getPatientsByFullName(params: SearchParams): Future[Seq[Patient]] ={
     patientDao.findPatientsByFullName(params)
+  }
+
+  private def updatePatient(data: Patient): Future[Int] = {
+    patientDao.updatePatient(data)
   }
 }

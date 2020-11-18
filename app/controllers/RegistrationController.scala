@@ -36,6 +36,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        doctorTypeTemplate: doctor_type,
                                        workTypeTemplate: checkupPeriod,
                                        registrationTemplate: registration,
+                                       updatePatientInfoTemplate: update_patient_info,
                                       )
                                       (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -69,6 +70,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def registration = Action {
     Ok(registrationTemplate(language))
+  }
+
+  def updatePatientInfoPage = Action {
+    Ok(updatePatientInfoTemplate(language))
   }
 
 
@@ -375,5 +380,30 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption.get
   }
 
+  def updatePatient = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").asOpt[Int]
+    val firstName = (request.body \ "firstName").as[String]
+    val lastName = (request.body \ "lastName").as[String]
+    val middleName = (request.body \ "middleName").as[String]
+    val gender = (request.body \ "gender").as[Int]
+    val passport_sn = (request.body \ "passport_sn").asOpt[String]
+    val phone = (request.body \ "phone").asOpt[String]
+    val cardNumber = (request.body \ "cardNumber").as[String]
+    val birthday = (request.body \ "birthday").as[Date]
+    val address = (request.body \ "address").as[String]
+    (registrationManager ? UpdatePatient(Patient(id, firstName, lastName, middleName, passport_sn, gender,
+      birthday, 0, 0, address, phone, cardNumber, None, new Date(), None, None, None))).mapTo[Int].map { i =>
+      if (i != 0) {
+        Ok(Json.toJson(id + " raqamli bemor malumotlari yangilandi"))
+      } else {
+        Ok("Bunday raqamli bemor topilmadi")
+      }
+    }.recover{
+      case err =>
+        logger.error(s"Update Patient Info error: $err")
+        BadRequest("error")
+    }
+    }
+  }
 }
 
