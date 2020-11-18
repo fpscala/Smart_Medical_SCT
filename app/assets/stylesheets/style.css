@@ -5841,3 +5841,7 @@ li {
     width: 100%;
     background-color: #009efb;
 }
+
+#register-patient-box .dropdown-toggle {
+    display: none !important;
+}

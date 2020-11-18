@@ -85,7 +85,10 @@ $ ->
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)
-        $('#demo1').selectMultiple('refresh' );
+        $('#demo1').selectMultiple('refresh');
+
+  vm.onSubmitRegister = ->
+
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

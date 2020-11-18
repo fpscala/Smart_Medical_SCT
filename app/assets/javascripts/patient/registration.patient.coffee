@@ -25,6 +25,28 @@ $ ->
     cardNumber: ''
     photo: ''
 
+  defaultSelectedPatientData =
+    address: ''
+    birthday: ''
+    cardNumber: ''
+    city: ''
+    firstName: ''
+    fullname: ''
+    gender: ''
+    id: ''
+    lastCheckup: ''
+    lastName: ''
+    middleName: ''
+    organizationName: ''
+    passport_sn: ''
+    phone: ''
+    region: ''
+    specPartJson:
+      region: ''
+      city: ''
+      department: ''
+    workTypeId: ''
+
   vm = ko.mapping.fromJS
     patient: defaultPatientData
     enableSubmitButton: yes
@@ -37,19 +59,7 @@ $ ->
     organizationList: []
     selectedWorkType: []
     workTypeList: []
-    selectPatient:
-      id: 0
-      firstName: ''
-      middleName: ''
-      lastName: ''
-      passport_sn: ''
-      gender: ''
-      birthday: ''
-      address: ''
-      phone: ''
-      cardNumber: ''
-      photo: ''
-      city: ''
+    selectPatient: defaultSelectedPatientData
     language: Glob.language
 
   $('.datepicker').datepicker({
