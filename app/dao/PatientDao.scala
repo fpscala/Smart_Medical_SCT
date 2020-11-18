@@ -125,11 +125,14 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
 
   override def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]] = {
     val query = if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty && params.secondName.map(_.trim).nonEmpty) {
-      patient.filter(p => p.lastName === params.lastName.get && p.lastName === params.firstName.get && p.lastName === params.secondName.get)
+      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase
+        && p.lastName.toLowerCase === params.firstName.get.toLowerCase
+        && p.lastName.toLowerCase === params.secondName.get.toLowerCase)
     } else if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty) {
-      patient.filter(p => p.lastName === params.lastName.get && p.lastName === params.firstName.get)
+      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase
+        && p.lastName.toLowerCase === params.firstName.get.toLowerCase)
     } else {
-      patient.filter(p => p.lastName === params.lastName.get)
+      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase)
     }
     db.run(query.result)
   }
