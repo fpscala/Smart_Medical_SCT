@@ -50,7 +50,7 @@ object RegistrationProtocol {
 
   case class AddDoctorType(data: DoctorType)
 
-  case class GetPatientsByFullName(params: SearchParams)
+  case class GetPatientsByFullName(fullName: String)
 
   case class GetPatientsByPassportSn(passport: String)
 
@@ -110,15 +110,16 @@ object RegistrationProtocol {
 
   implicit val organizationNameFormat: OFormat[OrganizationName] = Json.format[OrganizationName]
 
-  case class OrganizationData(name: String, address: String,  phone: String, email: String, totalWorkers: Option[Int])
+  case class OrganizationData(name: String, address: String, phone: String, email: String, totalWorkers: Option[Int])
+
   implicit val organizationDataFormat = Json.format[OrganizationData]
 
   case class OrganizationReader(id: Option[Int] = None,
-                          organizationName: String,
-                          phoneNumber: String,
-                          address: String,
-                          email: String,
-                          workType: Array[Int])
+                                organizationName: String,
+                                phoneNumber: String,
+                                address: String,
+                                email: String,
+                                workType: Array[Int])
 
   implicit val organizationReaderFormat: OFormat[OrganizationReader] = Json.format[OrganizationReader]
 
@@ -168,11 +169,4 @@ object RegistrationProtocol {
                   regionId: Int)
 
   implicit val townFormat: OFormat[Town] = Json.format[Town]
-
-  case class SearchParams(lastName: Option[String] = None,
-                          firstName: Option[String] = None,
-                          secondName: Option[String] = None)
-
-  implicit val searchParamsFormat: OFormat[SearchParams] = Json.format[SearchParams]
-
 }

@@ -8,12 +8,13 @@ import java.util.Date
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.Timeout
+import cats.implicits._
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.webjars.play.WebJarsUtil
 import play.api.Configuration
 import play.api.libs.Files.TemporaryFile
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsValue, Json, OWrites}
 import play.api.mvc.{Action, _}
 import protocols.RegistrationProtocol._
 import views.html._
@@ -21,8 +22,8 @@ import views.html.checkupPeriod._
 import views.html.patient._
 import views.html.settings._
 
+import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RegistrationController @Inject()(val controllerComponents: ControllerComponents,
@@ -41,38 +42,38 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   extends BaseController with LazyLogging {
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
-  val language = configuration.get[String]("language")
+  val language: String = configuration.get[String]("language")
 
-  def index = Action {
+  def index: Action[AnyContent] = Action {
     Ok(indexTemplate(language))
   }
 
-  def workType = Action {
+  def workType: Action[AnyContent] = Action {
     Ok(workTypeTemplate(language))
   }
 
-  def doctorType = Action {
+  def doctorType: Action[AnyContent] = Action {
     Ok(doctorTypeTemplate(language))
   }
 
-  def patient = Action {
+  def patient: Action[AnyContent] = Action {
     Ok(registrationPatient(language))
   }
 
-  def patient_dashboard = Action {
+  def patient_dashboard: Action[AnyContent] = Action {
     Ok(dashboard_patient(language))
   }
 
-  def organization = Action {
+  def organization: Action[AnyContent] = Action {
     Ok(registrationOrganization(language))
   }
 
-  def registration = Action {
+  def registration: Action[AnyContent] = Action {
     Ok(registrationTemplate(language))
   }
 
 
-  def addLaboratory: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def addLaboratory(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val laboratoryName = (request.body \ "laboratoryName").as[String]
     (registrationManager ? AddLaboratory(Laboratory(None, laboratoryName))).mapTo[Either[String, String]].map {
       case Right(str) =>
@@ -90,7 +91,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def deleteLaboratory = Action.async(parse.json) { implicit request =>
+  def deleteLaboratory(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteLaboratory(id)).mapTo[Int].map { i =>
       if (i != 0) {
@@ -102,7 +103,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def updateLaboratory = Action.async(parse.json) { implicit request =>
+  def updateLaboratory(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val laboratoryName = (request.body \ "laboratoryName").as[String]
     (registrationManager ? UpdateLaboratory(Laboratory(Some(id), laboratoryName))).mapTo[Int].map { i =>
@@ -115,7 +116,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addOrganization = Action.async(parse.json) { implicit request => {
+  def addOrganization(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val organizationName = (request.body \ "organizationName").as[String]
     val phoneNumber = (request.body \ "phoneNumber").as[String]
     val address = (request.body \ "address").as[String]
@@ -129,7 +130,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }.recover {
       case err =>
         logger.error(s"err: $err")
-        BadRequest("erroooor")
+        BadRequest("error")
     }
   }
   }
@@ -147,7 +148,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def deleteOrganization = Action.async(parse.json) { implicit request =>
+  def deleteOrganization(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteOrganization(id)).mapTo[Int].map { i =>
       if (i != 0) {
@@ -159,20 +160,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  /*def updateOrganization = Action.async(parse.json) { implicit request =>
-    val id = (request.body \ "id").as[Int]
-    val organizationName = (request.body \ "organizationName").as[String]
-    (registrationManager ? UpdateOrganization(Organization(Some(id), organizationName))).mapTo[Int].map { i =>
-      if (i != 0) {
-        Ok(Json.toJson(id + " raqamli foydalanuvchi yangilandi"))
-      }
-      else {
-        Ok("Bunday raqamli foydalanuvchi topilmadi")
-      }
-    }
-  }*/
-
-  def addDoctorType: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def addDoctorType(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val doctorTypeName = (request.body \ "doctorType").as[String]
     (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Either[String, String]].map {
       case Right(str) =>
@@ -195,7 +183,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def deleteDoctorType = Action.async(parse.json) { implicit request =>
+  def deleteDoctorType(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteDoctorType(id)).mapTo[Int].map { i =>
       if (i != 0) {
@@ -206,7 +194,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def deleteWorkType = Action.async(parse.json) { implicit request =>
+  def deleteWorkType(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeleteWorkType(id)).mapTo[Int].map { i =>
       if (i != 0) {
@@ -217,7 +205,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def updateDoctorType = Action.async(parse.json) { implicit request =>
+  def updateDoctorType(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     val doctorTypeName = (request.body \ "doctorTypeName").as[String]
     (registrationManager ? UpdateDoctorType(DoctorType(Some(id), doctorTypeName))).mapTo[Int].map { i =>
@@ -229,10 +217,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def addCheckupPeriod: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def addCheckupPeriod(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val department = (request.body \ "workType").as[String]
     val checkupPeriodForm = (request.body \ "form").as[Array[CheckupPeriodForm]]
-    (registrationManager ? AddDepartmentAndCheckupPeriod(department, checkupPeriodForm)).mapTo[Either[String, String]].map{
+    (registrationManager ? AddDepartmentAndCheckupPeriod(department, checkupPeriodForm)).mapTo[Either[String, String]].map {
       case Right(str) =>
         Ok(Json.toJson(str))
       case Left(err) =>
@@ -240,44 +228,43 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }.recover {
       case err =>
         logger.error(s"errorWork: $err")
-        BadRequest("erroooor")
+        BadRequest("error")
     }
   }
   }
 
-  def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
-    val body = request.body.asFormUrlEncoded
-    val firstName = body("firstName").head
-    val middleName = body("middleName").head
-    val lastName = body("lastName").head
-    val passport_sn = body("passport_sn").headOption
-    val birthday = parseDate(body("birthday").head)
-    val gender = body("gender").head.toInt
-    val phone = body("phone").headOption
-    val region = body("region").head.toInt
-    val city = body("city").head.toInt
-    val address  = body("address").head
-    val organizationName = body("organizationName").headOption
-    val workerTypeId = body("department").headOption.map(_.toInt)
-    val cardNumber = body("cardNumber").head
-    request.body.file("attachedFile").map { temp =>
-      val fileName = filenameGenerator()
-      val imgData = getBytesFromPath(temp.ref.path)
-      val result = (for {
-        _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
-        result <- (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName,
-          passport_sn, gender, birthday, region, city, address, phone, cardNumber,
-          workerTypeId, new Date, Some(fileName), organizationName))).mapTo[Int]
-      } yield result)
-      result.map { a =>
-        Ok("OK")
+  def createPatient(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) {
+    implicit request: Request[MultipartFormData[TemporaryFile]] =>
+      val body = request.body.asFormUrlEncoded
+      val firstName = body("firstName").head
+      val middleName = body("middleName").head
+      val lastName = body("lastName").head
+      val passport_sn = body("passport_sn").headOption
+      val birthday = parseDate(body("birthday").head)
+      val gender = body("gender").head.toInt
+      val phone = body("phone").headOption
+      val region = body("region").head.toInt
+      val city = body("city").head.toInt
+      val address = body("address").head
+      val organizationName = body("organizationName").headOption
+      val workerTypeId = body("department").headOption.map(_.toInt)
+      val cardNumber = body("cardNumber").head
+      val patient = Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday, region, city,
+        address, phone, cardNumber, workerTypeId, new Date, organizationName = organizationName)
+      request.body.file("attachedFile").map { temp =>
+        val fileName = filenameGenerator()
+        val imgData = getBytesFromPath(temp.ref.path)
+        for {
+          _ <- (registrationManager ? AddImage(fileName, imgData)).mapTo[Unit]
+          _ <- (registrationManager ? CreatePatient(patient.copy(photo = fileName.some))).mapTo[Int]
+        } yield {
+          Ok("OK")
+        }
+      }.getOrElse {
+        (registrationManager ? CreatePatient(patient)).mapTo[Int].map { _ =>
+          Ok("OK")
+        }
       }
-    }.getOrElse {
-      (registrationManager ? CreatePatient(Patient(None, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workerTypeId, new Date, organizationName = organizationName))).mapTo[Int].map { pr =>
-        Ok("OK")
-      }
-    }
-  }
   }
 
   def getPatientList: Action[AnyContent] = Action.async {
@@ -292,11 +279,11 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   case class GroupedWorkType(workType: String, tables: Seq[(WorkType, CheckupPeriod)])
 
-  implicit val groupedWorkTypeWrites = Json.writes[GroupedWorkType]
+  implicit val groupedWorkTypeWrites: OWrites[GroupedWorkType] = Json.writes[GroupedWorkType]
 
   def getWorkTypeAndCheckupPeriod: Action[AnyContent] = Action.async {
     (registrationManager ? GetWorkTypeWithCheckupPeriod).mapTo[Seq[(WorkType, CheckupPeriod)]].map { seqCheckup =>
-      val grouped = seqCheckup.groupBy(_._1).mapValues(v => v.groupBy(_._2.numberPerYear))
+      val grouped = seqCheckup.groupBy(_._1).view.mapValues(v => v.groupBy(_._2.numberPerYear))
       Ok(Json.toJson(grouped))
     }.recover {
       case err =>
@@ -305,7 +292,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def deletePatient(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? DeletePatient(Some(id))).mapTo[Int].map { bool =>
       if (bool == 1) {
@@ -315,19 +302,18 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
       }
     }
   }
-  }
 
-  def getRegion = Action.async {
+  def getRegion: Action[AnyContent] = Action.async {
     (registrationManager ? GetRegion).mapTo[Seq[Region]].map { region =>
       Ok(Json.toJson(region.sortBy(_.id)))
-    }.recover{
+    }.recover {
       case err =>
         logger.error(s"Get Regions error: $err")
         BadRequest("Read Regions failed")
     }
   }
 
-  def getTown = Action.async(parse.json) { implicit request => {
+  def getTown: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").as[Int]
     (registrationManager ? GetTown(id)).mapTo[Seq[Town]].map { towns =>
       Ok(Json.toJson(towns.sortBy(_.id)))
@@ -336,9 +322,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Get Towns error: $err")
         BadRequest("Read Towns failed")
     }
-  }}
+  }
 
-  def getWorkTypeForOrganization = Action.async(parse.json) { implicit request => {
+  def getWorkTypeForOrganization: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val name = (request.body \ "name").as[String]
     (registrationManager ? GetWorkTypeByOrganizationName(name)).mapTo[Seq[WorkType]].map { workType =>
       Ok(Json.toJson(workType.sortBy(_.id)))
@@ -347,22 +333,20 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Get Department error: $err")
         BadRequest("Get Department failed")
     }
-  }}
+  }
 
-  def searchByName = Action.async(parse.json) { implicit request => {
-    val lastName = (request.body \ "lastName").asOpt[String]
-    val firstName = (request.body \ "firstName").asOpt[String]
-    val secondName = (request.body \ "secondName").asOpt[String]
-    (registrationManager ? GetPatientsByFullName(SearchParams(lastName, firstName, secondName))).mapTo[Seq[Patient]].map { patients =>
-      Ok(Json.toJson(patients.sortBy(_.id)))
+  def searchByName: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val fullName = (request.body \ "fullName").as[String]
+    (registrationManager ? GetPatientsByFullName(fullName)).mapTo[Seq[Patient]].map { patients =>
+      Ok(Json.toJson(patients.sortBy(_.lastCheckup)))
     }.recover {
       case err =>
         logger.error(s"Search Patient by name error: $err")
         BadRequest("Search Patient by name failed")
     }
-  }}
+  }
 
-  def searchByPassportSn = Action.async(parse.json) { implicit request => {
+  def searchByPassportSn: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val passport = (request.body \ "passportSn").as[String]
     (registrationManager ? GetPatientsByPassportSn(passport)).mapTo[Seq[Patient]].map { patients =>
       Ok(Json.toJson(patients.sortBy(_.id)))
@@ -371,9 +355,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Search Patient by passport error: $err")
         BadRequest("Search Patient by passport failed")
     }
-  }}
+  }
+  }
 
-  def getPatientByDepartment = Action.async(parse.json) { implicit request => {
+  def getPatientByDepartment: Action[JsValue] = Action.async(parse.json) { implicit request => {
 
     val organizationName = (request.body \ "organizationName").as[String]
     val departmentId = (request.body \ "departmentId").as[Int]
@@ -384,9 +369,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Search Patient by department error: $err")
         BadRequest("Search Patient by department failed")
     }
-  }}
+  }
+  }
 
-  private def filenameGenerator() = {
+  private def filenameGenerator(): String = {
     new Date().getTime.toString + ".png"
   }
 
@@ -394,7 +380,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     Files.readAllBytes(filePath)
   }
 
-  def parseDate(dateStr: String) = {
+  private def parseDate(dateStr: String): Date = {
     val dateFormat = new SimpleDateFormat("dd/MM/yyyy")
     util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption.get
   }

@@ -60,31 +60,16 @@ $ ->
 
   $('#search-by-name').keyup (event) ->
     if (event.keyCode == 13)
-      count = vm.search.fullName().split(" ").length
-      name = vm.search.fullName().split(" ")
-      data =
-        if count is 1
-          lastName: name[0]
-        else if count is 2
-          lastName: name[0]
-          firstName: name[1]
-        else if count is 3
-          lastName: name[0]
-          firstName: name[1]
-          secondName: name[2]
-        else if count is 4
-          lastName: name[0]
-          firstName: name[1]
-          secondName: name[2] + " " + name[3]
-        else
-          toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemor Familiyasi Ismi Sharifi")
-      $.post(apiUrl.searchByName, JSON.stringify(data))
-      .fail handleError
-      .done (response) ->
-        for obj in response
-          obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
-        vm.patientList(response)
-        $('#demo1').selectMultiple('refresh' );
+      if !vm.search.fullName()
+        toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemor Familiyasi Ismi Sharifi")
+      else
+        $.post(apiUrl.searchByName, JSON.stringify(fullName: vm.search.fullName()))
+        .fail handleError
+        .done (response) ->
+          for obj in response
+            obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
+          vm.patientList(response)
+          $('#demo1').selectMultiple('refresh');
 
   $('#search-passport-sn').keyup (event) ->
     if (event.keyCode == 13)

@@ -9,7 +9,7 @@ import com.typesafe.scalalogging.LazyLogging
 import dao._
 import javax.inject.Inject
 import play.api.{Configuration, Environment}
-import protocols.RegistrationProtocol.{GetCheckupId, _}
+import protocols.RegistrationProtocol._
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
@@ -47,8 +47,6 @@ class RegistrationManager @Inject()(val environment: Environment,
 
     case UpdateLaboratory(data) =>
       updateLaboratory(data).pipeTo(sender())
-    //    case AddLaboratory(data) =>
-    //      addLaboratory(data).pipeTo(sender())
 
     case AddOrganization(data) =>
       addOrganization(data).pipeTo(sender())
@@ -119,8 +117,8 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetWorkTypeByOrganizationName(name) =>
       getWorkTypeByOrganizationName(name).pipeTo(sender())
 
-    case GetPatientsByFullName(params) =>
-      getPatientsByFullName(params).pipeTo(sender())
+    case GetPatientsByFullName(fullName) =>
+      getPatientsByFullName(fullName).pipeTo(sender())
 
     case GetPatientsByPassportSn(passport) =>
       getPatientsByPassportSn(passport).pipeTo(sender())
@@ -174,7 +172,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     laboratoryDao.updateLaboratory(data)
   }
 
-  private def addOrganization(data: OrganizationReader)  = {
+  private def addOrganization(data: OrganizationReader) = {
     for {
       result <- organizationDao.findOrganizationByName(data.organizationName)
     } yield result match {
@@ -189,7 +187,7 @@ class RegistrationManager @Inject()(val environment: Environment,
   }.flatten
 
   private def getOrganizationList = {
-    organizationDao.getOrganization.mapTo[Seq[Organization]].flatMap{ organizations =>
+    organizationDao.getOrganization.mapTo[Seq[Organization]].flatMap { organizations =>
       Future.sequence {
         organizations.map { organization =>
           for {
@@ -202,8 +200,8 @@ class RegistrationManager @Inject()(val environment: Environment,
   }
 
   private def getOrganizationDist = {
-    organizationDao.getOrganizationName.mapTo[Seq[String]].map{ names =>
-        names.map(name => OrganizationName(name)).distinct
+    organizationDao.getOrganizationName.mapTo[Seq[String]].map { names =>
+      names.map(name => OrganizationName(name)).distinct
     }
   }
 
@@ -277,7 +275,7 @@ class RegistrationManager @Inject()(val environment: Environment,
   }
 
   private def addCheckupPeriod(data: CheckupPeriod): Future[Int] = {
-      checkupPeriodDao.addCheckupPeriod(data)
+    checkupPeriodDao.addCheckupPeriod(data)
   }
 
   private def addWorkType(data: WorkType) = {
@@ -306,16 +304,16 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }
 
-  private def getRegion: Future[Seq[Region]] ={
+  private def getRegion: Future[Seq[Region]] = {
     regionDao.getRegion
   }
 
-  private def getTown(id: Int): Future[Seq[Town]] ={
+  private def getTown(id: Int): Future[Seq[Town]] = {
     townDao.getTown(id)
   }
 
-  private def getWorkTypeByOrganizationName(name: String): Future[Seq[WorkType]] ={
-    organizationDao.getWorkTypeId(name).mapTo[Seq[Int]].flatMap{ ids =>
+  private def getWorkTypeByOrganizationName(name: String): Future[Seq[WorkType]] = {
+    organizationDao.getWorkTypeId(name).mapTo[Seq[Int]].flatMap { ids =>
       Future.sequence {
         ids.map { id =>
           for {
@@ -326,15 +324,19 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }
 
-  private def getPatientsByFullName(params: SearchParams): Future[Seq[Patient]] ={
-    patientDao.findPatientsByFullName(params)
+  private def getPatientsByFullName(fullName: String): Future[Seq[Patient]] = {
+    patientDao.getPatientList.map { patients =>
+      patients.filter { patient =>
+        (patient.lastName + patient.firstName + patient.middleName).contains(fullName)
+      }
+    }
   }
 
-  private def getPatientsByPassportSn(passport: String): Future[Seq[Patient]] ={
+  private def getPatientsByPassportSn(passport: String): Future[Seq[Patient]] = {
     patientDao.getPatientsByPassportSn(passport)
   }
 
-  private def getPatientsByDepartment(organizationName: String, department: Int): Future[Seq[Patient]] ={
+  private def getPatientsByDepartment(organizationName: String, department: Int): Future[Seq[Patient]] = {
     patientDao.getPatientsByOrgNameAndDepartmentId(organizationName, department).mapTo[Seq[Patient]]
   }
 }

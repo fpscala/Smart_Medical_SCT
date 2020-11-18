@@ -8,12 +8,12 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.{JsValue, Json, OFormat}
-import protocols.RegistrationProtocol.{Patient, SearchParams}
+import protocols.RegistrationProtocol.Patient
 import slick.jdbc.JdbcProfile
+import slick.lifted.ProvenShape
 import utils.Date2SqlDate
 
 import scala.concurrent.{ExecutionContext, Future}
-
 
 trait PatientComponent extends RegionComponent with TownComponent with WorkTypeComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
@@ -21,41 +21,41 @@ trait PatientComponent extends RegionComponent with TownComponent with WorkTypeC
   import utils.PostgresDriver.api._
 
   class PatientTable(tag: Tag) extends Table[Patient](tag, "Patient") with Date2SqlDate {
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def id: Rep[Int] = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def firstName = column[String]("first_name")
+    def firstName: Rep[String] = column[String]("first_name")
 
-    def middleName = column[String]("middle_name")
+    def middleName: Rep[String] = column[String]("middle_name")
 
-    def lastName = column[String]("last_name")
+    def lastName: Rep[String] = column[String]("last_name")
 
-    def passport_sn = column[Option[String]]("passport_sn")
+    def passport_sn: Rep[Option[String]] = column[Option[String]]("passport_sn")
 
-    def gender = column[Int]("gender")
+    def gender: Rep[Int] = column[Int]("gender")
 
-    def birthday = column[Date]("birthday")
+    def birthday: Rep[Date] = column[Date]("birthday")
 
-    def region = column[Int]("region")
+    def region: Rep[Int] = column[Int]("region")
 
-    def city = column[Int]("city")
+    def city: Rep[Int] = column[Int]("city")
 
-    def address = column[String]("address")
+    def address: Rep[String] = column[String]("address")
 
-    def phone = column[Option[String]]("phone_number")
+    def phone: Rep[Option[String]] = column[Option[String]]("phone_number")
 
-    def cardNumber = column[String]("card_number")
+    def cardNumber: Rep[String] = column[String]("card_number")
 
-    def workTypeId = column[Int]("work_type_id")
+    def workTypeId: Rep[Int] = column[Int]("work_type_id")
 
-    def lastCheckup = column[Date]("last_checkup")
+    def lastCheckup: Rep[Date] = column[Date]("last_checkup")
 
-    def photo = column[Option[String]]("photo")
+    def photo: Rep[Option[String]] = column[Option[String]]("photo")
 
-    def organizationName = column[Option[String]]("organization_name")
+    def organizationName: Rep[Option[String]] = column[Option[String]]("organization_name")
 
-    def specPartJson = column[Option[JsValue]]("spec_part_json")
+    def specPartJson: Rep[Option[JsValue]] = column[Option[JsValue]]("spec_part_json")
 
-    def * = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId.?, lastCheckup, photo, organizationName, specPartJson) <> (Patient.tupled, Patient.unapply _)
+    def * : ProvenShape[Patient] = (id.?, firstName, middleName, lastName, passport_sn, gender, birthday, region, city, address, phone, cardNumber, workTypeId.?, lastCheckup, photo, organizationName, specPartJson) <> (Patient.tupled, Patient.unapply)
   }
 
 }
@@ -66,8 +66,6 @@ trait PatientDao {
   def addPatient(data: Patient): Future[Int]
 
   def getPatientList: Future[Seq[Patient]]
-
-  def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]]
 
   def getPatientsByPassportSn(passport: String): Future[Seq[Patient]]
 
@@ -114,27 +112,13 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
       .joinLeft(city).on(_._1.city === _.id)
       .joinLeft(department).on(_._1._1.workTypeId === _.id)
 
-    db.run(query.result).map { rerult =>
-      rerult.map { case (((patient, region), city), department) =>
-        (patient.copy(specPartJson =
+    db.run(query.result).map { result =>
+      result.map { case (((patient, region), city), department) =>
+        patient.copy(specPartJson =
           Some(Json.toJson(PatientSpecPart(region.get.name, city.get.name, Some(department.get.workType))))
-        ))
+        )
       }
     }
-  }
-
-  override def findPatientsByFullName(params: SearchParams): Future[Seq[Patient]] = {
-    val query = if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty && params.secondName.map(_.trim).nonEmpty) {
-      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase
-        && p.lastName.toLowerCase === params.firstName.get.toLowerCase
-        && p.lastName.toLowerCase === params.secondName.get.toLowerCase)
-    } else if (params.lastName.map(_.trim).nonEmpty && params.firstName.map(_.trim).nonEmpty) {
-      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase
-        && p.lastName.toLowerCase === params.firstName.get.toLowerCase)
-    } else {
-      patient.filter(p => p.lastName.toLowerCase === params.lastName.get.toLowerCase)
-    }
-    db.run(query.result)
   }
 
   override def getCountDepartment(workTypeId: Int): Future[Int] = {
