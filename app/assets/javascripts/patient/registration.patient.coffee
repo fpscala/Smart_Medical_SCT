@@ -10,6 +10,8 @@ $ ->
     getTown: '/get-town'
     getOrganization: '/getOrganizationName'
     getWorkType: '/get-department-for-organization'
+    getUpdatePatientInfo: '/patient/update-dashboard'
+    updatePatient: '/update-patient'
 
   defaultPatientData =
     firstName: ''
@@ -35,12 +37,26 @@ $ ->
     organizationList: []
     selectedWorkType: []
     workTypeList: []
+    selectPatient:
+      id: 0
+      firstName: ''
+      middleName: ''
+      lastName: ''
+      passport_sn: ''
+      gender: ''
+      birthday: ''
+      address: ''
+      phone: ''
+      cardNumber: ''
+      photo: ''
+      city: ''
     language: Glob.language
 
   $('.datepicker').datepicker({
     clearBtn: true,
     format: "dd/mm/yyyy"
   })
+  $updatePaatienInfoModal = $('updatePatientInfoModal')
 
   $('#reservationDate').on 'change', () ->
     pickedDate = $('input').val();
@@ -209,6 +225,29 @@ $ ->
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1
     vm.labels[fieldName][index]
+
+  vm.updatePatientInfo = (data) -> ->
+    console.log(data)
+    ko.mapping.fromJS(data, {}, vm.selectPatient)
+
+  vm.updatePatient = ->
+    data =
+      id: vm.selectPatient.id
+      firstName: vm.selectPatient.firstName
+      lastName: vm.selectPatient.lastName
+      middleName: vm.selectPatient.middleName
+      gender: vm.selectPatient.gender
+      passport_sn: vm.selectPatient.passport_sn
+      phone: vm.selectPatient.phone
+      cardNumber: vm.selectPatient.cardNumber
+      birthday: vm.selectPatient.birthday
+      address: vm.selectPatient.address
+    console.log(data)
+    $.post(apiUrl.updatePatient, JSON.stringify(data))
+    .fail handleError
+    .done (response) ->
+      toastr.success(response)
+      $updatePaatienInfoModal.modal('hide')
 
   vm.labels =
     label: [

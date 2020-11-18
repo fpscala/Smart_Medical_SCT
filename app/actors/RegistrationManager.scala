@@ -126,6 +126,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case GetPatientsByOrgNameAndDepartmentId(organizationName, department) =>
       getPatientsByDepartment(organizationName, department).pipeTo(sender())
 
+    case UpdatePatient(params) =>
+      updatePatient(params).pipeTo(sender())
+
     case _ => logger.info(s"received unknown message")
   }
 
@@ -338,5 +341,9 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def getPatientsByDepartment(organizationName: String, department: Int): Future[Seq[Patient]] = {
     patientDao.getPatientsByOrgNameAndDepartmentId(organizationName, department).mapTo[Seq[Patient]]
+  }
+
+  private def updatePatient(data: Patient): Future[Int] = {
+    patientDao.updatePatient(data)
   }
 }

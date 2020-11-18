@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.{JsValue, Json, OFormat}
-import protocols.RegistrationProtocol.Patient
+import protocols.RegistrationProtocol._
 import slick.jdbc.JdbcProfile
 import slick.lifted.ProvenShape
 import utils.Date2SqlDate
@@ -75,6 +75,8 @@ trait PatientDao {
 
   def delete(id: Option[Int]): Future[Int]
 
+  def updatePatient(data: Patient): Future[Int]
+
   def getPatientsByOrgNameAndDepartmentId(organizationName: String, departmentId: Int): Future[Seq[Patient]]
 
 }
@@ -136,6 +138,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def delete(id: Option[Int]): Future[Int] = {
     db.run {
       patient.filter(_.id === id).delete
+    }
+  }
+
+  override def updatePatient(data: Patient): Future[Int] = {
+    db.run{
+      patient.filter(_.id === data.id).update(data)
     }
   }
 

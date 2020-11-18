@@ -1,7 +1,7 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(lang: String)
   @import views.html.main
-@main("Registration Page", webJarsUtil) {
+@main("Patient Dashboard", webJarsUtil) {
   <script type="text/javascript">
           var Glob = {
             language: '@lang'
@@ -42,6 +42,7 @@
           </div>
           <div class="row">
             <div class="col-sm-12">
+              <div class="table-responsive">
               <table class="table table-border table-striped custom-table datatable mb-0 dataTable no-footer" >
                 <thead>
                   <tr role="row">
@@ -86,7 +87,7 @@
                       <div class="dropdown dropdown-action">
                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#edit" data-toggle="modal" data-target="#edit_lab_type"><i class="fa fa-pen m-r-5"></i>
+                          <a class="dropdown-item" href="" data-toggle="modal" data-target="#updatePatientInfoModal" data-bind="click: $root.vm.updatePatientInfo($data)"><i class="fa fa-pen m-r-5"></i>
                             Edit</a>
                           <a class="dropdown-item" href="#delete" data-bind="click: $root.vm.deletePatient.bind($data, $data.id)" data-toggle="modal" id="delete_patient"><i class="fa fa-trash m-r-5"></i>
                             Delete</a>
@@ -96,6 +97,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
           <div class="row"><div class="col-sm-12 col-md-5">
@@ -148,5 +150,124 @@
       </div>
     </div>
   </div>
+    <div class="modal fade" id="updatePatientInfoModal" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="editModalLongTitle">Update Patient Info</h3>
+                        <button type="button" class="close" id="closeModalLanguage" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">First Name: <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="name" data-bind="value: vm.selectPatient.firstName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Middle Name: <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="middleName" data-bind="value: vm.selectPatient.middleName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Last Name: <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="lastName" data-bind="value: vm.selectPatient.lastName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Passport SN: </label>
+                                <input class="form-control" type="text" name="passport_sn" data-bind="masked: vm.selectPatient.passport_sn, mask: 'SS 9999999'">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                                <!-- Date Picker Input -->
+                            <div class="form-group">
+                                <label>Date of Birth: <span class="text-danger">*</span></label>
+                                <div class="date input-group p-0 shadow-sm">
+                                    <input type="text" placeholder="Choose a Date of birth" class="form-control" id="reservationDate" data-bind="value: $root.vm.convertIntToDate(vm.selectPatient.birthday)" name="birthday">
+                                    <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-clock"></i></span></div>
+                                </div>
+                            </div>
+                                <!-- End Date Picker Input -->
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <div class="form-group">
+                                <label class="display-block">Gender: <span class="text-danger">*</span></label>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="male" name="gender" class="form-check-input"
+                                    data-bind="checked: vm.selectPatient.gender, value: vm.selectPatient.gender">
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="gender" id="famale" class="form-check-input"
+                                    data-bind="checked: vm.selectPatient.gender, value: vm.selectPatient.gender">
+                                    <label class="form-check-label" for="famale">Famale</label>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Phone Number: </label>
+                                    <input class="form-control" type="text" name="phone" data-bind="masked: vm.selectPatient.phone, mask: '(99)-999-99-99'">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Region: </label>
+                                    <select class="custom-select" name="region" data-bind="options: vm.regionList(),
+                                     optionsValue: 'id',  optionsText: 'name', value: $root.vm.selectPatient.region" >
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>City: </label>
+                                    <select class="custom-select" name="city" data-bind="options: vm.townList(),
+                                        optionsValue: 'id',  optionsText: 'city', value: $root.vm.selectPatient.city" >
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Address: <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control " name="address" data-bind="value: vm.selectPatient.address">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Organization: <span class="text-danger">*</span></label>
+                                    <select class="custom-select" name="organizationName" data-bind="options: vm.organizationList(),
+                                        optionsValue: 'organizationName',  optionsText: 'organizationName', value: vm.selectPatient.organizationName" >
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Work Type: <span class="text-danger">*</span></label>
+                                    <select class="custom-select" name="department" data-bind="options: vm.workTypeList(),
+                                        optionsValue: 'id',  optionsText: 'workType', value: vm.selectPatient.workType" >
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Card Number: <span class="text-danger">*</span></label>
+                                    <input class="form-control" name="cardNumber" type="text" data-bind="masked: vm.selectPatient.cardNumber, mask: '9999999999'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" data-bind="click: vm.updatePatient" class="btn btn-primary btn-modal btn-rounded">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 }

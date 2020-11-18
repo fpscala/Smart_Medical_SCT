@@ -16,6 +16,8 @@ object RegistrationProtocol {
 
   case class UpdateOrganization(update: Organization)
 
+  case class UpdatePatient(update: Patient)
+
   case class CreatePatient(data: Patient)
 
   case class AddOrganization(data: OrganizationReader)
