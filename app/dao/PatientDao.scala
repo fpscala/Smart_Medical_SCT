@@ -79,6 +79,8 @@ trait PatientDao {
 
   def getPatientsByOrgNameAndDepartmentId(organizationName: String, departmentId: Int): Future[Seq[Patient]]
 
+  def getPatientsById(id: Int): Future[Option[Patient]]
+
 }
 
 @Singleton
@@ -156,6 +158,12 @@ class PatientDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   override def getPatientsByOrgNameAndDepartmentId(organizationName: String, department: Int): Future[Seq[Patient]] = {
     db.run{
       patient.filter(p => p.organizationName === organizationName && p.workTypeId === department).result
+    }
+  }
+
+  override def getPatientsById(id: Int): Future[Option[Patient]] = {
+    db.run {
+      patient.filter(_.id === id).result.headOption
     }
   }
 }

@@ -357,7 +357,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
   }
   }
 
-  def getPatientByDepartment: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def getPatientByDepartment: Action[JsValue] = Action.async(parse.json) { implicit request =>
 
     val organizationName = (request.body \ "organizationName").as[String]
     val departmentId = (request.body \ "departmentId").as[Int]
@@ -369,22 +369,9 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         BadRequest("Search Patient by department failed")
     }
   }
-  }
 
-  private def filenameGenerator(): String = {
-    new Date().getTime.toString + ".png"
-  }
 
-  private def getBytesFromPath(filePath: Path): Array[Byte] = {
-    Files.readAllBytes(filePath)
-  }
-
-  private def parseDate(dateStr: String): Date = {
-    val dateFormat = new SimpleDateFormat("dd/MM/yyyy")
-    util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption.get
-  }
-
-  def updatePatient = Action.async(parse.json) { implicit request => {
+  def updatePatient(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     val id = (request.body \ "id").asOpt[Int]
     val firstName = (request.body \ "firstName").as[String]
     val lastName = (request.body \ "lastName").as[String]
@@ -407,7 +394,26 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Update Patient Info error: $err")
         BadRequest("error")
     }
+  }
+
+  def patientsRegistration: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val patientIds = (request.body \ "ids").as[List[Int]]
+    (registrationManager ? UpdateLastCheckupDatePatients(patientIds)).mapTo[Int].map { _ =>
+      Ok(Json.toJson("Ok"))
     }
+  }
+
+  private def filenameGenerator(): String = {
+    new Date().getTime.toString + ".png"
+  }
+
+  private def getBytesFromPath(filePath: Path): Array[Byte] = {
+    Files.readAllBytes(filePath)
+  }
+
+  private def parseDate(dateStr: String): Date = {
+    val dateFormat = new SimpleDateFormat("dd/MM/yyyy")
+    util.Try(dateFormat.parse(URLDecoder.decode(dateStr, "UTF-8"))).toOption.get
   }
 }
 

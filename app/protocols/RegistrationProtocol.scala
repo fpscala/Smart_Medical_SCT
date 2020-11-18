@@ -171,4 +171,8 @@ object RegistrationProtocol {
                   regionId: Int)
 
   implicit val townFormat: OFormat[Town] = Json.format[Town]
+
+  case class UpdateLastCheckupDatePatients(ids: List[Int] = List.empty)
+
+  implicit val updateLastCheckupDatePatientsFormat: OFormat[UpdateLastCheckupDatePatients] = Json.format[UpdateLastCheckupDatePatients]
 }

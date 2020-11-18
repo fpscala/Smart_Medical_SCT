@@ -1,6 +1,7 @@
 package actors
 
 import java.nio.file.{Files, Path, Paths}
+import java.util.Date
 
 import akka.actor.Actor
 import akka.pattern.pipe
@@ -34,7 +35,7 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
-  def receive = {
+  def receive: Receive = {
 
     case AddLaboratory(data) =>
       addLaboratory(data).pipeTo(sender())
@@ -129,6 +130,9 @@ class RegistrationManager @Inject()(val environment: Environment,
     case UpdatePatient(params) =>
       updatePatient(params).pipeTo(sender())
 
+    case UpdateLastCheckupDatePatients(ids) =>
+      updateLastCheckupDatePatients(ids).pipeTo(sender())
+
     case _ => logger.info(s"received unknown message")
   }
 
@@ -139,15 +143,15 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }
 
-  def createPatient(patientData: Patient) = {
+  def createPatient(patientData: Patient): Future[Int] = {
     patientDao.addPatient(patientData)
   }
 
-  def deletePatient(id: Option[Int]) = {
+  def deletePatient(id: Option[Int]): Future[Int] = {
     patientDao.delete(id)
   }
 
-  def getPatientList = {
+  def getPatientList: Future[Seq[Patient]] = {
     patientDao.getPatientList
   }
 
@@ -189,7 +193,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }.flatten
 
-  private def getOrganizationList = {
+  private def getOrganizationList: Future[Seq[Organization]] = {
     organizationDao.getOrganization.mapTo[Seq[Organization]].flatMap { organizations =>
       Future.sequence {
         organizations.map { organization =>
@@ -202,7 +206,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     }
   }
 
-  private def getOrganizationDist = {
+  private def getOrganizationDist: Future[Seq[OrganizationName]] = {
     organizationDao.getOrganizationName.mapTo[Seq[String]].map { names =>
       names.map(name => OrganizationName(name)).distinct
     }
@@ -217,7 +221,7 @@ class RegistrationManager @Inject()(val environment: Environment,
   }
 
   private def addDoctorType(data: DoctorType): Future[Either[String, String]] = {
-    (for {
+    for {
       response <- doctorTypeDao.findDoctorType(data.doctorType)
     } yield response match {
       case Some(doctor) =>
@@ -225,7 +229,7 @@ class RegistrationManager @Inject()(val environment: Environment,
       case None =>
         doctorTypeDao.addDoctorType(data)
         Right(data.doctorType + " nomli doctor muvoffaqiyatli qo'shildi!")
-    })
+    }
   }
 
   private def addDepartmentAndCheckupPeriod(department: String, checkupForm: Array[CheckupPeriodForm]): Future[Either[String, String]] = {
@@ -281,7 +285,7 @@ class RegistrationManager @Inject()(val environment: Environment,
     checkupPeriodDao.addCheckupPeriod(data)
   }
 
-  private def addWorkType(data: WorkType) = {
+  private def addWorkType(data: WorkType): Future[Either[String, WorkType]] = {
     (for {
       response <- workTypeDao.findDepartment(data.workType)
     } yield response match {
@@ -345,5 +349,18 @@ class RegistrationManager @Inject()(val environment: Environment,
 
   private def updatePatient(data: Patient): Future[Int] = {
     patientDao.updatePatient(data)
+  }
+
+  private def updateLastCheckupDatePatients(ids: List[Int]): Future[Int] = {
+    ids.foldLeft(Future.successful(0)){ (accF, id) =>
+      for {
+        acc <- accF
+        patient <- patientDao.getPatientsById(id)
+        res <- patient.fold(accF) { p =>
+          val updatedPatient = p.copy(lastCheckup = new Date)
+          patientDao.updatePatient(updatedPatient).map(_ => acc + 1)
+        }
+      } yield res
+    }
   }
 }

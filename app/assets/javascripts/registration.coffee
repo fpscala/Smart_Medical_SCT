@@ -10,6 +10,7 @@ $ ->
     searchByName: '/search-patient-by-name'
     searchByPassportSn: '/search-patient-by-passport-sn'
     getPatient: '/search-patient-by-department'
+    registerPatient: '/register-patients'
 
   defaultSearchData =
     fullName: ''
@@ -22,6 +23,7 @@ $ ->
     selectedDepartment: ''
     workTypeList: []
     patientList: []
+    selectedPatients: []
     language: Glob.language
 
   handleError = (error) ->
@@ -85,10 +87,15 @@ $ ->
         for obj in response
           obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
         vm.patientList(response)
-        $('#demo1').selectMultiple('refresh');
+        $('#demo1').selectMultiple('refresh')
 
   vm.onSubmitRegister = ->
-
+    $.post(apiUrl.registerPatient, JSON.stringify(ids: vm.selectedPatients()))
+    .fail handleError
+    .done ->
+      vm.search.fullName('')
+      vm.patientList('')
+      $('#demo1').selectMultiple('refresh')
 
   vm.translate = (fieldName) -> ko.computed () ->
     index = if vm.language() is 'en' then 0 else 1

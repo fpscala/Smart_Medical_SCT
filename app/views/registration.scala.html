@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="col-md-4" id="register-patient-box" data-bind="visible: vm.patientList().length > 0">
-        <select multiple="multiple" id="demo1" name="demo1[]" class="form-control" data-bind="selectPicker: vm.selectedPatient,
+        <select multiple id="demo1" name="demo1[]" class="form-control" data-bind="selectPicker: vm.selectedPatients,
                    selectPickerOptions: {optionsArray: vm.patientList}, optionsValue: 'id', optionsText: 'fullName'"></option>
         </select>
         <button class="btn btn-lg btn-register" data-bind="click: vm.onSubmitRegister">Register</button>
