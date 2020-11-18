@@ -48,8 +48,8 @@
       <div class="col-md-4" data-bind="visible: vm.patientList().length > 0">
         <select multiple="multiple" id="demo1" name="demo1[]" class="form-control" data-bind="foreach: vm.patientList()">
           <option data-bind="text: $index() + 1 + '. ' + $data.fullName, attr: {value: $data.id}"></option>
-
         </select>
+        <button class="btn btn-lg btn-register">Register</button>
       </div>
       <div class="col-md-4 mt-4 pt-5 jumbotron" data-bind="visible: vm.patientList().length == 0">
         <h4 class="text-center text-primary">Bemorlar ro'yhati topilmadi!</h4>

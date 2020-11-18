@@ -330,7 +330,7 @@ class RegistrationManager @Inject()(val environment: Environment,
   private def getPatientsByFullName(fullName: String): Future[Seq[Patient]] = {
     patientDao.getPatientList.map { patients =>
       patients.filter { patient =>
-        (patient.lastName + patient.firstName + patient.middleName).contains(fullName)
+        (patient.lastName + " " + patient.firstName + " " + patient.middleName).contains(fullName.trim)
       }
     }
   }
