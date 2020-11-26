@@ -61,9 +61,9 @@ $ ->
         $('#demo1').selectMultiple('refresh' );
 
   $('#search-by-name').keyup (event) ->
-    if (event.keyCode == 13)
+    if event.keyCode is 13
       if !vm.search.fullName()
-        toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemor Familiyasi Ismi Sharifi")
+        toastr.error("Iltimos bemor Familiyasi Ismi Sharifini kiriting!")
       else
         $.post(apiUrl.searchByName, JSON.stringify(fullName: vm.search.fullName()))
         .fail handleError
@@ -74,20 +74,17 @@ $ ->
           $('#demo1').selectMultiple('refresh');
 
   $('#search-passport-sn').keyup (event) ->
-    if (event.keyCode == 13)
-      passport = vm.search.passportSn().length
-      data =
-        if passport == 10
-          passportSn: vm.search.passportSn()
-        else
-          toastr.error("Iltimos ko'rsatilgan tartibda kiriting: \n Bemorning passport seria raqami")
-      $.post(apiUrl.searchByPassportSn, JSON.stringify(data))
-      .fail handleError
-      .done (response) ->
-        for obj in response
-          obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
-        vm.patientList(response)
-        $('#demo1').selectMultiple('refresh')
+    if event.keyCode is 13
+      if !vm.search.passportSn()
+        toastr.error("Iltimos bemor passport seria raqamini kiriting!")
+      else
+        $.post(apiUrl.searchByPassportSn, JSON.stringify(passportSn: vm.search.passportSn()))
+        .fail handleError
+        .done (response) ->
+          for obj in response
+            obj.fullName = obj.lastName + " " + obj.firstName + " " + obj.middleName
+          vm.patientList(response)
+          $('#demo1').selectMultiple('refresh')
 
   vm.onSubmitRegister = ->
     $.post(apiUrl.registerPatient, JSON.stringify(ids: vm.selectedPatients()))

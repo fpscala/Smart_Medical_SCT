@@ -36,6 +36,7 @@ object Dependencies {
     val datepicker = "1.9.0"
     val momentJs = "2.8.1"
     val jQueryMask = "1.14.12"
+    val jsoup = "1.13.1"
   }
 
   object Libraries {
@@ -51,6 +52,7 @@ object Dependencies {
     val pureConfig = "com.github.pureconfig" %% "pureconfig" % Versions.pureConfig
     val scalaTestPlus = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlus % Test
     val scalaJHttp = "org.scalaj" %% "scalaj-http" % "2.4.2"
+    val jsoup = "org.jsoup" % "jsoup" % Versions.jsoup
     val playMailerLibs = Seq(
       "com.typesafe.play" %% "play-mailer" % Versions.playMailer,
       "com.typesafe.play" %% "play-mailer-guice" % Versions.playMailer
@@ -116,7 +118,8 @@ object Dependencies {
     Libraries.jsonJoda,
     Libraries.pureConfig,
     Libraries.scalaJHttp,
-    Libraries.scalaTestPlus
+    Libraries.scalaTestPlus,
+    Libraries.jsoup
   ) ++
     Libraries.playMailerLibs ++
     Libraries.logBackLibs ++

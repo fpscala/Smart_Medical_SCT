@@ -161,6 +161,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def addDoctorType(): Action[JsValue] = Action.async(parse.json) { implicit request => {
     val doctorTypeName = (request.body \ "doctorType").as[String]
+    logger.debug(s"doctor Type: $doctorTypeName")
     (registrationManager ? AddDoctorType(DoctorType(None, doctorTypeName))).mapTo[Either[String, String]].map {
       case Right(str) =>
         Ok(Json.toJson(str))
@@ -345,7 +346,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
     }
   }
 
-  def searchByPassportSn: Action[JsValue] = Action.async(parse.json) { implicit request => {
+  def searchByPassportSn: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val passport = (request.body \ "passportSn").as[String]
     (registrationManager ? GetPatientsByPassportSn(passport)).mapTo[Seq[Patient]].map { patients =>
       Ok(Json.toJson(patients.sortBy(_.id)))
@@ -354,7 +355,6 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
         logger.error(s"Search Patient by passport error: $err")
         BadRequest("Search Patient by passport failed")
     }
-  }
   }
 
   def getPatientByDepartment: Action[JsValue] = Action.async(parse.json) { implicit request =>
