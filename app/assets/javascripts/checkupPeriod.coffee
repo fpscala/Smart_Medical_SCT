@@ -26,7 +26,6 @@ $ ->
     formA: []
     selectedId: ''
 
-
   handleError = (error) ->
     if error.status is 500 or (error.status is 400 and error.responseText) or error.status is 200
       toastr.error(error.responseText)
@@ -51,8 +50,6 @@ $ ->
   vm.addForm = -> ->
     if(ko.mapping.toJS(vm.formA()).length < 4)
       vm.formA.push ko.mapping.fromJS(defaultForm)
-      vm.getCheckupPeriodList()
-      vm.labTypeList()
     else
       alert("Yetarlicha maydon qo'shildi.")
 
@@ -79,7 +76,6 @@ $ ->
         else if (form.selectedLabType.length is 0)
           toastr.error("please enter the laboratory type!")
           return no
-
       data =
         workType: vm.workType()
         form: ko.mapping.toJS(vm.formA())
@@ -92,7 +88,7 @@ $ ->
       .fail handleError
       .done (response) ->
         toastr.success(response)
-        $('#add_work_type').click()
+        $('#addCheckupPeriod').modal('hide')
         getCheckupPeriod()
 
   getCheckupPeriod = ->
@@ -108,29 +104,29 @@ $ ->
   getCheckupPeriod()
 
   vm.returnDoctorType = (specPart) ->
-    return specPart.specPartJson.docType
+    specPart.specPartJson.docType
 
   vm.returnLabType = (specPart) ->
-    return specPart.specPartJson.labType
+    specPart.specPartJson.labType
 
   vm.checkupLength = (list) ->
-    return list.length
+    list.length
 
   vm.askDelete = (data) -> ->
     vm.selectedId data[0].id
-    console.log('data', data)
-    console.log(vm.selectedId())
-    $('#delete').open
+    $('#delete').modal('show')
 
   vm.openEditForm = (data) -> ->
-    vm.selectedId data.id
-    vm.selectedName data.workType
-    $('#edit_work_type').open
+    vm.selectedId data[0].id
+    vm.workType data[0].workType
+    console.log data[1]
+    defaultForm.numberPerYear
+    vm.formA(data[1])
+    $('#edit_work_type').modal('show')
 
   vm.deleteWorkTypeAndCheckup = ->
     data =
       id: vm.selectedId()
-    console.log('dwad')
     $.ajax
       url: apiUrl.deleteWorkType
       type: 'DELETE'
@@ -139,7 +135,7 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
-      $('#close_modal').click()
+      $('#delete').modal('hide')
       toastr.success(response)
       $(this).parents('tr').remove()
       getCheckupPeriod()

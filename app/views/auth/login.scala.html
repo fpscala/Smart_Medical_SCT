@@ -1,0 +1,57 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sing In</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @webJarsUtil.locate("css/bootstrap.css").css()
+    @webJarsUtil.locate("build/toastr.min.css").css()
+    @webJarsUtil.locate("css/all.css").css()
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.ico")">
+    @webJarsUtil.locate("jquery.js").script()
+    @webJarsUtil.locate("popper.js/1.16.0/umd/popper.min.js").script()
+    @webJarsUtil.locate("js/bootstrap.min.js").script()
+    @webJarsUtil.locate("knockout.js").script()
+    @webJarsUtil.locate("knockout.mapping.js").script()
+    <script src="@routes.Assets.versioned("javascripts/common.assist.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("lib/app.js")" type="text/javascript"></script>
+    @webJarsUtil.locate("build/toastr.min.js").script()
+  </head>
+
+  <body class="background-dark">
+    <div class="main-wrapper account-wrapper">
+      <div class="account-page">
+        <div class="account-center">
+          <div class="account-box account-box-effect">
+            <form action="">
+              <div class="account-logo">
+                <a href=""><img src="@routes.Assets.versioned("images/logo-dark.png")" alt=""></a>
+              </div>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" autofocus="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control">
+              </div>
+              <div class="form-group text-right">
+                <a href="">Forgot your password?</a>
+              </div>
+              <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary account-btn">Login</button>
+              </div>
+              <div class="text-center register-link">
+                Don’t have an account? <a href="">Register Now</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

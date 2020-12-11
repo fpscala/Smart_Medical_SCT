@@ -1,5 +1,6 @@
 
 GET     /                                                       @controllers.RegistrationController.index
+GET     /sign-in                                                @controllers.RegistrationController.login
 GET     /organization                                           @controllers.RegistrationController.organization
 GET     /workType                                               @controllers.RegistrationController.workType
 POST    /addOrganization                                        @controllers.RegistrationController.addOrganization

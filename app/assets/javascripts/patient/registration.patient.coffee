@@ -210,7 +210,7 @@ $ ->
   vm.deletePatient = (id) ->
     data =
       id: id
-    $('#delete').open
+    $('#delete').modal('show')
     $(document).on 'click', '#ask_delete', ->
       $.ajax
         url: apiUrl.delete
@@ -220,7 +220,7 @@ $ ->
         contentType: 'application/json'
       .fail handleError
       .done (response) ->
-        $('#close_modal').click()
+        $('#close_modal').modal('hide')
         getPatient()
         toastr.success(response)
     $(this).parents('tr').remove()

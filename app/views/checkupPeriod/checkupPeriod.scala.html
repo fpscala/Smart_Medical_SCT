@@ -61,7 +61,7 @@
                   <div class="dropdown dropdown-action">
                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit"><i class="fas fa-pen m-r-5"></i>
+                      <a class="dropdown-item" href="" data-bind="click: $root.vm.openEditForm($parent)" data-toggle="modal"><i class="fas fa-pen m-r-5"></i>
                         Edit</a>
                       <a class="dropdown-item" href="#" data-bind="click: $root.vm.askDelete($parent)" data-toggle="modal" data-target="#delete" id="deleteWorkType"><i class="fas fa-trash-alt m-r-5"></i>
                         Delete</a>
@@ -99,7 +99,7 @@
         <form>
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Add Work Type</h5>
-            <button type="button" class="close" id="add_work_type" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -134,7 +134,7 @@
                     <div class="col-md-4">
                       <div class="form-group one-line-dropdown">
                         <label for="doctorType">Doctor Type</label>
-                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $root.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
+                        <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $root.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" data-show-subtext="true">
                         </select>
                       </div>
                     </div>
@@ -166,7 +166,7 @@
       </div>
     </div>
   </div>
-  @* TO DO UPDATE MODAL WORK TYPE *@
+  @* TODO UPDATE MODAL WORK TYPE *@
   <div class="modal fade bd-example-modal-lg" id="edit_work_type" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
@@ -177,74 +177,63 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="" class="m-3" method="post">
+          <div class="container">
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="workType" >Work type: </label>
-                  <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workTypeId"
+                  <textarea class="form-control" id="workType" name="workType" data-bind="value: vm.workType"
                   rows="3" cols="52"></textarea>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="numberPerYear" >Number per year: </label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">1 yilda</span>
+            <div data-bind="foreach: vm.formA">
+              <div style="list-style: none">
+                <div class="row" id="fields">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="numberPerYear" >Number per year: </label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">1 yilda</span>
+                        </div>
+                        <input type="text" class="form-control text-center" data-bind="value: $data.numberPerYear" >
+                        <div class="input-group-append">
+                          <span class="input-group-text">marta</span>
+                        </div>
+                      </div>
                     </div>
-                    <input type="text" class="form-control text-center" data-bind="value: vm.numberPerYear">
-                    <div class="input-group-append">
-                      <span class="input-group-text">marta</span>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group one-line-dropdown">
+                      <label for="doctorType">Doctor Type</label>
+                      <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedDoctorType, selectPickerOptions: {optionsArray: $root.vm.getCheckupPeriodList}, optionsValue: 'id', optionsText: 'doctorType'" data-show-subtext="true">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group one-line-dropdown">
+                      <label for="labType">Laboratory Type</label>
+                      <select multiple class="custom-select selectpicker form-control" data-bind="selectPicker: $data.selectedLabType, selectPickerOptions: {optionsArray: $root.vm.labTypeList}, optionsValue: 'id', optionsText: 'laboratoryName'" data-show-subtext="true">
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group one-line-dropdown">
-                  <label for="doctorType">Doctor Type</label>
-                  <select multiple class="custom-select selectpicker form-control" data-none-selected-text="" data-bind="selectPicker: vm.selectedDoctorType, selectPickerOptions: {optionsArray: vm.doctorTypeList}, optionsValue: 'id', optionsText: 'doctorType'" id="doctorType" data-show-subtext="true">
-                  </select>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.addForm()" ><i class="fas fa-plus"></i></button>
               </div>
-              <div class="col-md-4">
-                <div class="form-group one-line-dropdown">
-                  <label for="labType">Laboratory Type</label>
-                  <select multiple name="labTypeId" class="custom-select selectpicker form-control" data-bind="options: vm.labTypeList(), optionsText: 'name',
-                optionsValue: 'id', value: vm.labTypeId, optionsCaption: 'labTypeId' " id="labType" data-show-subtext="true">
-                  </select>
-                </div>
+              <div class="col-md-6 text-left" id="fields">
+                <button type="button" class="btn btn-success btn-rounded" data-bind="click: vm.deleteForm, visible: vm.formA().length > 1" ><i class="fas fa-minus"></i></button>
               </div>
             </div>
-            <div class="col-md-6 text-right">
-              <button type="button" class=" add_form_field add_form_field2 btn btn-success btn-rounded " ><i class="fas fa-plus"></i></button>
-            </div>
-            <div class="col-md-6 text-light container2">
-
-            </div>
-          </form>
+          </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
           <button type="submit" data-bind="click: " class="btn  btn-primary btn-rounded ">
             Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  @* DELETE WORK TYPE *@
-  <div id="delete" class="modal fade delete-modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body text-center">
-          <img src="@routes.Assets.versioned("images/sent.png")" alt="#" width="50" height="46">
-          <h3>Are you sure want to delete this CheckupPeriod?</h3>
-          <div class="m-t-20">
-            <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </div>
         </div>
       </div>
     </div>

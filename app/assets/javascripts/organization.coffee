@@ -100,12 +100,12 @@ $ ->
 
   vm.askDelete = (id) -> ->
     vm.selected.id id
-    $('#delete').open
+    $('#delete').modal('show')
 
   vm.openEditForm = (data) -> ->
     vm.selected.id data.id
     vm.selected.name(data.organizationName)
-    $('#edit_lab_type').open
+    $('#edit_lab_type').modal('show')
 
   vm.deleteOrg = ->
     data =

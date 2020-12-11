@@ -5845,3 +5845,13 @@ li {
 #register-patient-box .dropdown-toggle {
     display: none !important;
 }
+
+.background-dark {
+    background-color: rgba(43,43,43,0.89);
+}
+
+.account-box-effect {
+    -webkit-box-shadow: 0px 10px 25px 5px rgb(144 144 144);
+    -moz-box-shadow: 0px 10px 25px 5px rgb(144 144 144);
+    box-shadow: 0px 10px 25px 5px rgb(144 144 144);
+}

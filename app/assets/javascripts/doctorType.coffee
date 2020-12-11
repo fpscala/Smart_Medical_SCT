@@ -129,11 +129,11 @@ $ ->
 
   vm.askDelete = (id) -> ->
     vm.selected.id(id)
-    $('#delete').open
+    $('#delete').modal('show')
 
   vm.askDeleteDoctor = (id) -> ->
     vm.selectedDoctor.id(id)
-    $('#delete').open
+    $('#delete').modal('show')
 
   vm.openEditForm = (data) -> ->
     vm.selected.id(data.id)
@@ -143,7 +143,7 @@ $ ->
   vm.openEditFormDoctor = (data) -> ->
     vm.selectedDoctor.id(data.id)
     vm.selectedDoctor.doctorName(data.doctorType)
-    $('#edit_doctor_type').open
+    $('#edit_doctor_type').modal('show')
 
   vm.deleteLaboratory = ->
     data =

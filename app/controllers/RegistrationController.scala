@@ -31,6 +31,7 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
                                        implicit val webJarsUtil: WebJarsUtil,
                                        @Named("registration-manager") val registrationManager: ActorRef,
                                        indexTemplate: index,
+                                       loginTemplate: auth.login,
                                        registrationPatient: registration_patient,
                                        dashboard_patient: dashboard,
                                        registrationOrganization: organization,
@@ -46,6 +47,10 @@ class RegistrationController @Inject()(val controllerComponents: ControllerCompo
 
   def index: Action[AnyContent] = Action {
     Ok(indexTemplate(language))
+  }
+
+  def login: Action[AnyContent] = Action {
+    Ok(loginTemplate())
   }
 
   def workType: Action[AnyContent] = Action {
